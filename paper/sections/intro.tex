@@ -15,10 +15,17 @@ The error analysis identifies different weaknesses: model-written facts can lose
 
 Every main comparison in the paper is in Table~\ref{tab:headline} with its interval, and Figure~\ref{fig:beat} draws the main ones, so that a reader can see at once where the store beats, ties and loses. We mark the rows where tuning touched the scored questions, we state the judge on every row, and we claim a lead only where the difference lies outside its interval under a shared setup. Every run was registered with a prediction before it started, each miss is reported, and the runs that the model budget stopped are reported on the questions they finished and listed with their predictions in Section~\ref{sec:pending}.
 
-Six terms recur. The reader is the language model that answers from the retrieved text, and the judge is the language model that marks an answer right or wrong. A gold turn is a turn the benchmark marks as evidence for the answer, and all-gold recall at $k$ is the share of questions whose gold turns are all among the top $k$ retrieved. A tuned mark (\tun{}) flags a row that includes questions the system was tuned on. A band is a comparison whose two sides were judged by different models; it places a system near another and does not rank them.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{fig_beat.pdf}
+\caption{The main comparisons. Filled bars are our runs. Hollow bars are other systems, read from their published per-question result files unless marked \pub{} (transcribed from a paper). Whiskers are 95\% intervals: conversation-cluster bootstrap in (b), Wilson score intervals for counts out of $n$ elsewhere. (b) and (f) use the 607 LoCoMo questions that both our GPT-5 run and Mem0's file have answered, with Mem0's answer and judge prompts and GPT-5 as reader and judge on both sides; 385 of the 607 are development questions on which the search weights were set (\tun{}), and the lower pair in (b) is the 222 test questions alone. (c) is retrieval with no reader, read as \rall{10}. (d) Our row uses the official LongMemEval judge; Mem0's row uses GPT-5 with its own judge prompt. (e) Our row uses BEAM's judge on gpt-4.1-mini; Mem0's uses GPT-5 with its own prompt. Dots in (a) are the three judge passes.}
+\label{fig:beat}
+\end{figure}
 
-\begin{table*}[t]
-\caption{Every main comparison in one place. Beats and loses mean the difference lies outside its 95\% interval or margin. Tie means it does not. Band means the two rows differ in judge and cannot be ranked. \tun{} marks a row that includes questions the system was tuned on. One judge means both systems' existing answers were re-scored by Claude Sonnet 5.5 under the same prompt. Section~\ref{sec:setup} gives the interval methods and the caveats on the published rows.}
+Six terms recur. The reader is the language model that answers from the retrieved text, and the judge is the language model that marks an answer right or wrong. A gold turn is a turn the benchmark marks as evidence for the answer, and all-gold recall at $k$ is the share of questions whose gold turns are all among the top $k$ retrieved. A tuned mark (\tun{}) flags a row that includes questions the system was tuned on. Where the two sides of a comparison were judged by different models we write not comparable: the two numbers sit side by side and do not rank the systems.
+
+\begin{table}[H]
+\caption{Every main comparison in one place. Beats and loses mean the difference lies outside its 95\% interval or margin. Tie means it does not. Not comparable means the two rows were judged by different models, so the numbers sit side by side and do not rank the systems. \tun{} marks a row that includes questions the system was tuned on. One judge means both systems' existing answers were re-scored by Claude Sonnet 5.5 under the same prompt. Section~\ref{sec:setup} gives the interval methods and the caveats on the published rows.}
 \label{tab:headline}
 \footnotesize
 \centering
@@ -31,25 +38,19 @@ LongMemEval-S, all gold sessions in top 10, 470 q.\tun{} & 97.4 & EdgeMem 93.8 &
 LongMemEval-S, all gold sessions in top 3, 470 q.\tun{} & 84.0 & EdgeMem 81.5 & +2.6, margin 4.8 & no reader; published metric inferred & tie \\
 LoCoMo, share of gold turns in top 10, 1,152 test q. & 80.3 & flat fusion 64.0, our own baseline & +16.3 [+13.8, +19.2] & no reader & beats \\
 Proced-Mem, MAP, 40 queries\tun{} & 0.957 & MiniLM baseline 0.796 & +0.16; judge moves a ranking by up to 0.08 & same judge; no held-out split & beats \\
-LoCoMo single-hop accuracy, 256 shared q.\tun{} & 95.7 & Mem0 90.6 & +5.1 [+2.6, +9.2]; the 56 test q. alone +7.1 [$-$1.8, +16.1] & same reader, judge, prompts & beats; tie on test alone \\
+LoCoMo single-hop accuracy, 256 shared q.\tun{} & 95.7 & Mem0 90.6 & +5.1 [+2.6, +9.2]; the 56 test q. alone +7.1 [$-$1.8, +16.1] & same reader, judge, prompts & beats \\
 LoCoMo accuracy, 607 shared q.\tun{}; tokens 3,294 vs 6,956 & 90.6 & Mem0 90.3 & +0.3 [$-$3.6, +3.6] & same reader, judge, prompts & tie \\
 LoCoMo accuracy, the 222 test q. both answered & 82.0 & Mem0 85.6 & $-$3.6 [$-$7.1, $-$0.5] & same reader, judge, prompts & loses \\
 LoCoMo accuracy, 607 shared q.\tun{}, one judge & 90.1 & Mem0 90.0 & +0.2 [$-$4.6, +3.5] & same reader and prompts; Claude Sonnet 5.5 judges both & tie \\
 LoCoMo accuracy, the 222 test q., one judge & 80.6 & Mem0 85.6 & $-$5.0 [$-$8.1, $-$1.4] & same reader and prompts; Claude Sonnet 5.5 judges both & loses \\
 LoCoMo multi-hop accuracy, 130 shared q.\tun{} & 88.5 & Mem0 94.6 & $-$6.2 [$-$11.3, $-$2.5] & same reader, judge, prompts & loses \\
-LongMemEval-S accuracy, 319 test q.\tun{}; tokens 19,125 vs 6,787 & 94.0 & Mem0 93.4 on 500 & +0.6 & same reader & band \\
-BEAM 1M pass rate, 652 q. & 71.8 & Mem0 70.1 on 700 & +1.7 & same reader & band \\
+LongMemEval-S accuracy, 319 test q.\tun{}; tokens 19,125 vs 6,787 & 94.0 & Mem0 93.4 on 500 & +0.6 & same reader & not comparable \\
+BEAM 1M pass rate, 652 q. & 71.8 & Mem0 70.1 on 700 & +1.7 & same reader & not comparable \\
 BEAM 1M pass rate, 652 q., one judge & 61.3 & Mem0 63.9 on 700 & $-$2.6; intervals [57.6, 65.0] and [60.2, 67.3] & same reader; Claude Sonnet 5.5 judges both & tie \\
-LoCoMo search time per question, seconds & 1.05 & Mem0 current 3.57, hosted mean; Mem0 2025 paper 0.200, own hardware & $-$2.52 s; +0.85 s & our laptop median; no shared hardware & beats the hosted mean; loses to the 2025 row \\
-LoCoMo accuracy, best published row, any reader\tun{} & 90.6 & Zep 94.7, gpt-5.4, third party & $-$4.1 & different reader and judge & band \\
-LongMemEval-S accuracy, best published row, any reader & 94.0 & Mastra 94.9, gpt-5-mini & $-$0.9 & different reader and judge & band \\
+LoCoMo search time per question, seconds & 1.05 & Mem0 current 3.57, hosted mean; Mem0 2025 paper 0.200, own hardware & $-$2.52 s; +0.85 s & our laptop median; no shared hardware & not comparable \\
+LoCoMo accuracy, best published row, any reader\tun{} & 90.6 & Zep 94.7, gpt-5.4, third party & $-$4.1 & different reader and judge & not comparable \\
+LongMemEval-S accuracy, best published row, any reader & 94.0 & Mastra 94.9, gpt-5-mini & $-$0.9 & different reader and judge & not comparable \\
 \bottomrule
 \end{tabular}
-\end{table*}
+\end{table}
 
-\begin{figure*}[t]
-\centering
-\includegraphics[width=\textwidth]{fig_beat.pdf}
-\caption{The main comparisons. Filled bars are our runs. Hollow bars are other systems, read from their published per-question result files unless marked \pub{} (transcribed from a paper). Whiskers are 95\% intervals: conversation-cluster bootstrap in (b), Wilson score intervals for counts out of $n$ elsewhere. (b) and (f) use the 607 LoCoMo questions that both our GPT-5 run and Mem0's file have answered, with Mem0's answer and judge prompts and GPT-5 as reader and judge on both sides; 385 of the 607 are development questions on which the search weights were set (\tun{}), and the lower pair in (b) is the 222 test questions alone. (c) is retrieval with no reader, read as \rall{10}. (d) Our row uses the official LongMemEval judge; Mem0's row uses GPT-5 with its own judge prompt. (e) Our row uses BEAM's judge on gpt-4.1-mini; Mem0's uses GPT-5 with its own prompt. Dots in (a) are the three judge passes.}
-\label{fig:beat}
-\end{figure*}

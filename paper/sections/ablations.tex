@@ -13,7 +13,7 @@ The deployed store omits the entity graph because its measured contribution is s
 
 On \lmes{}, the three components add nothing we could measure. In development, PageRank at weight 0.1 changes the pooled objective by $-$0.05 [$-$1.06, +0.96], and adding entity, fact or date terms to the BM25 text changes it by 0 to $-$0.81. One possible explanation, which we did not test, is that the dense channel already matches the paraphrases an entity link would bridge.
 
-\begin{table}[t]
+\begin{table}[H]
 \caption{Ablation ladder on LoCoMo test, text only, recall at 10 in deployment order. The third row is the graph-free ranker, whose three changes are not separated on test. The fourth row is the frozen configuration with the graph components. The last row has no interval because no paired run of it against the flat fusion was made.}
 \label{tab:ladder}
 \small
@@ -33,19 +33,19 @@ Ranker without cross-encoders & 75.4 & +11.4 \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{fig_ablation.pdf}
 \caption{Change in LoCoMo turn recall at $k$ when a part is removed from the ranker with the entity graph (ablated minus full), text only, with 95\% cluster bootstrap intervals of the paired differences over the seven test conversations. Rows overlap: the contiguity row and the PageRank row both remove backward contiguity. In the MiniLM row, the weight of bge-reranker-v2-m3 rises to 0.5.}
 \label{fig:ablation}
 \end{figure}
 
-\begin{figure*}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{fig_recall.pdf}
 \caption{LoCoMo retrieval. (a) The share of 1,536 questions whose gold turns are all among the turns handed to the answer model, one line per step added to the 5a and 5r retrievers. (b) The mean share of gold turns in the top $k$ on the seven test conversations, one line per ranker chain. Panels differ in metric and retriever.}
 \label{fig:recall}
-\end{figure*}
+\end{figure}
 
 The context-budget experiments measure a tradeoff between accuracy and reader input. Doubling BM25's cut from 20 to 40 turns raises answer accuracy by 3.5 points with GPT-6 Sol reading, from 82.3 to 85.8. Using an adaptive cut that starts at 10 turns, rather than always supplying 40, gives up 0.3 points of accuracy while using 40 percent of the tokens.
 

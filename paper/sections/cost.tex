@@ -3,7 +3,7 @@
 
 We measure three costs: the work required to build the store, the input tokens handed to the answer model per question, and the search time from question to ranked list. Building our store requires local encoding and indexing but no generative write calls. On the completed LoCoMo comparison, which mixes development and test questions, the 40-turn setting uses about half as many reader input tokens as Mem0's current release. This saving does not hold for \lmes{} as run, and our LoCoMo search is slower than the systems reported in Mem0's 2025 paper. The measurements below state the setup for each comparison. Figure~\ref{fig:pareto} places every LoCoMo row on these three axes at once.
 
-\begin{figure}[t]
+\begin{figure}[p]
 \centering
 \includegraphics[width=\textwidth]{fig_pareto.pdf}
 \caption{Where the systems land on LoCoMo. (a) Accuracy against tokens the reader is handed per question and (b) against search time per question, both on a log axis; (c) model tokens spent to build the memory. Marker shape is the reader and judge, and only the GPT-5 pair, filled against hollow circles, is like-for-like; \pub{} marks rows transcribed from Mem0's 2025 paper, whose tokens are those injected per query and whose times are 95th percentiles on Mem0's hardware, against our medians on one laptop with every cache off. Mem0's current time is the mean its result file logs on its hosted service and includes network. The build range in (c) is EdgeMem's meter of six model-built memories on LoCoMo.}
@@ -12,7 +12,7 @@ We measure three costs: the work required to build the store, the input tokens h
 
 For our runs, read cost counts the reader's whole input, including the instruction and question, with the o200k tokenizer. Mem0's counts come from its own site, so comparisons with those counts are approximate. Under Mem0's prompts and with GPT-5 reading, our 40-turn LoCoMo setting uses 3,294 input tokens per question against 6,956 for Mem0's current release (Table~\ref{tab:cost}, Figure~\ref{fig:tokens}). The Sonnet rows with the adaptive cut use 1,263 tokens per question under our own prompt. Mem0's 2025 paper reports tokens injected per query: 1,764 for Mem0, 3,616 for Mem0g, 3,911 for Zep and 26,031 for full context.
 
-\begin{figure}[t]
+\begin{figure}[p]
 \centering
 \includegraphics[width=0.6\textwidth]{fig_tokens.pdf}
 \caption{(a) Tokens the answer model reads per LoCoMo question. (b) Size of the memory each system stores per conversation. Our store generates no memory text; it retains the original turns. \pub{} Transcribed from Mem0's 2025 paper. Mem0's current release reads 6,956 tokens per question. For Mem0 and Mem0g the figure is the size of the stored facts. For Zep it is the memory store, over 600k tokens, so it is drawn as a lower bound. These are stored sizes and do not count build calls.}
@@ -25,7 +25,7 @@ On \lmes{}, our 100-turn GPT-5 reader sees 19,125 tokens per question against Me
 
 The build path uses local encoders but makes no generative model call. Embedding the 5,882 LoCoMo turns takes 36 seconds on a laptop CPU. Building a \lmes{} history takes 0.19 seconds per unique session; for a LoCoMo conversation, it takes 0.20 seconds per session, or 9 ms per turn. Mem0 makes at least one extraction call and one update call per exchange \citep{chhikara2025mem0}. EdgeMem meters 0.46M to 11.77M build tokens for six model-built memories on LoCoMo \citep{cui2026edgemem}.
 
-\begin{table}[t]
+\begin{table}[H]
 \caption{LoCoMo per-question read cost and search time. Our build-token counts exclude local encoder and indexing compute and count generative write tokens only. Our search times cover the whole search per question, first stage through both cross-encoders, on one laptop with the score cache bypassed and the models loaded. Mem0's current search time is the mean of the per-question latency in its published result file, on its hosted service. \pub{} Transcribed from Mem0's 2025 paper: tokens injected per query, search time at the 95th percentile, and stored size per conversation.}
 \label{tab:cost}
 \footnotesize

@@ -15,6 +15,7 @@
 \usepackage{xcolor}
 \usepackage[font=small,labelfont=bf,skip=6pt]{caption}
 \usepackage{fancyhdr}
+\usepackage[section]{placeins}
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage[colorlinks=true,linkcolor=ink,citecolor=accent,urlcolor=accent]{hyperref}
 \usepackage{xurl}
@@ -37,10 +38,15 @@
 \renewcommand{\topfraction}{0.9}
 \renewcommand{\bottomfraction}{0.6}
 \renewcommand{\textfraction}{0.07}
-\renewcommand{\floatpagefraction}{0.75}
+\renewcommand{\floatpagefraction}{0.45}
 \setcounter{topnumber}{3}
 \setcounter{totalnumber}{4}
 \setlength{\columnwidth}{\textwidth}
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{2.2em}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
 \clubpenalty=10000
 \widowpenalty=10000
 \displaywidowpenalty=10000

@@ -8,17 +8,17 @@ The retrieval task is to rank the history items that contain the answer above th
 
 Local embedding and reranking models produce vectors and relevance scores rather than stored prose. At retrieval time, the system receives the history and question, without benchmark answer labels or question-type labels. Labels are used to score and select settings on the splits described in Section~\ref{sec:setup}; the Proced-Mem selection is described in Section~\ref{sec:procedures}. We evaluate retrieval by the ranks of the gold items, which the benchmark marks as containing answer evidence. We evaluate the combined memory and reader by answer accuracy.
 
-\begin{figure*}[t]
+\begin{figure}[p]
 \centering
-\includegraphics[width=\textwidth]{fig_method.pdf}
+\includegraphics[width=0.75\textwidth]{fig_method.pdf}
 \caption{The store. (a) The write path runs once per history and keeps two kinds of unit as they were, conversation turns with their speaker and date or whole agent trajectories with their verdict, then builds a keyword index and an embedding index over them; no model writes anything. (b) The search path runs once per question: the two scores are fused (Equation~\ref{eq:fuse}), contiguity and the speaker prior reorder the turns (Equations~\ref{eq:contig} and \ref{eq:prior}), two local cross-encoders rescore the top 100 (Equation~\ref{eq:rerank}), and the same units come out reordered. Solid boxes serve both kinds of unit and are the whole system on \lmes{} sessions and Proced-Mem; dashed boxes serve conversation turns only. The reader, the only language model, sees the top $k$ in time order and answers.}
 \label{fig:method}
-\end{figure*}
+\end{figure}
 
-\begin{table*}[t]
+\begin{table}[p]
 \caption{Methods and models used for retrieval and evaluation. The retrieval components do not generate text. The LLM judge in the last row scores answers in the experiments and is not part of the store.}
 \label{tab:methods}
-\footnotesize
+\scriptsize
 \centering
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}L{38mm}L{60mm}L{30mm}L{26mm}@{}}
@@ -40,7 +40,7 @@ IDF-weighted token overlap & Counts rare shared stemmed words between a query an
 LLM judge & Scores an answer against the gold answer & Evaluation only & Mem0's and the benchmarks' prompts \\
 \bottomrule
 \end{tabular}
-\end{table*}
+\end{table}
 
 \subsection{Storage}
 The write path builds two indexes using local compute, without generative write calls. Turns longer than 450 tokens are cut into chunks of 450 tokens with 50 tokens of overlap; shorter turns form one chunk. Each chunk is embedded with bge-base-en-v1.5 \citep{xiao2023cpack}, with inputs truncated at 512 tokens and vectors L2-normalized. The same turns are indexed by BM25 \citep{robertson2009bm25} in the Lucene variant of bm25s \citep{lu2024bm25s}, with $k_1 = 1.5$ and $b = 0.75$. Its input is lowercased word tokens with English stopwords removed and Snowball stemming \citep{porter2001snowball}. On LoCoMo, each turn's BM25 text is prefixed with its speaker's name so that keyword search can distinguish the speakers. Embedding the 5,882 LoCoMo turns takes 36 seconds on a laptop CPU. Building a \lmes{} history takes 0.19 seconds per session (Section~\ref{sec:cost}). With fixed index settings, the deterministic construction produces the same store from the same history.
@@ -95,7 +95,7 @@ The secondary rows in Section~\ref{sec:locomo} also include 5a and 5r. Retriever
 \label{sec:worked}
 One stage, contiguity, does most of the work on questions whose answer shares no words with the question, and Table~\ref{tab:worked} shows this by following three development questions from a 419-turn conversation, each with one gold turn, and giving the gold turn's rank after each stage. For ``What are Caroline's plans for the summer?'' the gold turn is Caroline's reply, which repeats none of the question's words, and therefore BM25 ranks it 111th and the embedder 313th; the turn before it, the question that prompted the reply, ranks well, and Stage 2 passes it half of that score, which lifts the reply to 11th, after which the speaker prior lifts it to 6th and the rerank leaves it there. The second question follows the same path, since its gold turn is also a reply that repeats none of the question's words and the contiguity stage lifts it from 144th to 5th, while for the third the embedder alone ranks the gold turn 3rd and the later stages keep it near the top. These three show the mechanism of Stage 2; across the whole test split the two cross-encoders are the largest single contributor to recall at 10 and contiguity the second (Section~\ref{sec:ablations}).
 
-\begin{table}[t]
+\begin{table}[H]
 \caption{Rank of the gold turn after each stage for three development questions, each with one gold turn, in a 419-turn LoCoMo conversation. S1 is Equation~\ref{eq:fuse}; the BM25 and dense columns are its two inputs ranked alone. S2 to S4 are Equations~\ref{eq:contig} to \ref{eq:rerank}, with names kept out of S1 and 300 candidates in S4.}
 \label{tab:worked}
 \footnotesize
