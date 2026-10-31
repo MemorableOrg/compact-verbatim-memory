@@ -1,0 +1,39 @@
+full-context est: ~42M answer-in tokens (chars/4), cap raised from 40M to 60M so the run is not cut short
+questions: 1540 eligible, running 1540
+Traceback (most recent call last):
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/locomo_run.py", line 133, in <module>
+    for rec in ex.map(run, sel):
+               ^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/locomo_run.py", line 113, in run
+    r = chat(a.answer_model, [{"role": "user", "content": prompt}])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/locomo_run.py", line 79, in chat
+    return client.chat.completions.create(model=model, messages=msgs, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1611, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1474, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1248, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - Rate limit reached for gpt-6-sol in organization org-QZ35rDtMWRTRd7ilitAlTPlf on tokens per min (TPM): Limit 4000000, Used 3973844, Requested 31861. Please try again in 85ms. Visit https://platform.openai.com/account/rate-limits to learn more.
+LOCOMO_FULL_DONE

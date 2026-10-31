@@ -1,0 +1,122 @@
+\section{Methods}
+\label{sec:turns}
+
+We study Snapgraph as an agent memory. A companion paper measures its retrieval \citep{snapgraph2026}; here, reader models answer questions from the original text that it retrieves. This lets us compare a verbatim store with model-written memories. The store holds one kind of unit at a time, and we use it on two: conversation turns, for the three chat benchmarks that ask a memory to remember facts people said, and whole agent trajectories, for Proced-Mem, which asks it to remember how a task was done. The write path and the fusion stage are the same for both, and the dialogue stages apply only to turns. The write path builds two indexes without generative model calls. The LoCoMo read path ranks turns in four stages, each defined below. Table~\ref{tab:methods} lists the methods and models, their roles and their settings.
+
+\subsection{Problem}
+The retrieval task is to rank the history items that contain the answer above those that do not. A history $H$ is a sequence of sessions $S_1, \dots, S_m$. Each session has a date and an ordered list of turns; a turn $t_i = (\mathrm{speaker}_i, x_i)$ contains a speaker and text. Given a question $q$ and its date, the store returns a strict ranking of turns, or of sessions on \lmes{}. A retrieval budget $k$ selects the first $k$ items. The reader receives the selected text unchanged, together with its speaker and date, and generates an answer.
+
+Local embedding and reranking models produce vectors and relevance scores rather than stored prose. At retrieval time, the system receives the history and question, without benchmark answer labels or question-type labels. Labels are used to score and select settings on the splits described in Section~\ref{sec:setup}; the Proced-Mem selection is described in Section~\ref{sec:procedures}. We evaluate retrieval by the ranks of the gold items, which the benchmark marks as containing answer evidence. We evaluate the combined memory and reader by answer accuracy.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_method.pdf}
+\caption{The store. (a) The write path runs once per history and keeps two kinds of unit as they were, conversation turns with their speaker and date or whole agent trajectories with their verdict, then builds a keyword index and an embedding index over them; no model writes anything. (b) The search path runs once per question: the two scores are fused (Equation~\ref{eq:fuse}), contiguity and the speaker prior reorder the turns (Equations~\ref{eq:contig} and \ref{eq:prior}), two local cross-encoders rescore the top 100 (Equation~\ref{eq:rerank}), and the same units come out reordered. Solid boxes serve both kinds of unit and are the whole system on \lmes{} sessions and Proced-Mem; dashed boxes serve conversation turns only. The reader, the only language model, sees the top $k$ in time order and answers.}
+\label{fig:method}
+\end{figure*}
+
+\begin{table*}[t]
+\caption{Methods and models used for retrieval and evaluation. The retrieval components do not generate text. The LLM judge in the last row scores answers in the experiments and is not part of the store.}
+\label{tab:methods}
+\footnotesize
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}L{38mm}L{60mm}L{30mm}L{26mm}@{}}
+\toprule
+Method or model & What it does & Where & Settings \\
+\midrule
+Stemmed BM25 \citep{robertson2009bm25,lu2024bm25s} & Scores a turn by the rare words it shares with the question, after lowercasing, stopword removal and Snowball stemming & Stage 1; \lmes{} sessions & $k_1 = 1.5$, $b = 0.75$ \\
+Sentence embedder, bge-base-en-v1.5 \citep{xiao2023cpack} & Maps the question and each turn chunk to a vector; the dense score is their cosine & Stage 1 & 450-token chunks, 50 overlap, 512-token truncation \\
+bge-small-en-v1.5; bge-m3 \citep{chen2024bgem3} & The same role with a smaller and a larger embedder & Retrievers 5a and 5r; Proced-Mem & \\
+z-score fusion & Puts the two score lists on one scale and adds them with fixed weights & Stage 1 & 0.25 BM25, 0.75 dense \\
+Reciprocal rank fusion \citep{cormack2009rrf} & Adds $1/(k + \mathrm{rank})$ for each item over two ranked lists & 5a, 5r, Proced-Mem & $k = 20$ on Proced-Mem \\
+Forward contiguity & Passes half of a turn's positive score to the next turn in its session & Stage 2 & weight 0.5 \\
+Speaker prior & Lifts every turn said by the person the question is about & Stage 3 & 2 standard deviations \\
+spaCy \texttt{en\_core\_web\_sm} \citep{honnibal2020spacy} & Parses the question to find its subject or possessor; named entities for the graph ablation & Stage 3; entity graph & \\
+Cross-encoders ms-marco-MiniLM-L-6-v2 and bge-reranker-v2-m3 \citep{wang2020minilm,chen2024bgem3} & Read the question and a turn together and output one relevance score & Stage 4 & top 100; weights 0.2 and 0.4 \\
+bge-reranker-base & The same role with one model & 5r; \lmes{} budget rule & top 100; top 150 \\
+Personalized PageRank over a spaCy entity graph \citep{haveliwala2002topic} & Walks from the question's entities to the turns that mention them & Ablation only & damping 0.5, weight 0.1 \\
+IDF-weighted token overlap & Counts rare shared stemmed words between a query and a trajectory & Proced-Mem & at least two shared tokens \\
+LLM judge & Scores an answer against the gold answer & Evaluation only & Mem0's and the benchmarks' prompts \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Storage}
+The write path builds two indexes using local compute, without generative write calls. Turns longer than 450 tokens are cut into chunks of 450 tokens with 50 tokens of overlap; shorter turns form one chunk. Each chunk is embedded with bge-base-en-v1.5 \citep{xiao2023cpack}, with inputs truncated at 512 tokens and vectors L2-normalized. The same turns are indexed by BM25 \citep{robertson2009bm25} in the Lucene variant of bm25s \citep{lu2024bm25s}, with $k_1 = 1.5$ and $b = 0.75$. Its input is lowercased word tokens with English stopwords removed and Snowball stemming \citep{porter2001snowball}. On LoCoMo, each turn's BM25 text is prefixed with its speaker's name so that keyword search can distinguish the speakers. Embedding the 5,882 LoCoMo turns takes 36 seconds on a laptop CPU. Building a \lmes{} history takes 0.19 seconds per session (Section~\ref{sec:cost}). With fixed index settings, the deterministic construction produces the same store from the same history.
+
+\subsection{Search}
+The LoCoMo read path has four stages. Each transforms the scores assigned to turns in one history, without adding or removing a turn. Its output is therefore a reordering of the same history. Removing a stage in an ablation changes the ranking rather than the available content. The \lmes{} configuration uses only the first stage, as described under Configurations below.
+
+\paragraph{Fusion.}
+For a question $q$, every turn receives a BM25 score and a dense score, the cosine between the question embedding, which carries the bge retrieval instruction prefix, and the turn's best chunk. Each score vector is z-normalized over all turns of the history, $z(x) = (x - \bar{x}) / \sigma_x$ with the population standard deviation, so that the two channels sit on one scale, and the two are summed with fixed weights,
+\begin{equation}
+s_i = 0.25\, z(\mathrm{bm25})_i + 0.75\, z(\mathrm{dense})_i .
+\label{eq:fuse}
+\end{equation}
+The BM25 weight was chosen on the development split from $\{0.25, 0.4, 0.5\}$, and the flat fusion that every ablation starts from is the same sum at weights 0.4 and 0.6, fixed before tuning. The dense channel carries most of the weight because it matches paraphrase, and the keyword channel is kept because it catches the rare word, a name or a place, that an embedding smooths over.
+
+\paragraph{Order.}
+In two-speaker dialogue the turn that answers a question is usually the reply to the turn whose wording the question repeats, and therefore the turn that scores well is often the one just before the turn the reader needs. Each turn passes half of its positive score to the next turn in the same session,
+\begin{equation}
+s'_i = s_i + 0.5\, \max(s_{i-1}, 0),
+\label{eq:contig}
+\end{equation}
+applied only when $t_{i-1}$ and $t_i$ are in the same session. The weight 0.5 was tuned on the development split, and the same forward asymmetry appears in human free recall \citep{howard2002tcm,kahana1996associative}. On \lmes{} this stage is skipped, because the evidence there is usually one user turn inside a long session and a neighbour takes a slot that holds no evidence.
+
+\paragraph{Speaker.}
+A spaCy parse of the question \citep{honnibal2020spacy} finds the speaker it is about by taking the single speaker named or, when both are named, the grammatical subject and failing that the possessor, so that no speaker is chosen when the two names are coordinated. Every turn said by that speaker gains two standard deviations of the current scores,
+\begin{equation}
+s''_i = s'_i + 2\, \mathrm{std}(s') \cdot \mathbb{1}[\mathrm{speaker}_i = \mathrm{person}(q)] ,
+\label{eq:prior}
+\end{equation}
+so that a question about Caroline's plans is answered from Caroline's turns even when her friend's turns use the same words.
+
+\paragraph{Rerank.}
+Two local cross-encoders, each of which reads the question and a turn together and outputs one relevance score, rescore the top $N = 100$ turns under $s''$, since they are too slow to run over a whole history but cheap over a hundred candidates. They are ms-marco-MiniLM-L-6-v2 with 23M parameters \citep{bajaj2016msmarco,nogueira2019passage,wang2020minilm} and bge-reranker-v2-m3 with 568M \citep{chen2024bgem3}, both run through sentence-transformers \citep{reimers2019sentencebert} with inputs truncated at 512 tokens, and within the $N$ candidates
+\begin{equation}
+r_i = 0.4\, z(s'')_i + 0.2\, z(\mathrm{MiniLM})_i + 0.4\, z(\mathrm{bge\text{-}v2\text{-}m3})_i ,
+\label{eq:rerank}
+\end{equation}
+with the z-scores taken over the candidates and the reranked turns kept above all others. The output is the ranked list the reader cuts.
+
+\paragraph{Configurations.}
+The graph-free ranker is the four-stage LoCoMo method defined above. It is used in the main LoCoMo answer comparisons and the retrieval rows bearing that name. On \lmes{}, the unit is instead a session: the BM25 document concatenates the session's text, and the dense score is the maximum over its chunks. Stage 1, with BM25 weight 0.25, is the whole session-ranking system.
+
+The ranker with entity graph is the earlier frozen LoCoMo configuration used for the graph ablation. It adds a spaCy entity graph searched with personalized PageRank, an entity field in the BM25 text and backward contiguity at weight 0.25. Together, these additions contribute 0.9 to 1.9 points of turn recall in Section~\ref{sec:ablations}. The graph-free ranker omits them. Secondary answer rows report both configurations.
+
+\paragraph{Later search changes.}
+After the head-to-head analysis in Section~\ref{sec:locomo}, two further changes were chosen on the development split. The first removes the named speakers from the question seen by Stage 1; Stages 3 and 4 still receive the full question. The second increases the Stage 4 candidate set to $N = 300$. Section~\ref{sec:search} reports their retrieval results on both splits. No answer row uses these later changes: the reader evaluations use configurations frozen before them.
+
+\paragraph{Earlier retrievers.}
+The secondary rows in Section~\ref{sec:locomo} also include 5a and 5r. Retriever 5a uses bge-small-en-v1.5, cleans and stems the question, and combines keyword and embedding rankings by reciprocal rank fusion. This adds $1/(k + \mathrm{rank})$ for each turn across the two lists \citep{cormack2009rrf}. Retriever 5r reranks the top 100 turns of 5a with bge-reranker-base and fuses that ranking back by the same rule. Both were chosen on all LoCoMo questions before the split existed and carry the \tun{} mark.
+
+\subsection{Example}
+\label{sec:worked}
+One stage, contiguity, does most of the work on questions whose answer shares no words with the question, and Table~\ref{tab:worked} shows this by following three development questions from a 419-turn conversation, each with one gold turn, and giving the gold turn's rank after each stage. For ``What are Caroline's plans for the summer?'' the gold turn is Caroline's reply, which repeats none of the question's words, and therefore BM25 ranks it 111th and the embedder 313th; the turn before it, the question that prompted the reply, ranks well, and Stage 2 passes it half of that score, which lifts the reply to 11th, after which the speaker prior lifts it to 6th and the rerank leaves it there. The second question follows the same path, since its gold turn is also a reply that repeats none of the question's words and the contiguity stage lifts it from 144th to 5th, while for the third the embedder alone ranks the gold turn 3rd and the later stages keep it near the top. These three show the mechanism of Stage 2; across the whole test split the two cross-encoders are the largest single contributor to recall at 10 and contiguity the second (Section~\ref{sec:ablations}).
+
+\begin{table}[t]
+\caption{Rank of the gold turn after each stage for three development questions, each with one gold turn, in a 419-turn LoCoMo conversation. S1 is Equation~\ref{eq:fuse}; the BM25 and dense columns are its two inputs ranked alone. S2 to S4 are Equations~\ref{eq:contig} to \ref{eq:rerank}, with names kept out of S1 and 300 candidates in S4.}
+\label{tab:worked}
+\footnotesize
+\centering
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}L{31mm}rrrrrr@{}}
+\toprule
+Question & BM25 & Dense & S1 & S2 & S3 & S4 \\
+\midrule
+What are Caroline's plans for the summer? & 111 & 313 & 320 & 11 & 6 & 6 \\
+How does Melanie prioritize self-care? & 105 & 122 & 144 & 5 & 4 & 4 \\
+How long has Melanie been practicing art? & 367 & 3 & 12 & 3 & 2 & 2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Reader}
+For the like-for-like comparisons, we hold the reader prompt and input layout to Mem0's current format: one line per retrieved turn, with its date. The turns appear in time order, with their speaker and original text. The LoCoMo context-budget comparison uses three settings. The fixed cut provides the top 40 turns. The adaptive cut first provides the top 10, with an added instruction allowing the reader to answer NOT FOUND; if it does, the reader receives the top 40 and answers again. The full-context run provides every turn of the conversation. The registered, unrun budget-matched \lmes{} arm would provide every user turn in the top 60 and an assistant reply only when it ranks in the top 10. This rule reflects the evidence usually appearing in a user turn and the greater length of assistant replies: 358 tokens on average against 53 for user turns.
+
+\subsection{Procedures}
+\label{sec:procedures}
+We adapt verbatim storage and retrieval to past agent runs on Proced-Mem \citep{procedmem}. The retrieval unit is a complete trajectory rather than a conversation turn, and the query describes a task. The retriever embeds task text with bge-m3 \citep{chen2024bgem3}. In place of BM25, it uses IDF-weighted token overlap, which gives rare shared stemmed words more weight and requires at least two shared tokens. Reciprocal rank fusion combines the lexical and embedding rankings with $k = 20$, weighting the embedding ranking two to one. The system keeps each trajectory whole and writes no generative summary of it.
+
+This configuration was chosen by an offline sweep of 427 rule-built variants on the benchmark's own relevance labels. Section~\ref{sec:procedmem} reports the sweep and the limitation of selecting and scoring the retriever on the same queries.

@@ -1,0 +1,13 @@
+questions: 1540 eligible, running 1540
+results: results/20261029-000510.jsonl  n=1540
+accuracy overall: 0.858
+  cat1 multi-hop: 0.794 (n=282)
+  cat2 temporal: 0.882 (n=321)
+  cat3 open-domain: 0.719 (n=96)
+  cat4 single-hop: 0.887 (n=841)
+evidence recall@40 (all gold turns retrieved): 0.648 (n=1536)
+evidence recall@40 (fraction of gold turns): 0.705
+answer tokens in/out: 3529995/56784  judge tokens in/out: 1129199/59686  total: 4775664
+answer-model cost est: $7.628  per question: $0.00495  full 1540 est: $7.63
+full 1540 tokens est: answer in 3,529,995, out 56,784
+LOCOMO_K40_DONE

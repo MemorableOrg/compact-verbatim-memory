@@ -1,0 +1,29 @@
+W1029 03:02:46.717000 10795 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+dev questions scored (abstention excluded): 95
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 20772.15it/s]
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 13256.63it/s]
+0 6s
+20 76s
+40 142s
+60 208s
+80 273s
+haystack per question: mean 492 turns, mean 47.7 sessions
+
+session-level, dev, n=95
+| variant | R_any@5 | R_all@5 | R_any@10 | R_all@10 | NDCG_any@10 |
+|---|---|---|---|---|---|
+| BM25 (bm25s k1=1.5 b=0.75) | 82.1 | 64.2 | 86.3 | 75.8 | 62.9 |
+| dense bge-small | 95.8 | 83.2 | 96.8 | 92.6 | 67.9 |
+| z-fusion 0.4 BM25 + 0.6 dense | 94.7 | 84.2 | 96.8 | 89.5 | 72.7 |
+| 5a (cleaned BM25 + dense, RRF) | 94.7 | 87.4 | 96.8 | 90.5 | 74.8 |
+| 5r (5a + reranker) | 94.7 | 86.3 | 95.8 | 92.6 | 76.3 |
+
+turn-level, dev, n=95
+| variant | R_any@5 | R_all@5 | R_any@10 | R_all@10 | NDCG_any@10 |
+|---|---|---|---|---|---|
+| BM25 (bm25s k1=1.5 b=0.75) | 77.9 | 53.7 | 84.2 | 70.5 | 61.9 |
+| dense bge-small | 84.2 | 51.6 | 91.6 | 74.7 | 64.3 |
+| z-fusion 0.4 BM25 + 0.6 dense | 89.5 | 66.3 | 94.7 | 81.0 | 70.8 |
+| 5a (cleaned BM25 + dense, RRF) | 87.4 | 69.5 | 95.8 | 86.3 | 73.8 |
+| 5r (5a + reranker) | 91.6 | 72.6 | 95.8 | 85.3 | 75.4 |
+DONE

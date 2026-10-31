@@ -1,0 +1,9 @@
+type,correct,n,acc,lo95,hi95
+knowledge update,74,78,94.87,87.54,97.99
+multi session,109,133,81.95,74.55,87.56
+single session assistant,56,56,100.00,93.58,100.00
+single session preference,24,30,80.00,62.69,90.50
+single session user,68,70,97.14,90.17,99.21
+temporal reasoning,119,133,89.47,83.11,93.63
+abstention subset,26,30,86.67,70.32,94.69
+all 500,450,500,90.00,87.06,92.33

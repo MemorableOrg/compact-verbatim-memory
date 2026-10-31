@@ -1,0 +1,62 @@
+conversations loaded 35, questions eligible 700, running 700 over 35 conversations
+cost estimate: reader ~24,761 in / 350 out tokens per question, judge ~3,240 in per question -> $0.0547/question, $38.26 for 700 questions (max $60.0)
+W1029 17:05:42.151000 14381 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 15957.07it/s]
+  embedded conv 19 (2410 turns) in 45s
+  embedded conv 20 (2334 turns) in 46s
+  embedded conv 22 (2016 turns) in 38s
+  embedded conv 23 (1894 turns) in 32s
+  embedded conv 24 (3008 turns) in 54s
+  embedded conv 25 (2418 turns) in 41s
+  embedded conv 26 (2210 turns) in 38s
+  embedded conv 27 (2356 turns) in 42s
+  embedded conv 28 (2026 turns) in 35s
+  embedded conv 29 (2356 turns) in 42s
+  embedded conv 30 (1982 turns) in 37s
+  embedded conv 31 (2088 turns) in 37s
+  embedded conv 32 (2312 turns) in 39s
+  embedded conv 33 (2874 turns) in 52s
+  embedded conv 34 (2116 turns) in 36s
+index ready in 620s
+Traceback (most recent call last):
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/beam_run.py", line 278, in <module>
+    for rec in ex.map(run, sel):
+               ^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/beam_run.py", line 273, in run
+    rec.update(event_ordering(q["rubric"], ans))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/beam_run.py", line 233, in event_ordering
+    if equiv(r_, s): mi = i; break
+       ^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/beam_run.py", line 221, in equiv
+    r = chat_openai(a.judge_model, p, temperature=0, max_tokens=5)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/beam_run.py", line 165, in chat_openai
+    try: return oc.chat.completions.create(model=model_, messages=[{"role": "user", "content": prompt}], **kw)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1611, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1474, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1248, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.

@@ -1,0 +1,173 @@
+\section{Results}
+\label{sec:results}
+
+We first measure retrieval without a reader, then answer accuracy using the retrieved evidence. On LoCoMo, the store and Mem0 have similar accuracy on the shared set at about half the reader input, but most questions in that set were used for development. The store is less accurate on the partial test comparison, particularly on multi-hop questions. On \lmes{} and BEAM, the observed accuracy gaps are within two points, but the judges differ and the results do not rank the two systems.
+
+\subsection{Retrieval}
+\label{sec:retrieval}
+
+On session-level retrieval over all 470 non-abstention \lmes{} questions, the store finds every gold session in the top 10 for 97.4 percent, against 93.8 for EdgeMem and 94.5 for MemGAS, the strongest published results in Table~\ref{tab:lme} (Figure~\ref{fig:lme}). At the top 3, it scores 84.0 against 81.5 and 78.5. This comparison includes questions used for tuning, and we infer that the published R values measure \rall{k} from their table. Supermemory reports 97 on \lmes{} under a label of Recall@20 with aggregation \citep{supermemory2026longmembench}. That label's metric is not stated, so the row is not in Table~\ref{tab:headline}.
+
+On the 331 test questions, which exclude the questions used for tuning, the store scores 97.3 at 10 and 84.3 at 3. We do not compare these values directly with the published all-question results. The test subset is easier for at least one system: an EdgeMem-style reimplementation scores 81.0 \rall{3} on test and 79.2 on all 470. EdgeMem's per-question output is not public, so we cannot score it on the same test subset.
+
+Against EdgeMem on all 470 questions, the gap at 3 is +2.6, inside the 95 percent Wald margin of $\pm$4.83; the gap at 10 is +3.6, outside the margin of $\pm$2.60. These margins treat the results as unrelated samples and do not account for tuning on the 150-question development set. The metric also imposes a ceiling at small $k$: of the 52 test misses at 3, 32 have three or more gold sessions, and 24 have more gold sessions than the top 3 has slots.
+
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{llcccc}
+\toprule
+System & Generative writer & $n$ & \rall{3} & \rall{10} & NDCG@10 \\
+\midrule
+\multicolumn{6}{l}{\emph{All 470 non-abstention questions}} \\
+MPNet\pub{} & no & 470 & 66.17 & 85.11 & 80.63 \\
+Contriever\pub{} & no & 470 & 71.06 & 90.00 & 84.29 \\
+SeCom\pub{} & yes & 470 & 71.06 & 89.15 & 85.11 \\
+HippoRAG 2\pub{} & yes & 470 & 75.53 & 91.28 & 88.73 \\
+MemGAS\pub{} & yes & 470 & 78.51 & 94.47 & 89.96 \\
+EdgeMem\pub{} & no & 470 & 81.49 & 93.83 & 92.80 \\
+Flat fusion\tun{} & no & 470 & 83.62 & 96.60 & 94.95 \\
+Ours\tun{} & no & 470 & 84.04 & 97.45 & 94.95 \\
+\midrule
+\multicolumn{6}{l}{\emph{Test split}} \\
+Flat fusion & no & 331 & 84.3 & 96.7 & 95.5 \\
+Ours & no & 331 & 84.3 & 97.3 & 95.3 \\
+\bottomrule
+\end{tabular}
+\caption{Session-level retrieval on \lmes{}. Flat fusion is stemmed BM25 at weight 0.4 plus bge-base at 0.6, fixed before tuning; ours retunes the weight to 0.25. \pub{} Transcribed: EdgeMem from its paper, the others as EdgeMem transcribes them from the MemGAS paper. \tun{} The 470 scored questions include questions from the 150-question development split used for tuning. NDCG@10 uses binary relevance, read as in the published table.}
+\label{tab:lme}
+\end{table*}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.66\textwidth]{fig_lme.pdf}
+\caption{\lmes{} session \rall{3} and \rall{10} on 470 non-abstention questions, with 95\% Wilson intervals. \tun{} Our systems on all 470 scored questions, including questions from the 150-question development split used for tuning. Published values are read as \rall{k}, an inferred metric; rows other than EdgeMem come from the MemGAS paper through EdgeMem.}
+\label{fig:lme}
+\end{figure}
+
+On LoCoMo no published memory reports turn recall, so we compare against our own flat fusion of the same two signals. The graph-free ranker used in the main answer comparison finds 80.3 percent of gold turns in the top 10 on the seven test conversations, against 64.0 for flat fusion and 54.8 for stemmed BM25 alone (Table~\ref{tab:ladder}, Figure~\ref{fig:recall}b). It finds 88.5 percent at the top 50. The gain over flat fusion at 10 is 16.3 [+13.8, +19.2] points. The frozen configuration with the entity graph finds 81.5 at 10 and 90.1 at 50; removing its two cross-encoders costs 6.1 of its 17.5 points of gain over flat fusion (Section~\ref{sec:ablations}).
+
+\subsection{LoCoMo}
+\label{sec:locomo}
+
+The LoCoMo comparison uses GPT-5 as reader and judge, with Mem0's current answer and judge prompts on both sides. Our reader receives the top 40 turns. The run completed all 385 development questions and 222 of the 1,155 test questions before the budget ran out; the remaining test questions were not run (Section~\ref{sec:pending}). The run drew questions round-robin across the 28 conversation-by-category groups of the test split, each group shuffled with a fixed seed, so the 222 finished questions cover the four categories almost equally. We therefore report the matched partial test result separately from the development and pooled results (Table~\ref{tab:lfl}, Figure~\ref{fig:beat}b).
+
+\begin{table*}[t]
+\caption{LoCoMo under Mem0's current setup: GPT-5 reads, GPT-5 judges, Mem0's answer and judge prompts. Accuracy by category and overall, with $n$ in the header or row label. Mem0's rows are scored from its published per-question file on our split. Our rows read the top 40 turns of the graph-free ranker. The matched test comparison is 82.0 against 85.6 on the same 222 questions; Mem0's full-test result uses all 1,155. The 222-question sample covers the four categories almost equally. Weighting our category accuracies by the full test split's counts gives 88.7, a separate estimate. Recall is the share of questions with every gold turn among the turns read. Tokens are the reader's input per question. The test run stopped at 222 questions when the budget ran out. \tun{} The 607 include the 385 development questions on which the ranker's weights were set. Brackets are conversation-cluster bootstrap intervals.}
+\label{tab:lfl}
+\small
+\centering
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}L{38mm}L{24mm}ccccccr@{}}
+\toprule
+System and questions & Reader, judge & Multi-hop & Temporal & Open & Single & All & Recall & Tokens \\
+\midrule
+\multicolumn{9}{l}{\emph{Development, 3 conversations, 385 questions (74 / 90 / 21 / 200)}} \\
+Ours, 40 turns & GPT-5, GPT-5 & 93.2 & 97.8 & 90.5 & \ours{96.0} & \ours{95.6} & 86.8 & 3,345 \\
+Ours, 100 turns (200 of 385) & GPT-5, GPT-5 & 94.3 & 100.0 & 90.5 & 95.2 & 96.0 & -- & 4,202 \\
+Mem0, current & GPT-5, GPT-5 & \ours{95.9} & 93.3 & \ours{95.2} & 91.5 & 93.0 & -- & 6,956 \\
+\midrule
+\multicolumn{9}{l}{\emph{Test, 7 conversations, 1,155 questions (208 / 231 / 75 / 641)}} \\
+Ours, 40 turns, 222 done & GPT-5, GPT-5 & 82.1 & 85.7 & 64.8 & 94.6 & 82.0 & 69.8 & 3,206 \\
+Mem0, same 222 questions & GPT-5, GPT-5 & -- & -- & -- & -- & 85.6 & -- & -- \\
+Mem0, all 1,155 questions & GPT-5, GPT-5 & 92.3 & 92.6 & 70.7 & 92.5 & 91.1 & -- & 6,956 \\
+\midrule
+\multicolumn{9}{l}{\emph{The 607 questions both have answered\tun{} (130 / 146 / 75 / 256)}} \\
+Ours, 40 turns & GPT-5, GPT-5 & 88.5 & 93.2 & 72.0 & \ours{95.7} & \ours{90.6} [82.6, 94.3] & -- & 3,294 \\
+Mem0, current & GPT-5, GPT-5 & \ours{94.6} & 93.2 & \ours{76.0} & 90.6 & 90.3 [84.7, 93.4] & -- & 6,956 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+On the same 222 test questions, the store scores 82.0 against Mem0's 85.6. The paired difference is $-$3.6 [$-$7.1, $-$0.5] under the conversation-cluster bootstrap over seven conversations. We answer 8 questions that Mem0 misses and miss 16 that Mem0 answers (exact McNemar $p = 0.15$). This sample covers the four question categories almost equally, over-sampling the harder categories. Weighting our category accuracies by their counts in the full test split gives an estimate of 88.7. That estimate is distinct from the matched 222-question comparison above.
+
+On the 385 development questions used to set the ranker's weights, the store scores 95.6 against Mem0's 93.0, a difference of +2.6 [$-$2.0, +8.6]. Pooling development with the completed test questions gives 90.6 against 90.3 on 607 shared questions. The store reads about 3,300 tokens per question, against Mem0's 6,956. Because 385 of these 607 questions are from development, the pooled comparison carries a tuned mark in Table~\ref{tab:headline} and does not establish a tie on held-out data.
+
+Mem0's scores come from its published per-question file \citep{mem0benchmarks2026}, which lets us score the same subsets. In that release, GPT-5 answers from the top 200 memories and GPT-5 judges the answers. The file gives 91.6 overall on 1,540 questions, compared with 92.5 on Mem0's site; we use the file throughout. On our split, it gives 93.0 on the three development conversations and 91.1 on all seven test conversations.
+
+The pooled result hides different error patterns. On the 607 shared questions, 385 of them from development, both systems answer 521, neither answers 30, ours alone answers 29 and Mem0 alone answers 27 (Figure~\ref{fig:beat}f). The overall difference is +0.3 [$-$3.6, +3.6], with exact McNemar $p = 0.89$ for the 29 versus 27 discordant questions. On the 256 single-hop questions in this set, the store scores 95.7 against Mem0's 90.6, a difference of +5.1 [+2.6, +9.2]. We answer 18 that Mem0 misses and miss 5 that Mem0 answers ($p = 0.011$). On all 1,540 questions, 65 of Mem0's 130 errors are single-hop, close to the category's share of the questions (841 of 1,540), so the single-hop lead on the shared set comes from the discordant questions rather than from a weak category. Examples include ``Yoga'' where the turn says lifting weights, and ``keep believing in love'' where the speaker said keep trying new things. These examples suggest a loss of detail during extraction; our reader instead receives the original turn.
+
+On the 130 multi-hop questions, the store scores 88.5 against Mem0's 94.6, a difference of $-$6.2 [$-$11.3, $-$2.5], with 2 versus 10 discordant questions ($p = 0.039$). The single-hop and multi-hop difference intervals both exclude zero. Temporal accuracy is level at 93.2; open-domain accuracy is 72.0 against 76.0 on 75 questions, with an interval that includes zero for the difference. On the 222 test questions alone, single-hop accuracy is 94.6 against 87.5, a difference of +7.1 [$-$1.8, +16.1] on 56 questions. Multi-hop accuracy is 82.1 against 92.9, a difference of $-$10.7 [$-$16.1, $-$5.4] on 56.
+
+Of the 27 shared questions that Mem0 answers and we miss, 20 have at least one gold turn outside the 40 retrieved. For the other 7, every gold turn is present but the reader still answers incorrectly, for example by miscounting or choosing the wrong date. Among the 20 retrieval misses, the worst-ranked gold turn is within the top 60 for 2, the top 100 for 6, the top 150 for 8, the top 200 for 10 and the top 300 for 14. The remaining 6 require world knowledge not stated in the turn, such as that Mount Talkeetna is in Alaska, or have a label pointing to an unrelated turn. A writer can add such background knowledge to an extracted fact; a store retaining verbatim turns does not add it at ingest.
+
+Even when retrieval supplies every gold turn, the reader sometimes answers incorrectly. In the test results, GPT-5 under Mem0's prompt and judge answers 93.8 percent of multi-hop, 91.5 percent of temporal, 73.9 percent of open-domain and 96.2 percent of single-hop questions when every gold turn is among the 40 read. Weighting these conditional accuracies by the full test split's category counts gives an estimated accuracy of about 93.4 under perfect retrieval. Mem0's full-test score is 2.3 points below that estimate; our category-weighted estimate is about 4.7 points below it. These are distances from an estimated ceiling, not measured gains from improving search. The conversation-cluster intervals further limit the precision of comparisons on the 1,155-question test split.
+
+\paragraph{One judge for both systems.} The rows above use GPT-5 as judge, which is also Mem0's choice, so we re-judged both systems' existing answers with one other model, Claude Sonnet 5.5 under Mem0's current judge prompt, registered beforehand with a prediction (Appendix~\ref{app:predictions}). On the 607 shared questions the store scores 90.1 against Mem0's 90.0, a difference of +0.2 [$-$4.6, +3.5], with 29 questions we answer and Mem0 misses against 28 the other way (exact McNemar $p = 1.0$). On the 222 test questions it scores 80.6 against 85.6, a difference of $-$5.0 [$-$8.1, $-$1.4], with 6 against 17 discordant questions ($p = 0.03$), and on the 385 development questions 95.6 against 92.5, +3.1 [$-$1.3, +8.6]. The category pattern holds: +5.1 [+2.1, +8.6] on the 256 single-hop questions and $-$6.2 [$-$12.5, $-$2.7] on the 130 multi-hop questions. Across all 1,540 questions Mem0 scores 91.3 under this judge against 91.6 under its own. The two judges agree on 99.0 percent of Mem0's answers, and on 99.0 percent of our development answers and 98.6 percent of our test answers. The tie, the test deficit and the category split are the same under either of the two model judges; neither has been checked against a human.
+
+\paragraph{Other readers and judges.}
+The secondary LoCoMo results in Table~\ref{tab:locomo} and Figure~\ref{fig:acc} use other readers and Mem0's 2025 judge prompt on gpt-4o-mini. They are not directly comparable with Mem0's current release, because the reader or judge differs. These results include the earlier rank-fusion retriever (5a) and its reranked variant (5r), described in Section~\ref{sec:turns}.
+
+The choice of reader and judge materially changes accuracy. With Claude Sonnet 5.5 reading about 13 turns on average, the graph-free ranker scores 95.7 under the 2025 judge. Re-judging the same answers with GPT-5 and Mem0's current prompt gives 91.3. With the same 40 turns from the rank-fusion retriever (5a), changing the reader from GPT-6 Sol to Sonnet raises accuracy from 91.1 to 94.2. These changes limit what can be inferred from results that use different readers or judges.
+
+With Sonnet, the graph-free ranker's adaptive reading policy scores 95.7 against 96.0 for reranked rank fusion (5r), while reading 13.2 turns on average instead of 40. The reader first receives the top 10 turns; if it answers NOT FOUND, it receives the top 40. This second pass ran for 163 of 1,540 questions. Those questions scored 74.2, against 98.3 for the rest. The adaptive policy reads 1,263 input tokens per question, against 3,191 for reranked rank fusion.
+
+With gpt-4o-mini as both reader and judge, the graph-free ranker with adaptive reading scores 90.2 at 1,457 tokens per question. Mem0's 2025 paper reports 66.9 for Mem0 and 68.4 for its graph variant, with 1,764 tokens per question for Mem0 \citep{chhikara2025mem0}. That paper does not name its judge, so these are not matched comparisons. Other published results include Zep's own re-run at 75.14 and Letta's file-search agent at 74.0 with gpt-4o-mini \citep{letta2025benchmarking,zep2025rebuttal}, full context at 92.85 with gpt-5-mini \citep{fullcontext2026}, and a third-party report of Zep at 94.7 with gpt-5.4 \citep{coretoday2026audit}.
+
+\begin{table*}[t]
+\caption{Secondary LoCoMo rows: other readers and the 2025 judge (Mem0's 2025 judge prompt on gpt-4o-mini), on the 1,540 questions outside the adversarial category. Not like-for-like with Mem0's current release. Brackets are conversation-cluster bootstrap intervals. Test is the 1,155 scored questions on the seven test conversations. Recall is the share of questions with every gold turn among the turns read. \tun{} Retriever chosen on all questions before the split. Costs are the answer model's tokens at list price and leave out the judge. \pub{} Transcribed rows.}
+\label{tab:locomo}
+\small
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}L{50mm}L{22mm}cccrr@{}}
+\toprule
+Retriever and turns read & Reader & All 1,540 & Test 1,155 & Recall & Turns & Cost \\
+\midrule
+BM25, 20 turns & GPT-6 Sol & 82.3 & -- & 59.7 & 20 & \$4.16 \\
+BM25, 40 turns & GPT-6 Sol & 85.8 [84.0, 87.8] & 84.7 & 64.8 & 40 & \$7.63 \\
+Rank fusion (5a), 40 turns\tun{} & GPT-6 Sol & 91.1 [90.0, 92.3] & 90.4 & 75.3 & 40 & \$7.42 \\
+Full context & GPT-6 Sol & 95.7 [94.5, 96.8] & 95.5 & all & 601 & \$105.81 \\
+Rank fusion (5a), 40 turns\tun{} & Sonnet 5.5 & 94.2 [92.9, 95.7] & 93.1 [92.2, 94.2] & 75.3 & 40 & \$10.51 \\
+Reranked rank fusion (5r), 40 turns & Sonnet 5.5 & 96.0 [94.7, 97.4] & 94.9 [94.0, 95.9] & 78.9 & 40 & \$10.80 \\
+Graph-free ranker, 10 then 40 & Sonnet 5.5 & 95.7 [94.1, 97.5] & 94.5 [93.2, 96.0] & 76.4 & 13.2 & \$4.93 \\
+Ranker with entity graph, 10 then 40 & Sonnet 5.5 & 95.8 [94.2, 97.5] & 94.8 [93.3, 96.5] & 77.9 & 12.9 & \$4.93 \\
+Rank fusion (5a), 40 turns\tun{} & gpt-4o-mini & 87.7 & 85.6 & 75.3 & 40 & -- \\
+Graph-free ranker, 10 then 40 & gpt-4o-mini & 90.2 & 88.5 & -- & 20.5 & -- \\
+\midrule
+Mem0, 2025 paper\pub{} & gpt-4o-mini & 66.88 & -- & -- & -- & -- \\
+Mem0 graph, 2025 paper\pub{} & gpt-4o-mini & 68.44 & -- & -- & -- & -- \\
+Letta file search\pub{} & gpt-4o-mini & 74.0 & -- & -- & -- & -- \\
+Zep, own re-run\pub{} & gpt-4o-mini & 75.14 & -- & -- & -- & -- \\
+Full context\pub{} & gpt-4o-mini & 72.90 & -- & -- & -- & -- \\
+Full context\pub{} & gpt-5-mini & 92.85 & -- & -- & -- & -- \\
+Zep, 2026 report\pub{} & gpt-5.4 & 94.7 & -- & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.62\textwidth]{fig_acc_turns.pdf}
+\caption{LoCoMo accuracy on the 1,155 scored questions of the seven test conversations, against the mean number of turns the reader sees, with 95\% conversation-cluster bootstrap intervals, for the secondary rows. Full context uses a different reader.}
+\label{fig:acc}
+\end{figure}
+
+\subsection{Search}
+\label{sec:search}
+
+Many of our misses have a gold turn ranked below the 40 turns given to the reader. We test two changes to the search: removing speaker names from the first-stage query and increasing the number of candidates rescored by the cross-encoders. Both are fixed rules chosen on the three development conversations, with labels used to score the settings. On the test split, ranked once with the chosen setting frozen, the changes together raise all-gold recall at 150 turns from 90.2 to 94.4 overall and from 77.4 to 86.1 on multi-hop questions (Figure~\ref{fig:recallv2}). No reader has run on the revised ranking or its cascade variant below, so the gains are in retrieval recall; their effect on answer accuracy is unmeasured.
+
+The first change keeps speaker names out of the first stage. A question such as ``What things has Nate recommended to Joanna?'' names both speakers. In the original ranker, those names reach BM25 and the embedder, giving high scores to turns in which the speakers greet each other by name. For that question, the top five turns included lines like ``Nate: Keep going, Joanna!'', while the recommendations ranked between 80 and 300. The speaker prior already uses the names to favour the right speaker. We therefore remove them from the question seen by the first stage, while the prior and cross-encoders retain the full question.
+
+On development, this change raises all-gold recall at 40 turns from 87.2 to 88.8 overall and from 64.9 to 73.0 on the 74 multi-hop questions, recovering all evidence for six more questions. Temporal recall rises from 97.8 to 98.9, while single-hop recall falls from 93.0 to 92.5. Also removing names from the cross-encoder pairs gives only 68.9 on multi-hop, so we retain the names at that stage.
+
+The second change gives both cross-encoders 300 candidates instead of 100. Of the 26 development multi-hop misses at 40 turns, 16 had a gold turn ranked past 100 and therefore outside the rerankers' reach. With speaker names kept, rescoring 300 candidates raises development recall at 40 from 87.2 to 88.3 overall and from 64.9 to 70.3 on multi-hop. Rescoring every turn gives 71.6 on multi-hop, suggesting that most of this gain is available at 300 candidates. Search takes 3.16 s per question instead of 1.05 s (Section~\ref{sec:cost}), with no generative model tokens.
+
+Combining the two changes gives the best overall development recall at 40 turns among the four settings tried: 89.6 overall, 71.6 on multi-hop, 98.9 on temporal, 63.2 on open-domain and 94.5 on single-hop. At 150 turns, development recall is 96.6 overall and 91.9 on multi-hop, against 93.7 and 82.4 for the original ranker. We also report this depth because grouping the dates of turns from the same session keeps the reader input below Mem0's token count (Section~\ref{sec:cost}).
+
+On test, the frozen combined setting gives recall at 40 turns of 86.3 overall and 62.0 on multi-hop, against 81.5 and 51.4 for the original ranker. At 150 turns, it gives 94.4 overall and 86.1 on multi-hop, against 90.2 and 77.4. Both results at 150 fall within the registered ranges: 92 to 94.5 overall and 83 to 89 on multi-hop. Recall at 150 is 99.1 for single-hop, 94.3 for temporal and 76.7 for open-domain questions.
+
+A cascade reduces the extra search time: the 23M-parameter cross-encoder scores all 300 candidates, and the 568M-parameter cross-encoder scores only the top 100 of those. On development, its overall recall is 89.6 at 40 turns and 96.3 at 150, against 89.6 and 96.6 when both models score all 300 candidates. Its multi-hop recall at 40 is 73.0 against 71.6. Search takes 1.25 s per question. On the test split, ranked once with a registered prediction, the cascade gives overall recall of 86.1 at 40 and 93.8 at 150, against 86.3 and 94.4 for the full 300-candidate setting. Multi-hop recall is 61.1 and 85.1, against 62.0 and 86.1. The prediction at 40 held; the result at 150 missed its half-point band by 0.1 on the low side. The cascade therefore gives up about half a point of recall at 150 while taking 40 percent of the search time of the full 300-candidate setting.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.62\textwidth]{fig_recall_v2.pdf}
+\caption{LoCoMo all-gold recall on the 1,152 test questions with evidence labels, against turns handed to the reader, for the shipped graph-free ranker and the same ranker with speaker names kept out of the first stage and the cross-encoders re-scoring 300 candidates. Solid lines are all questions, dashed are the 208 multi-hop questions. Both settings were fixed on the development split and the test split was ranked once.}
+\label{fig:recallv2}
+\end{figure}
+
+Other development experiments did not improve recall. Searching again with the content words of the top five turns, a rule-based form of query expansion, lowered multi-hop recall at 40 from 64.9 to 59.5. Greedily selecting 40 turns for relevance minus similarity to turns already chosen changed nothing. Reading deeper for list-shaped questions and shallower for other questions lost to a fixed depth of 40 at the same mean length under every rule tried. The question's shape did not reliably identify the misses.
+
+The ranker's scores did not provide an effective stopping rule either. Reranked scores are flat past rank 40, so every rule that reads until the score drops stopped at its minimum depth. Reading to the largest score gap in the top 150 matched a fixed cut with the same mean length. Capping turns from one session within the top 40 changed nothing at caps of 8 or 12 and lost recall at 4 or 6. The remaining development misses at 40 include 21 multi-hop questions, 10 of them list questions with two to six gold turns spread over sessions.

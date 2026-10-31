@@ -1,0 +1,239 @@
+\section{Predictions}
+\label{app:predictions}
+
+Every run was registered before it started, with numbered predictions, and Table~\ref{tab:predictions} lists each one and whether it held. Ten missed: three scores landed above the registered range, five below it, one answer-model cost ran over its cap and one judge spread exceeded its bound. Eight registered on 2026-10-30 were never run, because the model budget ran out first; the one-judge re-scoring registered that evening ran once Anthropic credits arrived.
+
+{\small
+\begin{longtable}{@{}L{42mm}L{54mm}L{30mm}L{24mm}@{}}
+\caption{Registered predictions. Held means the measured value fell inside the registered range or met the registered comparison.}\label{tab:predictions}\\
+\toprule
+Run & Prediction & Measured & Outcome \\
+\midrule
+\endfirsthead
+\toprule
+Run & Prediction & Measured & Outcome \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+LoCoMo, BM25, 20 turns & 70 to 82 & 82.3 & missed by 0.3, high \\
+BM25, 40 turns & at least 2 points over 20 turns & +3.5 & held \\
+tuned retriever recall & all-gold recall at 20 turns at least 0.70 & 0.685 & missed \\
+tuned retriever accuracy & at least 87 & 91.1 & held \\
+full context & at least any retrieval pass; at least 10 times the cost & 95.7; 14 times & held \\
+5r against 5a, Sonnet & at least 1.5 points & +1.8 & held \\
+\midrule
+adaptive cut, ranker with graph & test accuracy within 1.0 of 5r (94.9) & 94.8 & held \\
+& mean turns read at most 16 & 12.9 & held \\
+& second pass for at most 25 of 100 questions & 9.7 of 100 & held \\
+& cost at or below 5r (\$10.80) & \$4.93 & held \\
+adaptive cut, graph-free ranker & test accuracy within 1.0 of 94.8 & 94.5 & held \\
+& mean turns within 1.0 of 12.9 & 13.2 & held \\
+& all-gold recall at 10 on test within 1.5 of 74.7 & 72.7 & missed by 0.5 \\
+\midrule
+\lmes{}, 5a (registered for GPT-6 Sol, run with Sonnet) & 76 to 88 & 90.0 & missed, high \\
+& above full context gpt-4o and Zep & 90.0 against 60.6 and 71.2 & held \\
+& answer model under \$10 & \$13.23 & missed \\
+\midrule
+Proced-Mem, bge-m3 & 0.92 to 0.97 & 0.920 & held, at floor \\
+& judge passes differ by under 0.02 & 0.024 & missed \\
+\midrule
+\multicolumn{4}{l}{\emph{Registered 2026-10-30 (Addenda 35, 36 and 39)}} \\
+LoCoMo, v2 search, 150 turns, grouped dates, test & recall at 150 between 92 and 94.5, multi-hop 83 to 89 & 94.4; 86.1 & held \\
+LoCoMo, v2 search, 40 turns, test & recall at 40 between 83 and 86 & 86.3 & missed by 0.3, high \\
+LoCoMo, cascade rerank, test & recall at 40 within 0.5 of 86.3; at 150 within 0.5 of 94.4 & 86.1; 93.8 & held; missed by 0.1, low \\
+LoCoMo, GPT-5, 40 turns, 933 test questions left & test accuracy 88 to 90.5 & -- & not run \\
+LoCoMo, v2 search, 150 turns, grouped dates, GPT-5 reader & accuracy 90.0 to 92.5; multi-hop 85 to 91 & -- & not run \\
+LoCoMo, Mem0's answers under the 2025 judge & 93.5 to 96.0 & -- & not run \\
+\lmes{}, GPT-5, 100 turns, 81 test questions left & test 93 to 95 on 400 & -- & not run \\
+\lmes{}, local reranker and user-turn rule, 60 turns & dev 92 to 95; test 93 to 95.5 & -- & not run \\
+BEAM 1M, Mem0's answers under BEAM's judge & pass rate 62 to 72 & -- & not run \\
+BEAM 1M, our answers under Mem0's judge & pass rate 66 to 76; ordering holds under both judges & -- & not run \\
+LoCoMo and \lmes{}, Sonnet 5.5 reader, Mem0's prompts, GPT-5 judge & 150-turn LoCoMo arm 92 to 94.5 on test & -- & not run \\
+\midrule
+\multicolumn{4}{l}{\emph{Registered 2026-10-30, one judge for both systems (Addendum 41): Claude Sonnet 5.5 re-scores existing answers}} \\
+LoCoMo, our 607 answers & 88 to 93; Mem0 within 2.0 on the same questions & 90.1; Mem0 90.0 & held \\
+LoCoMo, Mem0's 1,540 answers & 89 to 93 & 91.3 & held \\
+\lmes{}, both systems & ours 91 to 95; Mem0 91 to 95; gap under 2.5 & -- & not run: Mem0's file holds verdicts, not answers \\
+BEAM 1M, both systems & ours 66 to 76; Mem0 64 to 74; gap under 4 & 61.3; 63.9; gap 2.6 & missed, low; missed, low; gap held \\
+agreement of the one judge with the original judge on our answers & at least 90 percent on LoCoMo and \lmes{} & LoCoMo 99.0 and 98.6; \lmes{} 90.0 and 93.1 & held \\
+\end{longtable}}
+
+\section{Retrieval}
+\label{app:retrieval}
+
+The tables below give every retrieval system we ran on the frozen splits, so that the rows in the body can be checked against the baselines they beat, and the labels ``z 0.4'' and ``RRF'' name the fusion rule, z-score fusion at BM25 weight 0.4 or reciprocal rank fusion.
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{2.6pt}
+\begin{tabular}{lcccc}
+\toprule
+& A & \multicolumn{2}{c}{B} & \\
+\cmidrule(lr){2-2}\cmidrule(lr){3-4}
+System & @5 $\uparrow$ & @3 $\uparrow$ & @10 $\uparrow$ & Pooled $\uparrow$ \\
+\midrule
+BM25, official script & 75.5 & 69.8 & 84.0 & 76.4 \\
+BM25, stemmed & 88.1 & 78.9 & 92.1 & 86.4 \\
+MiniLM, max chunk & 86.4 & 76.1 & 94.6 & 85.7 \\
+bge-base, max chunk & 93.4 & 83.1 & \textbf{97.9} & 91.4 \\
+Contriever (re-impl.) & 92.1 & -- & -- & -- \\
+EdgeMem-style (re-impl.) & 85.1 & 81.0 & 91.8 & 86.0 \\
+Hybrid MiniLM, z 0.4 & 91.7 & 81.6 & 96.7 & 90.0 \\
+Hybrid bge, RRF & 93.0 & 81.9 & 96.1 & 90.3 \\
+Flat fusion (bge, z 0.4) & \underline{95.0} & \underline{84.3} & 96.7 & 92.0 \\
+\midrule
+Ours & \textbf{95.4} & \underline{84.3} & 97.3 & \underline{92.3} \\
+Ours + MiniLM rerank & \underline{95.0} & \textbf{87.3} & \underline{97.6} & \textbf{93.3} \\
+\bottomrule
+\end{tabular}
+\caption{All systems we ran on the \lmes{} test split, session level, \rall{k}. Track A has $n{=}302$ and scores user turns against the official gold labels. Track B has $n{=}331$. Pooled is the mean of the three columns. Here and in Table~\ref{tab:locomoret}, the best value in each column is bold and the second best underlined.}
+\label{tab:lmeall}
+\end{table}
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\toprule
+& \multicolumn{3}{c}{A} & B \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-5}
+System & @5 $\uparrow$ & @10 $\uparrow$ & @50 $\uparrow$ & @10 $\uparrow$ \\
+\midrule
+BM25, official script & 50.0 & 59.9 & 77.5 & 54.4 \\
+BM25, stemmed & 64.9 & 75.2 & 91.1 & 70.7 \\
+bge-base, max chunk & 71.9 & 83.8 & 97.7 & 74.0 \\
+Contriever (re-impl.) & 66.9 & 83.1 & 96.7 & -- \\
+EdgeMem-style (re-impl.) & 62.6 & 73.2 & 94.7 & 61.0 \\
+Flat fusion (bge, z 0.4) & \textbf{72.8} & \textbf{87.1} & \textbf{99.0} & \textbf{80.1} \\
+\bottomrule
+\end{tabular}
+\caption{\lmes{} turn-level \rall{k} on the test split, Track A $n{=}302$ and Track B $n{=}331$. No published row exists for turn level on S. The flat fusion is the frozen turn-level system; on development it scored 74.4, 83.8 and 97.4 on Track A, and no turn-level variant scored above it.}
+\label{tab:lmeturn}
+\end{table}
+
+\begin{table}[H]
+\caption{\lmes{} retrieval on the frozen split, test questions read once. The test split has 400 questions, and 375 are scored after dropping abstention questions. Session metrics are derived from the turn ranking. R$_{\mathrm{any}}$ counts a question when at least one gold item is in the top $k$; R$_{\mathrm{all}}$ when every gold item is. 5r was picked on the 95 scored development questions by turn-level R$_{\mathrm{all}}$@5.}
+\label{tab:lme-retrieval}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\centering
+{\begin{tabular}{@{}lccccc|ccccc@{}}
+\toprule
+& \multicolumn{5}{c|}{session level} & \multicolumn{5}{c}{turn level} \\
+Retriever & R$_{\mathrm{any}}$@5 & R$_{\mathrm{all}}$@5 & R$_{\mathrm{any}}$@10 & R$_{\mathrm{all}}$@10 & NDCG@10 & R$_{\mathrm{any}}$@5 & R$_{\mathrm{all}}$@5 & R$_{\mathrm{any}}$@10 & R$_{\mathrm{all}}$@10 & NDCG@10 \\
+\midrule
+BM25 (bm25s) & 84.0 & 68.3 & 90.4 & 76.5 & 65.6 & 78.4 & 55.2 & 85.6 & 68.8 & 64.1 \\
+bge-small, dense & 92.3 & 76.3 & 95.7 & 89.3 & 64.9 & 81.9 & 53.3 & 90.1 & 72.3 & 61.9 \\
+z-score fusion, 0.4 BM25 + 0.6 dense & 93.6 & 80.0 & 97.9 & 89.9 & 73.2 & 86.9 & 63.2 & 92.8 & 78.7 & 71.0 \\
+5a, RRF & 95.5 & 81.6 & 97.9 & 92.3 & 72.2 & 87.7 & 61.1 & 94.7 & 80.5 & 70.5 \\
+5r, 5a + reranker & \ours{97.6} & \ours{87.2} & \ours{99.2} & \ours{95.5} & \ours{80.9} & \ours{93.1} & \ours{73.6} & \ours{96.0} & \ours{85.1} & \ours{79.1} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[H]
+\caption{LoCoMo retrieval on the frozen split. Development: conversations 26, 30 and 41 (383 questions). Test: the other seven (1,153), read once. The pick rule, fixed first, was R$_{\mathrm{all}}$@5 on development, which 5r won.}
+\label{tab:locomo-retrieval}
+\small
+\begin{tabular}{@{}lcc|cccc@{}}
+\toprule
+& \multicolumn{2}{c|}{development} & \multicolumn{4}{c}{test} \\
+Retriever & Hit@1 & R$_{\mathrm{all}}$@5 & Hit@1 & R$_{\mathrm{all}}$@5 & R$_{\mathrm{all}}$@10 & R$_{\mathrm{all}}$@40 \\
+\midrule
+BM25 & 0.329 & 0.493 & 0.337 & 0.469 & 0.532 & 0.645 \\
+cleaned, stemmed BM25 & 0.397 & 0.517 & -- & -- & -- & -- \\
+bge-small, dense & 0.295 & 0.488 & -- & -- & -- & -- \\
+5a, RRF & 0.373 & 0.530 & -- & -- & -- & -- \\
+z-score fusion, best weight 0.4 & 0.420 & 0.574 & -- & -- & -- & -- \\
+5r, 5a + reranker & \ours{0.470} & \ours{0.616} & \ours{0.474} & \ours{0.595} & \ours{0.668} & \ours{0.781} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{lcccccccc}
+\toprule
+& \multicolumn{4}{c}{Text only} & \multicolumn{4}{c}{Text plus image caption} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+System & @5 $\uparrow$ & @10 $\uparrow$ & @25 $\uparrow$ & @50 $\uparrow$ & @5 $\uparrow$ & @10 $\uparrow$ & @25 $\uparrow$ & @50 $\uparrow$ \\
+\midrule
+BM25, official script & 29.7 & 36.6 & 46.9 & 53.6 & 28.9 & 37.0 & 47.3 & 55.2 \\
+BM25, stemmed & 45.9 & 54.8 & 63.9 & 70.7 & 45.6 & 54.2 & 64.8 & 71.3 \\
+bge-base, max chunk & 46.7 & 55.8 & 69.4 & 79.8 & 44.3 & 53.1 & 67.5 & 77.9 \\
+EdgeMem-style (re-impl.) & 50.2 & 62.9 & 74.5 & 79.2 & 49.3 & 62.4 & 74.7 & 79.7 \\
+Flat fusion (bge, z 0.4) & 55.0 & 64.0 & 73.9 & 80.9 & 53.9 & 63.5 & 74.2 & 81.4 \\
+\quad + forward contiguity & 59.4 & 68.5 & 77.6 & 83.5 & 58.1 & 67.7 & 77.4 & 84.0 \\
+Ranker with graph, no cross-encoders & 67.5 & 75.4 & 84.1 & \underline{88.9} & 66.6 & 74.8 & 84.4 & \underline{89.2} \\
+First-round chain & 70.9 & 77.6 & \underline{85.0} & \underline{88.9} & 70.7 & 77.4 & 85.3 & \underline{89.2} \\
+Graph-free ranker & \underline{74.0} & \underline{80.3} & \underline{85.0} & 88.5 & \underline{74.9} & \underline{79.7} & \underline{85.6} & 88.7 \\
+\midrule
+Ranker with graph & \textbf{75.9} & \textbf{81.5} & \textbf{86.8} & \textbf{90.1} & \textbf{75.8} & \textbf{81.4} & \textbf{87.0} & \textbf{90.3} \\
+\bottomrule
+\end{tabular}
+\caption{Turn retrieval on LoCoMo test conversations 3 to 9 (1,152 questions): mean share of gold turns in the first $k$. The ranker with graph is the frozen configuration with the entity graph, the entity field and backward contiguity. The graph-free ranker is the store of Section~\ref{sec:turns}. The first-round chain reranks the top 50 turns with MiniLM alone. The other two rerank the top 100 with both cross-encoders. All rows are our own runs through one scorer. No published row is measured the same way.}
+\label{tab:locomoret}
+\end{table}
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{llr}
+\toprule
+Change & Metric & $\Delta$ \\
+\midrule
+\multicolumn{3}{l}{\emph{\lmes{} development}} \\
+Contiguity, turn level & A turn@5 & $-$16.2 [$-$23.9, $-$9.4] \\
+PPR at weight 0.1 & pooled & $-$0.05 [$-$1.06, +0.96] \\
+Entity, fact, date terms & pooled & 0 to $-$0.81 \\
+\midrule
+\multicolumn{3}{l}{\emph{LoCoMo development, flat fusion}} \\
+BM25 weight 0.4 to 0.25 & recall@10 & +2.1 [$-$0.3, +4.4] \\
+\midrule
+\multicolumn{3}{l}{\emph{LoCoMo development, removed from the ranker with graph}} \\
+Both cross-encoders & recall@10 & $-$6.8 \\
+Contiguity (fwd., bwd.) & recall@10 & $-$1.9 \\
+Speaker prior & recall@10 & $-$0.9 \\
+PPR, entity field, bwd. & recall@10 & $-$0.7 \\
+MiniLM cross-encoder & recall@10 & $-$0.4 \\
+PPR alone & recall@10 & +0.1 \\
+\bottomrule
+\end{tabular}
+\caption{Experiments run on development only. \lmes{} rows change the system named in each row; pooled is the development objective, the mean of Track A \rall{5} and Track B \rall{3} and \rall{10}. The last block removes components from the frozen LoCoMo system on the three development conversations; with three clusters we give no intervals. PPR is personalized PageRank.}
+\label{tab:dev}
+\end{table}
+
+On the LoCoMo test conversations, recall of every gold turn at 5 by category moves from 0.038 to 0.135 on multi-hop, 0.528 to 0.654 on temporal, 0.164 to 0.274 on open-domain and 0.622 to 0.760 on single-hop, between BM25 and the ranker with the two cross-encoders, and multi-hop is the lowest category.
+
+\section{Costs}
+\label{app:costs}
+
+Every dollar spent in this paper went to a reader or a judge, since building the store makes no generative write call, and Table~\ref{tab:costs} gives each answer run's cost at list prices.
+
+\begin{table}[H]
+\caption{Token-priced cost of each answer run, at list prices. Judge tokens are not included, except in the last row, which is a judge-only run.}
+\label{tab:costs}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}L{40mm}lr@{}}
+\toprule
+Run & Model & Cost \\
+\midrule
+LoCoMo, BM25 20 turns, 1,540 questions & GPT-6 Sol & \$4.16 \\
+LoCoMo, BM25 40 turns & GPT-6 Sol & \$7.63 \\
+LoCoMo, 5a & GPT-6 Sol & \$7.42 \\
+LoCoMo, whole conversation in the prompt & GPT-6 Sol & \$105.81 \\
+LoCoMo, 5a & Sonnet 5.5 & \$10.51 \\
+LoCoMo, 5r & Sonnet 5.5 & \$10.80 \\
+\lmes{}, 5a, 500 questions & Sonnet 5.5 & \$13.23 \\
+Proced-Mem, three judge passes & gpt-5 judge & about \$2 \\
+LoCoMo, BEAM and \lmes{} answers of both systems re-judged by one judge & Claude Sonnet 5.5 & about \$49, from token counts \\
+\bottomrule
+\end{tabular}
+\end{table}
+

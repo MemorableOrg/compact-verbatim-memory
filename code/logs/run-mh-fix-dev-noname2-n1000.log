@@ -1,0 +1,32 @@
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 20600.40it/s]
+Loading weights:   0%|          | 0/105 [00:00<?, ?it/s]Loading weights: 100%|██████████| 105/105 [00:00<00:00, 9702.41it/s]
+Loading weights:   0%|          | 0/393 [00:00<?, ?it/s]Loading weights: 100%|██████████| 393/393 [00:00<00:00, 13831.55it/s]
+dev conv 0 done, 150 questions
+dev conv 1 done, 231 questions
+dev conv 2 done, 383 questions
+arm nograph_ens split dev NONAME=2 RRN=1000 PIN=5 LAM=0.7 DEPTH=100 KK=40 W=0.5
+variant                       cat1                   cat2                   cat3                   cat4                    all
+               @10     @20     @40    @10     @20     @40    @10     @20     @40    @10     @20     @40    @10     @20     @40
+base          44.6   58.1   70.3    97.8   98.9   98.9    47.4   52.6   63.2    88.0   92.0   93.5    79.9   85.1   88.8 
+tailbridge    36.5   47.3   66.2    96.7   97.8   98.9    47.4   57.9   63.2    88.0   90.0   93.0    78.1   82.0   87.7 
+mmr_list      44.6   58.1   70.3    97.8   98.9   98.9    47.4   52.6   63.2    88.0   92.0   93.5    79.9   85.1   88.8 
+mmr_all       44.6   58.1   68.9    97.8   98.9   98.9    47.4   52.6   63.2    88.5   92.0   93.5    80.2   85.1   88.5 
+spk2          44.6   56.8   70.3    97.8   98.9   98.9    47.4   52.6   63.2    87.5   92.5   93.5    79.6   85.1   88.8 
+combo         36.5   47.3   66.2    96.7   97.8   98.9    47.4   57.9   63.2    88.0   90.0   92.5    78.1   82.0   87.5 
+n per cat: {2: 90, 3: 19, 1: 74, 4: 200} | list-cue questions: 59 | two-speaker questions: 25
+policy: list-cue questions read KC turns, the rest read KN (base ranking); all-gold recall and mean turns
+  KC= 40 KN= 40: all  88.8  cat1  70.3 cat2  98.9 cat3  63.2 cat4  93.5  mean turns  40.0
+  KC=100 KN= 20: all  87.2  cat1  68.9 cat2  98.9 cat3  52.6 cat4  92.0  mean turns  32.3
+  KC=150 KN= 20: all  88.5  cat1  74.3 cat2  98.9 cat3  57.9 cat4  92.0  mean turns  40.0
+  KC=100 KN= 10: all  83.6  cat1  60.8 cat2  97.8 cat3  47.4 cat4  89.0  mean turns  23.9
+  KC=150 KN= 30: all  90.6  cat1  78.4 cat2  98.9 cat3  68.4 cat4  93.5  mean turns  48.5
+  KC=200 KN= 20: all  88.8  cat1  75.7 cat2  98.9 cat3  57.9 cat4  92.0  mean turns  47.7
+  KC= 60 KN= 20: all  86.7  cat1  66.2 cat2  98.9 cat3  52.6 cat4  92.0  mean turns  26.2
+worst gold rank for base misses at 40, by category:
+  cat1: n=22 41-60 7 61-100 3 101-200 6 200+ 6
+  cat2: n=1 41-60 0 61-100 1 101-200 0 200+ 0
+  cat3: n=7 41-60 0 61-100 0 101-200 5 200+ 2
+  cat4: n=13 41-60 2 61-100 4 101-200 4 200+ 3
+dumped mhdump-nograph_ens-dev-noname2-rrn1000.json 383
+MH_FIX_DONE
+C_SEQ_DONE

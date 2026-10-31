@@ -1,0 +1,12 @@
+panel,system,tokens
+(a) Tokens read per question,"Ours, 10 turns, widened on NOT FOUND",1263
+(a) Tokens read per question,"Ours, 40 turns",3191
+(a) Tokens read per question,"Mem0, current$^{\dagger}$",6956
+(a) Tokens read per question,"Mem0, 2025 paper$^{\dagger}$",1764
+(a) Tokens read per question,"Mem0g, 2025 paper$^{\dagger}$",3616
+(a) Tokens read per question,Zep$^{\dagger}$,3911
+(a) Tokens read per question,Full context$^{\dagger}$,26031
+(b) Memory stored per conversation,Ours,0
+(b) Memory stored per conversation,"Mem0, 2025 paper$^{\dagger}$",7000
+(b) Memory stored per conversation,"Mem0g, 2025 paper$^{\dagger}$",14000
+(b) Memory stored per conversation,Zep$^{\dagger}$,600000

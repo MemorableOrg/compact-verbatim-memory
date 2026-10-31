@@ -1,0 +1,7 @@
+rejudged 1540 with gpt-5: original 95.7 -> 91.2; test 89.6
+  cat1: 89.0
+  cat2: 92.5
+  cat3: 70.8
+  cat4: 93.8
+  marked wrong now: 70; marked right now: 1; judge tokens in 1,157,711 out 324,147
+REJUDGE_DONE

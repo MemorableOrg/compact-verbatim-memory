@@ -1,0 +1,91 @@
+\documentclass[10pt]{article}
+\usepackage[letterpaper,top=1in,bottom=1in,left=1in,right=1in,headsep=14pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{XCharter}
+\usepackage[xcharter,vvarbb]{newtxmath}
+\usepackage[scaled=0.96]{sourcesanspro}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage[font=small,labelfont=bf,skip=6pt]{caption}
+\usepackage{fancyhdr}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[colorlinks=true,linkcolor=ink,citecolor=accent,urlcolor=accent]{hyperref}
+\usepackage{xurl}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\graphicspath{{figs/}}
+
+\definecolor{accent}{HTML}{8A1C1C}
+\definecolor{ink}{HTML}{1A1A1A}
+\definecolor{grey}{HTML}{6B6B6B}
+\definecolor{rule}{HTML}{C8C8C8}
+
+\newcommand{\lmes}{LongMemEval-S}
+\newcommand{\nany}[1]{NDCG$_{\mathrm{any}}$@#1}
+\newcommand{\rall}[1]{Recall$_{\mathrm{all}}$@#1}
+\newcommand{\pub}{$^{\dagger}$}
+\newcommand{\tun}{$^{\ddagger}$}
+\newcommand{\ours}[1]{\textbf{#1}}
+\newcommand{\hairline}{\par\noindent{\color{rule}\rule{\textwidth}{0.4pt}}\par}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.6}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{4}
+\setlength{\columnwidth}{\textwidth}
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\sffamily\footnotesize\color{grey}Memory Without a Writer}
+\fancyhead[R]{\sffamily\footnotesize\color{grey}\thepage}
+\fancypagestyle{plain}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}\fancyfoot[C]{\footnotesize\color{grey}\thepage}}
+
+\renewenvironment{abstract}
+  {\vspace{1.2em}\hairline\vspace{0.9em}\noindent{\large\bfseries Abstract}\par\vspace{0.45em}\noindent\ignorespaces}
+  {\par\vspace{1.1em}\hairline\vspace{0.4em}}
+
+\begin{document}
+\thispagestyle{plain}
+\begin{flushright}\sffamily\small\color{grey}October 30, 2026\end{flushright}
+\hairline
+\vspace{2.6em}
+{\noindent\fontsize{24}{29}\selectfont\bfseries\color{ink} Memory Without a Writer:\\Agent Memory Built by Code\par}
+\vspace{1.3em}
+{\noindent\large\bfseries Nikhil Krishnaswamy\textsuperscript{1,2}, Advaiyt Sane\textsuperscript{2,3}\par}
+\vspace{0.55em}
+{\noindent\sffamily\small\color{grey}\textsuperscript{1}Stanford University, USA; \textsuperscript{2}Memorable, San Francisco, USA; \textsuperscript{3}Carnegie Mellon University, USA\par}
+\vspace{0.85em}
+{\noindent\sffamily\footnotesize\textbf{Correspondence}\hspace{0.45em}\href{mailto:nikhilk0@stanford.edu}{nikhilk0@stanford.edu}, \href{mailto:nikhil@memorable.sh}{nikhil@memorable.sh} (NK)\hspace{0.7em}$\cdot$\hspace{0.7em}\href{mailto:ahsane@andrew.cmu.edu}{ahsane@andrew.cmu.edu}, \href{mailto:advaiyt@memorable.sh}{advaiyt@memorable.sh} (AS)\par
+\vspace{0.3em}
+\noindent\textbf{Code, data and protocol}\hspace{0.45em}\href{https://github.com/MemorableOrg/memory-without-a-writer}{github.com/MemorableOrg/memory-without-a-writer}\par}
+\input{sections/abstract}
+\input{sections/intro}
+\input{sections/related}
+\input{sections/turns}
+\input{sections/setup}
+\input{sections/results_a}
+\input{sections/results_b}
+\input{sections/cost}
+\input{sections/ablations}
+\input{sections/limitations}
+\input{sections/conclusion}
+\clearpage
+\renewcommand{\bibfont}{\small\raggedright}
+\bibliographystyle{plainnat}
+\bibliography{refs}
+\clearpage
+\appendix
+\input{sections/appendix}
+\end{document}

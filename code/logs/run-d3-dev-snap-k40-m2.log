@@ -1,0 +1,12 @@
+questions: 385 eligible, running 385
+results: results/20261029-181313.jsonl  n=385
+accuracy overall: 0.956
+  cat1 multi-hop: 0.932 (n=74)
+  cat2 temporal: 0.978 (n=90)
+  cat3 open-domain: 0.905 (n=21)
+  cat4 single-hop: 0.960 (n=200)
+evidence recall@40 (all gold turns retrieved): 0.872 (n=383)
+evidence recall@40 (fraction of gold turns): 0.907
+answer tokens in/out: 1287739/497205  judge tokens in/out: 286002/75286  total: 2146232
+answer-model cost est: $6.582  per question: $0.01710  full 1540 est: $26.33
+full 1540 tokens est: answer in 5,150,956, out 1,988,820

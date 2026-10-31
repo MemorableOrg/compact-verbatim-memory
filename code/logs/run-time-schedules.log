@@ -1,0 +1,7 @@
+40 dev questions, cache bypassed, models warm
+first stage only                   median 0.01s  mean 0.01s  p95 0.01s
+shipped, both over 100             median 1.05s  mean 1.04s  p95 1.19s
+v2, both over 300                  median 3.16s  mean 3.11s  p95 3.38s
+cascade, MiniLM 300 then bge 100   median 1.25s  mean 1.23s  p95 1.34s
+bge alone over 300                 median 2.97s  mean 2.93s  p95 3.17s
+TIME_SCHEDULES_DONE

@@ -1,0 +1,18 @@
+W1029 02:07:45.481000 94979 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 11544.33it/s]
+dev conversations ['conv-26', 'conv-30', 'conv-41'] questions 383
+| variant | Hit@1 | R@5 all | R@5 any | R@10 all | R@10 any | R@40 all | n |
+|---|---|---|---|---|---|---|---|
+| baseline BM25 | 0.292 | 0.493 | 0.574 | 0.538 | 0.637 | 0.655 | 383 |   (0s)
+| cleaned BM25 | 0.345 | 0.517 | 0.619 | 0.601 | 0.713 | 0.728 | 383 |   (0s)
+| dense bge-small | 0.243 | 0.488 | 0.585 | 0.603 | 0.700 | 0.770 | 383 |   (0s)
+| 5a RRF | 0.308 | 0.530 | 0.637 | 0.642 | 0.747 | 0.775 | 383 |   (0s)
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 14834.95it/s]
+| 5r rerank+5a | 0.376 | 0.616 | 0.726 | 0.708 | 0.820 | 0.815 | 383 |   (460s)
+| zfuse w=0.3 | 0.345 | 0.572 | 0.684 | 0.674 | 0.773 | 0.830 | 383 |   (0s)
+| zfuse w=0.4 | 0.350 | 0.574 | 0.679 | 0.666 | 0.765 | 0.812 | 383 |   (0s)
+| zfuse w=0.5 | 0.355 | 0.567 | 0.676 | 0.650 | 0.752 | 0.794 | 383 |   (0s)
+| zfuse w=0.6 | 0.358 | 0.561 | 0.663 | 0.645 | 0.752 | 0.775 | 383 |   (0s)
+| zfuse w=0.7 | 0.360 | 0.548 | 0.650 | 0.637 | 0.739 | 0.773 | 383 |   (0s)
+best z-fusion weight on dev (by R@5 all): zfuse w=0.4
+WINNER on dev by R@5 all: 5r rerank+5a

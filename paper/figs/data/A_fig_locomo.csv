@@ -1,0 +1,15 @@
+system,answer_model,kind,n,acc,lo95,hi95
+5r: 5a + reranker,Sonnet 5.5,ours,1540,95.97,94.65,97.44
+5r, test conversations only,Sonnet 5.5,ours,1155,94.89,93.96,95.86
+5a: cleaned BM25 + bge-small,Sonnet 5.5,ours,1540,94.22,92.92,95.69
+5a: cleaned BM25 + bge-small,GPT-6 Sol,ours,1540,91.10,90.02,92.32
+BM25, 40 turns,GPT-6 Sol,ours,1540,85.84,84.00,87.84
+full context, every turn,GPT-6 Sol,full_ours,1540,95.71,94.52,96.77
+full context, arXiv 2603.04814,gpt-5-mini,full,,92.85,,
+full context, Mem0 paper,gpt-4o-mini,full,,72.90,,
+Zep 2026 claim,gpt-5.4, third-party report,llm,,94.70,,
+Mem0 2026 claim,answer model disputed,llm,,92.50,,
+Zep, own re-run,gpt-4o-mini,llm,,75.14,,
+Letta file search, own blog,gpt-4o-mini,free,,74.00,,
+Mem0 graph, own paper,gpt-4o-mini,llm,,68.44,,
+Mem0, own paper,gpt-4o-mini,llm,,66.88,,

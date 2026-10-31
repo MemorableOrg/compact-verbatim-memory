@@ -1,0 +1,19 @@
+running 500 of 500 (0 resumed)
+W1029 16:30:55.151000 3509 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 25028.23it/s]
+embedded 0 new sessions in 0s
+results: results/lme-20261029-163057.jsonl  n=500
+accuracy overall: 0.868
+  knowledge-update: 0.923 (n=78)
+  multi-session: 0.774 (n=133)
+  single-session-assistant: 0.982 (n=56)
+  single-session-preference: 0.733 (n=30)
+  single-session-user: 0.971 (n=70)
+  temporal-reasoning: 0.857 (n=133)
+  abstention questions (inside the types above): 0.867 (n=30)
+session recall@40 (all gold sessions hit): 0.936
+session fraction: 0.971
+answer-turn recall (all has_answer turns hit): 0.848 (n=479)
+judge model used: gpt-4o-2024-08-06
+answer tokens in/out: 2382580/80136  judge in/out: 106952/833
+answer-model cost: $5.567  per question: $0.0111  full 500 est: $5.57

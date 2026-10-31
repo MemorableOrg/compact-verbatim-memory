@@ -1,0 +1,12 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+A memory built from original conversation turns can retrieve useful evidence without a generative writer. On the completed LoCoMo comparison, it reaches similar aggregate answer accuracy to Mem0 while supplying roughly half as many input tokens. That result includes development questions used for tuning, and our system trails Mem0 on the partial test subset. Judging both systems' answers with one other model leaves the tie and the deficit unchanged. It therefore does not establish that a writer is unnecessary for held-out answer accuracy.
+
+The clearest held-out retrieval result is the improvement from 64.0 to 80.3 percent mean gold-turn recall in the top 10 on LoCoMo. The remaining misses show the complementary challenge: preserving a detail does not guarantee that search will find every turn needed to answer. Later search changes improve recall, but their effect on answers remains unmeasured. Completing the held-out, token-matched comparisons is the next test of whether preserving history and retrieving evidence on demand can match model-written memory at the same reader budget.
+
+\section*{Reproducibility}
+The store, the lookup, the figure scripts and the protocol file with every registration and result are in the paper's repository. The split files, the frozen configurations and their hashes, the run logs and the per-question result rows ship with the code. The figure script reads every plotted value from those files, including Mem0's published per-question files, and writes one CSV per figure.
+
+\section*{Ethics}
+Every benchmark used is public, and no new data were collected from people. The reader and judge calls were made to commercial model APIs under the providers' terms, and the spend per run is in Appendix~\ref{app:costs}.

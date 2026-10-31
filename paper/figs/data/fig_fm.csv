@@ -1,0 +1,8 @@
+model,arm,passed,trials,pct,lo95,hi95
+GPT-6 Sol,no memory,10,45,22.22,12.54,36.27
+GPT-6 Sol,raw run cache,9,44,20.45,11.15,34.50
+GPT-6 Sol,graph memory,29,45,64.44,49.84,76.78
+GPT-6 Sol,Letta Dream (published),27,45,60.00,45.45,72.98
+Claude Opus 5.5,fresh graph build,23,45,51.11,37.00,65.04
+Claude Opus 5.5,"workflow memory, both notes",9,44,20.45,11.15,34.50
+Claude Opus 5.5,Letta Dream (published),33,45,73.33,58.96,84.04

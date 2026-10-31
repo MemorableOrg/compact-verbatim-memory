@@ -1,0 +1,80 @@
+conversations loaded 35, questions eligible 700, running 700 over 35 conversations
+cost estimate: reader ~24,761 in / 350 out tokens per question, judge ~3,240 in per question -> $0.0547/question, $38.26 for 700 questions (max $60.0)
+W1029 16:56:21.558000 12340 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 29234.23it/s]
+  embedded conv 2 (1556 turns) in 29s
+  embedded conv 3 (1600 turns) in 28s
+  embedded conv 4 (1750 turns) in 33s
+  embedded conv 5 (1772 turns) in 28s
+  embedded conv 6 (1662 turns) in 34s
+  embedded conv 7 (1764 turns) in 37s
+  embedded conv 8 (1802 turns) in 40s
+  embedded conv 9 (1776 turns) in 35s
+  embedded conv 10 (2294 turns) in 42s
+  embedded conv 11 (2214 turns) in 40s
+  embedded conv 12 (2988 turns) in 33s
+  embedded conv 13 (2694 turns) in 31s
+  embedded conv 14 (1936 turns) in 21s
+  embedded conv 15 (2182 turns) in 28s
+  embedded conv 16 (1966 turns) in 24s
+  embedded conv 17 (2612 turns) in 29s
+  embedded conv 18 (1970 turns) in 22s
+  embedded conv 19 (2410 turns) in 31s
+  embedded conv 20 (2334 turns) in 44s
+  embedded conv 21 (2202 turns) in 43s
+  embedded conv 22 (2016 turns) in 38s
+  embedded conv 23 (1894 turns) in 32s
+  embedded conv 24 (3008 turns) in 54s
+  embedded conv 25 (2418 turns) in 41s
+  embedded conv 26 (2210 turns) in 38s
+  embedded conv 27 (2356 turns) in 42s
+  embedded conv 28 (2026 turns) in 35s
+  embedded conv 29 (2356 turns) in 42s
+  embedded conv 30 (1982 turns) in 37s
+  embedded conv 31 (2088 turns) in 37s
+  embedded conv 32 (2312 turns) in 39s
+  embedded conv 33 (2874 turns) in 52s
+  embedded conv 34 (2116 turns) in 36s
+index ready in 1180s
+Traceback (most recent call last):
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/beam_run.py", line 278, in <module>
+    for rec in ex.map(run, sel):
+               ^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/beam_run.py", line 258, in run
+    ans, i_, o_ = ask(q, idx, nf)
+                  ^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/beam_run.py", line 201, in ask
+    return answer_call(prompt)
+           ^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/beam_run.py", line 179, in answer_call
+    m = ac.messages.create(**kw); break
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/anthropic/_utils/_utils.py", line 294, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/anthropic/resources/messages/messages.py", line 1070, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/anthropic/_base_client.py", line 1679, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/anthropic/_base_client.py", line 1230, in request
+    return self._request(cast_to, options, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/anthropic/_base_client.py", line 1333, in _request
+    raise self._make_status_error_from_response(response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will regain access on 2026-11-01 at 00:00 UTC.'}, 'request_id': 'req_011CgXTZxfkjegeSxi7QxVmn'}

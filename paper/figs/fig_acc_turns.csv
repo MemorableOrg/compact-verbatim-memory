@@ -1,0 +1,6 @@
+system,mean_turns_test,acc_test,lo95,hi95,n
+"5a, 40 turns",40.00,93.07,92.16,94.19,1155
+"5r, 40 turns",40.00,94.89,93.96,95.86,1155
+"Ours, 10 turns, widened",14.29,94.55,93.20,96.03,1155
+"Ours with entity graph, widened",12.71,94.81,93.34,96.53,1155
+Full context (GPT-6 Sol reader),633.60,95.50,94.07,96.91,1155

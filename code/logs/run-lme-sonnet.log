@@ -1,0 +1,20 @@
+running 500 of 500
+W1029 01:19:34.745000 85504 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 31977.11it/s]
+embedded 16857 new sessions in 2688s
+results: results/lme-20261029-020425.jsonl  n=460  STOPPED ON COST CAP
+accuracy overall: 0.902
+  knowledge-update: 0.949 (n=78)
+  multi-session: 0.796 (n=113)
+  single-session-assistant: 1.000 (n=56)
+  single-session-preference: 0.800 (n=30)
+  single-session-user: 0.971 (n=70)
+  temporal-reasoning: 0.912 (n=113)
+  abstention questions (inside the types above): 0.862 (n=29)
+session recall@40 (all gold sessions hit): 0.983
+session fraction: 0.992
+answer-turn recall (all has_answer turns hit): 0.939 (n=440)
+judge model used: gpt-4o-2024-08-06
+answer tokens in/out: 5678044/75517  judge in/out: 106462/785
+answer-model cost: $12.111  per question: $0.0263  full 500 est: $13.16
+LME_SONNET_DONE

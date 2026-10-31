@@ -1,0 +1,28 @@
+panel,system,turns,value
+a,BM25 over turns,20,59.70
+a,BM25 over turns,40,64.78
+a,+ clean and stem the question,20,64.26
+a,+ clean and stem the question,40,70.38
+a,+ cross-encoder rerank (5r),20,74.87
+a,+ cross-encoder rerank (5r),40,78.91
+a,+ cross-encoder rerank (5r),60,81.71
+b,Flat hybrid,5,55.02
+b,Flat hybrid,10,64.00
+b,Flat hybrid,25,73.88
+b,Flat hybrid,50,80.89
+b,+ forward contiguity,5,59.35
+b,+ forward contiguity,10,68.55
+b,+ forward contiguity,25,77.60
+b,+ forward contiguity,50,83.51
+b,w/o cross-encoders,5,67.54
+b,w/o cross-encoders,10,75.37
+b,w/o cross-encoders,25,84.12
+b,w/o cross-encoders,50,88.87
+b,"Ours, graph-free ranker",5,73.97
+b,"Ours, graph-free ranker",10,80.33
+b,"Ours, graph-free ranker",25,84.96
+b,"Ours, graph-free ranker",50,88.46
+b,Ours with entity graph,5,75.92
+b,Ours with entity graph,10,81.51
+b,Ours with entity graph,25,86.80
+b,Ours with entity graph,50,90.11

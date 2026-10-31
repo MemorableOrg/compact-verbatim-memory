@@ -1,0 +1,22 @@
+panel,system,value,interval95
+Proced-Mem,ours,0.957,
+Proced-Mem,MiniLM baseline,0.796,
+LoCoMo like-for-like,"Ours, 40 turns$^{\ddagger}$ (607 q., 385 dev)",90.61,82.6-94.3
+LoCoMo like-for-like,"Mem0, current (same 607)",90.28,84.7-93.4
+LoCoMo like-for-like,"Ours, 40 turns (222 test q.)",81.98,74.7-88.3
+LoCoMo like-for-like,"Mem0, current (same 222)",85.59,80.4-90.5
+LongMemEval-S sessions top 10,"Ours, no reader$^{\ddagger}$ (470 q.)",97.45,95.6-98.5
+LongMemEval-S sessions top 10,MemGAS$^{\dagger}$ (470 q.),94.47,92.0-96.2
+LongMemEval-S sessions top 10,EdgeMem$^{\dagger}$ (470 q.),93.83,91.3-95.7
+LongMemEval-S answers,"Ours, 100 turns (319 test q.)",94.04,90.9-96.2
+LongMemEval-S answers,"Mem0, current (500 q.)",93.40,90.9-95.3
+BEAM 1M,"Ours, 20 then 40 turns (652 q.)",71.78,68.2-75.1
+BEAM 1M,"Mem0, current (700 q.)",70.14,66.7-73.4
+LoCoMo by category,ours single-hop (n=256),95.70,
+LoCoMo by category,Mem0 single-hop (n=256),90.62,
+LoCoMo by category,ours open-domain (n=75),72.00,
+LoCoMo by category,Mem0 open-domain (n=75),76.00,
+LoCoMo by category,ours temporal (n=146),93.15,
+LoCoMo by category,Mem0 temporal (n=146),93.15,
+LoCoMo by category,ours multi-hop (n=130),88.46,
+LoCoMo by category,Mem0 multi-hop (n=130),94.62,

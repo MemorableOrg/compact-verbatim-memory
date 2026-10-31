@@ -1,0 +1,16 @@
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 15128.17it/s]
+Loading weights:   0%|          | 0/105 [00:00<?, ?it/s]Loading weights: 100%|██████████| 105/105 [00:00<00:00, 9496.13it/s]
+Loading weights:   0%|          | 0/393 [00:00<?, ?it/s]Loading weights: 100%|██████████| 393/393 [00:00<00:00, 15677.33it/s]
+dev conv-26: 152 questions in 16s
+dev conv-30: 81 questions in 1s
+dev conv-41: 152 questions in 2s
+test conv-42: 199 questions in 2s
+test conv-43: 178 questions in 2s
+test conv-44: 123 questions in 1s
+test conv-47: 150 questions in 2s
+test conv-48: 191 questions in 2s
+test conv-49: 156 questions in 1s
+test conv-50: 158 questions in 9s
+dev n=383 all@5 73.6 all@10 80.2 all@20 84.1 all@40 88.5
+test n=1152 all@5 68.8 all@10 74.7 all@20 79.0 all@40 83.2
+SNAP_RANK_DONE

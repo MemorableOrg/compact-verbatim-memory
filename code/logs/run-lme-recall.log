@@ -1,0 +1,59 @@
+W1030 02:18:51.555000 11525 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 15960.43it/s]
+50 questions
+100 questions
+150 questions
+200 questions
+250 questions
+300 questions
+350 questions
+400 questions
+450 questions
+500 questions
+
+== dev n=96
+all-gold turn recall: @20 88.5 @30 91.7 @35 91.7 @40 93.8 @50 96.9 @60 97.9 @80 99.0 @100 100.0 @150 100.0 @200 100.0
+  knowledge-update             n= 10 @35 100.0 @40 100.0 @60 100.0 @100 100.0 @150 100.0
+  multi-session                n= 25 @35  84.0 @40  88.0 @60  96.0 @100 100.0 @150 100.0
+  single-session-assistant     n= 13 @35 100.0 @40 100.0 @60 100.0 @100 100.0 @150 100.0
+  single-session-preference    n=  5 @35  60.0 @40  80.0 @60 100.0 @100 100.0 @150 100.0
+  single-session-user          n= 11 @35 100.0 @40 100.0 @60 100.0 @100 100.0 @150 100.0
+  temporal-reasoning           n= 32 @35  93.8 @40  93.8 @60  96.9 @100 100.0 @150 100.0
+mean prompt tokens: @35 9,547 @40 10,436 @60 13,752 @100 20,021 @150 28,744 | Mem0 6,787
+token budget (turns added in rank order until the budget):
+  B=  5000: mean turns  13.3  all-gold recall 86.5
+  B=  6000: mean turns  18.4  all-gold recall 88.5
+  B=  6800: mean turns  22.4  all-gold recall 90.6
+  B=  8000: mean turns  29.2  all-gold recall 92.7
+  B= 10000: mean turns  41.2  all-gold recall 93.8
+  B= 13000: mean turns  59.3  all-gold recall 95.8
+assistant turns capped (sentences with most question terms kept):
+  cap  60 tokens: prompt @100 9,159  @150 12,159  answer string survives in 3 of 6 gold assistant turns that contain it
+  cap 100 tokens: prompt @100 10,377  @150 14,031  answer string survives in 3 of 6 gold assistant turns that contain it
+  cap 150 tokens: prompt @100 11,906  @150 16,391  answer string survives in 3 of 6 gold assistant turns that contain it
+gold turns by role: {'user': 168, 'assistant': 13} | gold turns per question: {1: 36, 2: 46, 3: 8, 4: 3, 5: 1, 6: 2}
+misses at 40: n=6, worst gold rank [42, 48, 49, 57, 70, 98]
+
+== test n=383
+all-gold turn recall: @20 88.5 @30 91.6 @35 93.2 @40 94.3 @50 95.8 @60 98.2 @80 99.2 @100 99.2 @150 99.7 @200 99.7
+  knowledge-update             n= 62 @35 100.0 @40 100.0 @60 100.0 @100 100.0 @150 100.0
+  multi-session                n=100 @35  86.0 @40  87.0 @60  96.0 @100  98.0 @150  99.0
+  single-session-assistant     n= 43 @35  95.3 @40  95.3 @60  95.3 @100  97.7 @150 100.0
+  single-session-preference    n= 25 @35  92.0 @40  92.0 @60 100.0 @100 100.0 @150 100.0
+  single-session-user          n= 53 @35  98.1 @40 100.0 @60 100.0 @100 100.0 @150 100.0
+  temporal-reasoning           n=100 @35  93.0 @40  95.0 @60  99.0 @100 100.0 @150 100.0
+mean prompt tokens: @35 9,118 @40 9,975 @60 13,130 @100 19,203 @150 27,463 | Mem0 6,787
+token budget (turns added in rank order until the budget):
+  B=  5000: mean turns  13.7  all-gold recall 84.1
+  B=  6000: mean turns  19.3  all-gold recall 88.0
+  B=  6800: mean turns  24.0  all-gold recall 89.6
+  B=  8000: mean turns  31.0  all-gold recall 91.9
+  B= 10000: mean turns  44.3  all-gold recall 93.5
+  B= 13000: mean turns  64.0  all-gold recall 97.4
+assistant turns capped (sentences with most question terms kept):
+  cap  60 tokens: prompt @100 9,015  @150 11,993  answer string survives in 15 of 22 gold assistant turns that contain it
+  cap 100 tokens: prompt @100 10,145  @150 13,721  answer string survives in 20 of 22 gold assistant turns that contain it
+  cap 150 tokens: prompt @100 11,555  @150 15,886  answer string survives in 20 of 22 gold assistant turns that contain it
+gold turns by role: {'user': 674, 'assistant': 41} | gold turns per question: {1: 146, 2: 183, 3: 30, 4: 11, 5: 9, 6: 4}
+misses at 40: n=22, worst gold rank [42, 45, 45, 45, 45, 46, 51, 51, 53, 53, 53, 55, 58, 59, 60, 69, 71, 78, 80, 111, 119, 241]
+LME_RECALL_DONE

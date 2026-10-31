@@ -1,0 +1,10 @@
+system,kind,n,R@3,R@3_lo,R@3_hi,R@10,R@10_lo,R@10_hi
+Snapgraph (all 470, includes tuning),ours,470,84.04,80.46,87.08,97.45,95.59,98.53
+Flat hybrid (all 470, includes tuning),ours,470,83.62,80.0,86.69,96.6,94.54,97.89
+Snapgraph + MiniLM (all 470, includes tuning),ours,470,86.81,83.45,89.57,97.66,95.86,98.69
+EdgeMem,pub_free,470,81.49,77.73,84.74,93.83,91.28,95.67
+Contriever,pub_free,470,71.06,66.81,74.98,90.0,86.96,92.4
+MPNet,pub_free,470,66.17,61.78,70.3,85.11,81.6,88.04
+MemGAS,pub_llm,470,78.51,74.57,81.99,94.47,92.02,96.2
+HippoRAG 2,pub_llm,470,75.53,71.45,79.2,91.28,88.38,93.5
+SeCom,pub_llm,470,71.06,66.81,74.98,89.15,86.01,91.65

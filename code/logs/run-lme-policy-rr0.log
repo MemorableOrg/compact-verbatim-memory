@@ -1,0 +1,121 @@
+W1030 02:22:28.578000 12306 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 11442.57it/s]
+50 questions 8s
+100 questions 16s
+150 questions 25s
+200 questions 34s
+250 questions 42s
+300 questions 51s
+350 questions 60s
+400 questions 68s
+450 questions 76s
+500 questions 84s
+
+== dev n=96 RR=0
+tokens per turn: user mean 53, assistant mean 358; assistant turns among the top 100: 34.4
+turns assistant handling      tokens gold kept   | Mem0 reads 6,787
+   40 whole                   10,436      93.8
+   40 dropped                  4,286      80.2
+   40 capped 40 tok            4,952      90.6
+   40 capped 60 tok            5,190      90.6
+   40 capped 100 tok           5,747      90.6
+   40 whole in top 10, else dropped   5,851      93.8
+   40 whole in top 20, else dropped   7,505      93.8
+   40 whole in top 10, else cap 60   6,521      93.8
+   40 whole in top 20, else cap 60   7,955      93.8
+   40 whole in top 20, else cap 40   7,838      93.8
+   60 whole                   13,752      97.9
+   60 dropped                  5,213      84.4
+   60 capped 40 tok            6,154      94.8
+   60 capped 60 tok            6,488      94.8
+   60 capped 100 tok           7,272      94.8
+   60 whole in top 10, else dropped   6,777      97.9
+   60 whole in top 20, else dropped   8,430      97.9
+   60 whole in top 10, else cap 60   7,819      97.9
+   60 whole in top 20, else cap 60   9,253      97.9
+   60 whole in top 20, else cap 40   9,040      97.9
+   80 whole                   16,884      99.0
+   80 dropped                  6,139      85.4
+   80 capped 40 tok            7,331      95.8
+   80 capped 60 tok            7,759      95.8
+   80 capped 100 tok           8,755      95.8
+   80 whole in top 10, else dropped   7,703      99.0
+   80 whole in top 20, else dropped   9,355      99.0
+   80 whole in top 10, else cap 60   9,090      99.0
+   80 whole in top 20, else cap 60  10,524      99.0
+   80 whole in top 20, else cap 40  10,216      99.0
+  100 whole                   20,021     100.0
+  100 dropped                  7,148      86.5
+  100 capped 40 tok            8,617      96.9
+  100 capped 60 tok            9,144      96.9
+  100 capped 100 tok          10,356      96.9
+  100 whole in top 10, else dropped   8,712     100.0
+  100 whole in top 20, else dropped  10,364     100.0
+  100 whole in top 10, else cap 60  10,475     100.0
+  100 whole in top 20, else cap 60  11,909     100.0
+  100 whole in top 20, else cap 40  11,503     100.0
+  150 whole                   28,744     100.0
+  150 dropped                  9,075      86.5
+  150 capped 40 tok           11,296      96.9
+  150 capped 60 tok           12,116      96.9
+  150 capped 100 tok          13,996      96.9
+  150 whole in top 10, else dropped  10,639     100.0
+  150 whole in top 20, else dropped  12,290     100.0
+  150 whole in top 10, else cap 60  13,447     100.0
+  150 whole in top 20, else cap 60  14,881     100.0
+  150 whole in top 20, else cap 40  14,182     100.0
+
+== test n=383 RR=0
+tokens per turn: user mean 53, assistant mean 357; assistant turns among the top 100: 32.4
+turns assistant handling      tokens gold kept   | Mem0 reads 6,787
+   40 whole                    9,975      94.3
+   40 dropped                  4,411      84.1
+   40 capped 40 tok            5,089      92.4
+   40 capped 60 tok            5,301      92.7
+   40 capped 100 tok           5,790      93.7
+   40 whole in top 10, else dropped   5,854      94.0
+   40 whole in top 20, else dropped   7,415      94.3
+   40 whole in top 10, else cap 60   6,505      94.3
+   40 whole in top 20, else cap 60   7,826      94.3
+   40 whole in top 20, else cap 40   7,725      94.3
+   60 whole                   13,130      98.2
+   60 dropped                  5,329      88.0
+   60 capped 40 tok            6,283      96.3
+   60 capped 60 tok            6,589      96.6
+   60 capped 100 tok           7,292      97.7
+   60 whole in top 10, else dropped   6,771      97.9
+   60 whole in top 20, else dropped   8,330      98.2
+   60 whole in top 10, else cap 60   7,793      98.2
+   60 whole in top 20, else cap 60   9,114      98.2
+   60 whole in top 20, else cap 40   8,919      98.2
+   80 whole                   16,190      99.2
+   80 dropped                  6,213      88.8
+   80 capped 40 tok            7,425      97.4
+   80 capped 60 tok            7,822      97.7
+   80 capped 100 tok           8,737      98.7
+   80 whole in top 10, else dropped   7,655      98.7
+   80 whole in top 20, else dropped   9,213      99.0
+   80 whole in top 10, else cap 60   9,026      99.2
+   80 whole in top 20, else cap 60  10,347      99.2
+   80 whole in top 20, else cap 40  10,061      99.2
+  100 whole                   19,203      99.2
+  100 dropped                  7,065      88.8
+  100 capped 40 tok            8,517      97.4
+  100 capped 60 tok            9,006      97.7
+  100 capped 100 tok          10,131      98.7
+  100 whole in top 10, else dropped   8,506      98.7
+  100 whole in top 20, else dropped  10,064      99.0
+  100 whole in top 10, else cap 60  10,211      99.2
+  100 whole in top 20, else cap 60  11,531      99.2
+  100 whole in top 20, else cap 40  11,153      99.2
+  150 whole                   27,463      99.7
+  150 dropped                  9,043      89.0
+  150 capped 40 tok           11,225      97.9
+  150 capped 60 tok           11,984      98.2
+  150 capped 100 tok          13,714      99.2
+  150 whole in top 10, else dropped  10,484      99.0
+  150 whole in top 20, else dropped  12,041      99.2
+  150 whole in top 10, else cap 60  13,189      99.7
+  150 whole in top 20, else cap 60  14,509      99.7
+  150 whole in top 20, else cap 40  13,861      99.7
+LME_POLICY_DONE

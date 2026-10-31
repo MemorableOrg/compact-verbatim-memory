@@ -1,0 +1,92 @@
+\subsection{LongMemEval}
+\label{sec:lme}
+
+On \lmes{} the store sits within a point of Mem0 under a different judge and at more tokens, and therefore we report a band and claim no lead, although a rule that fits Mem0's token budget keeps almost every gold turn. With GPT-5 reading the top 100 turns under Mem0's current answer prompt, the store scores 94.0 on the 319 of 400 test questions the run finished before the budget stopped it, and 93.0 on the 100 development questions, against 93.4 for Mem0's current release on all 500 (467 passed), read from its published file \citep{mem0benchmarks2026}; Mem0's site lists 94.4 for the same release, and we use the file. The judges differ, since ours is the benchmark's official judge on gpt-4o and Mem0's is GPT-5 with its own judge prompt, and our reader sees 19,125 tokens per question against Mem0's 6,787. At 40 turns, the setting of our earlier runs, the reader sees 10,436 tokens and scores 89.0 on development with Mem0's prompt and 87.0 with the official one, and every gold turn is among the 40 for 93.8 of development questions and among the 100 for all of them. The answer split (100 development, 400 test) and the retrieval split (150 development, 350 test) are both prefixes of the same SHA-256 order, so 43 of the 319 finished test answers fall in the 150 questions on which the fusion weight was set; that row therefore carries the tuned mark in Table~\ref{tab:headline}. Mem0's published file carries its judge's verdicts but not its answers, so the two rows cannot be placed under one judge. Re-judging our own answers with Claude Sonnet 5.5 under the official prompts gives 83.0 on development and 87.1 on the 319 test questions, and that judge agrees with the official one on 90.0 and 93.1 percent of them. The band is set partly by the judge.
+
+The token gap closes with a rule about who said the gold turn. On \lmes{} the gold turns are almost always the user's, 168 against 13 assistant replies on development, and a user turn averages 53 tokens while an assistant reply averages 358, with about 34 of the top 100 turns being assistant replies, so that most of the 19,125 tokens are replies that hold no answer. A rule that hands the reader every user turn in the top $k$ and an assistant reply only when it ranks in the top 10 cuts the prompt to 6,777 tokens at $k = 60$, within ten tokens of Mem0's 6,787, and keeps every gold turn for 97.9 of development questions, while at $k = 100$ it is 8,712 tokens and 100.0; shortening long assistant replies to their best-matching sentences kept less gold, 96.9, because the answer sentence is often the one cut. On the test split, scored once with the rule fixed, $k = 60$ gives 6,771 tokens and 97.9 and $k = 100$ gives 8,506 and 98.7. A local cross-encoder, bge-reranker-base over the top 150 turns of the first stage, lifts the rule's development recall at 60 turns to 99.0 at 7,026 tokens, 3.5 percent over Mem0's budget, and at 40 turns to 96.9 at 6,029, and on test, scored once, 60 turns give 6,881 tokens and 97.7. The answer run with the reranker and the rule at 60 turns was registered and not run (Section~\ref{sec:pending}), so these are offline measurements against the labels with no reader.
+
+The secondary row with Claude Sonnet 5.5 reading 40 turns under the official prompt scores 90.0 [87.1, 92.3] on all 500 questions (Figure~\ref{fig:lmetypes}), against 85.2 for Supermemory with gemini-3-pro and 71.2 for Zep with gpt-4o, and it answers 74 of 78 knowledge-update, 109 of 133 multi-session, 56 of 56 single-session assistant, 24 of 30 preference, 68 of 70 single-session user and 119 of 133 temporal questions, and 26 of 30 abstention questions. Other published rows are 60.6 for full context with gpt-4o \citep{wu2025longmemeval}, 82.4 for full context with gpt-5-mini \citep{fullcontext2026}, 91.4 for Hindsight with gemini-3-pro answering and GPT-OSS-120B writing the memory \citep{hindsight2025}, and 94.9 for Mastra with gpt-5-mini \citep{coretoday2026audit,mastra2026observational}, and none of them shares our reader.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.58\textwidth]{fig_lme_types.pdf}
+\caption{\lmes{} answer accuracy by question type, 500 questions, the rank-fusion retriever (5a) at 40 turns with Claude Sonnet 5.5 and the official judge, with 95\% Wilson intervals. The abstention row is a subset of the others. No choice was made on this benchmark.}
+\label{fig:lmetypes}
+\end{figure}
+
+\subsection{BEAM}
+\label{sec:beam}
+
+On BEAM's 1M-token tier the store and Mem0 are within two points under different judges, and the abilities on which they differ most say where verbatim turns help and where extracted facts do. Over 700 questions on 35 conversations and ten abilities, the store scores a pass rate of 71.8 and a mean rubric score of 0.645 on the 652 questions finished, against 70.1 and 0.641 for Mem0's current release on all 700 \citep{mem0benchmarks2026,beam2026} (Table~\ref{tab:beam}, Figure~\ref{fig:beat}e). Both use GPT-5 as the reader; ours reads the top 20 turns and, when it answers NOT FOUND, the top 40, which happened for one question in ten, so it sees 22 turns and 13,243 tokens on average. The judges differ, since ours is BEAM's own rubric prompt on gpt-4.1-mini with a question passed when the mean rubric score is at least 0.5, Mem0's rule, and Mem0's is GPT-5 with its own rubric prompt. The benchmark paper's own best system, LIGHT, reaches a mean of 0.336 at this tier with Llama 4 Maverick or GPT-4.1-nano as reader and reports no pass rate, so its rows and these are not comparable. The two systems differ most on abstention, where ours passes 89.4 against 55.7, and on contradiction resolution, 66.7 against 48.6, because a reader looking at verbatim turns can see that nothing supports a claim while an extracted fact list invites an answer; Mem0's row is higher on instruction following, 88.6 against 75.4, on multi-session reasoning, 74.3 against 63.1, and on temporal reasoning, 67.1 against 56.9, and with 65 to 70 questions per ability and different judges these are directions rather than ranked results. The 48 remaining questions were not run. After the budget returned we judged both systems' answers with one other model, Claude Sonnet 5.5 under BEAM's rubric prompt, registered beforehand with a prediction (Appendix~\ref{app:predictions}). Under that judge the store passes 61.3 [57.6, 65.0] of its 652 questions with a mean rubric score of 0.558, and Mem0 passes 63.9 [60.2, 67.3] of its 700 with a mean of 0.603. The two sit 2.6 points apart with overlapping intervals, and the order reverses. Both registered ranges, 66 to 76 for ours and 64 to 74 for Mem0, missed on the low side; the registered gap of under 4 points held. The ability pattern survives the change of judge (Table~\ref{tab:beam}): the store keeps contradiction resolution, 63.6 against 7.1, and abstention narrows to 59.1 against 55.7, while Mem0 keeps instruction following, 85.7 against 72.3, multi-session reasoning, 75.7 against 52.3, and temporal reasoning, 68.6 against 56.9.
+
+\begin{table}[t]
+\caption{BEAM 1M by ability: pass rate and mean rubric score. Ours on 65 or 66 questions per ability with the GPT-5 reader; Mem0 on 70 per ability with the GPT-5 reader, from its published file. The first two pairs of columns use each system's own judge, BEAM's prompt on gpt-4.1-mini for ours and GPT-5 with Mem0's prompt for Mem0, and are read as a band. The last two pairs re-judge both systems' answers with one model, Claude Sonnet 5.5 under BEAM's rubric prompt, pass at a mean of 0.5.}
+\label{tab:beam}
+\small
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcccccccc@{}}
+\toprule
+ & \multicolumn{4}{c}{Own judges} & \multicolumn{4}{c}{One judge, Claude Sonnet 5.5} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+ & \multicolumn{2}{c}{Ours} & \multicolumn{2}{c}{Mem0, current} & \multicolumn{2}{c}{Ours} & \multicolumn{2}{c}{Mem0, current} \\
+Ability & pass & mean & pass & mean & pass & mean & pass & mean \\
+\midrule
+Abstention & \ours{89.4} & 0.856 & 55.7 & 0.525 & 59.1 & 0.561 & 55.7 & 0.543 \\
+Contradiction resolution & \ours{66.7} & 0.553 & 48.6 & 0.357 & \ours{63.6} & 0.578 & 7.1 & 0.239 \\
+Event ordering & 64.6 & 0.569 & 60.0 & 0.536 & 41.5 & 0.390 & 51.4 & 0.483 \\
+Information extraction & 70.8 & 0.634 & \ours{75.7} & 0.700 & 70.8 & 0.665 & 74.3 & 0.679 \\
+Instruction following & 75.4 & 0.726 & \ours{88.6} & 0.852 & 72.3 & 0.687 & \ours{85.7} & 0.797 \\
+Knowledge update & 67.7 & 0.662 & 65.7 & 0.650 & 63.1 & 0.612 & 65.7 & 0.646 \\
+Multi-session reasoning & 63.1 & 0.547 & \ours{74.3} & 0.652 & 52.3 & 0.505 & \ours{75.7} & 0.639 \\
+Preference following & 93.8 & 0.862 & 97.1 & 0.883 & 83.1 & 0.734 & \ours{97.1} & 0.842 \\
+Summarization & 69.2 & 0.639 & 68.6 & 0.635 & 50.8 & 0.426 & 57.1 & 0.534 \\
+Temporal reasoning & 56.9 & 0.399 & \ours{67.1} & 0.618 & 56.9 & 0.426 & \ours{68.6} & 0.629 \\
+\midrule
+All (652 / 700) & 71.8 & 0.645 & 70.1 & 0.641 & 61.3 & 0.558 & 63.9 & 0.603 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Procedures}
+\label{sec:procedmem}
+
+On Proced-Mem, the retriever of Section~\ref{sec:procedures} scores 0.957 mean average precision against 0.796 for the MiniLM baseline under the same gpt-5 judge (Table~\ref{tab:procedmem}). The retriever was selected using relevance labels from the same 40 queries on which it is evaluated; the benchmark has no held-out split. This result therefore describes the best rule-built setting found on those queries, while transfer to unseen queries remains untested. The baseline is our re-run of the repository's runner; the benchmark paper reports 0.795.
+
+Repeated judging can move the score of a fixed ranking by up to 0.08, so we did not select a retriever from a single judge pass. Instead, we ran an offline sweep of 427 rule-built variants against the benchmark's fixed, judge-confirmed relevance labels, with about 22 relevant trajectories per query. We selected by MAP@10, which tracks the ordering of the judge's MAP scores but is 0.12 to 0.15 lower.
+
+In this offline sweep, task text alone scored 0.798 mean MAP@10, against 0.757 for task plus action text. The bge-m3 embedder scored 0.798, against 0.768 for bge-large and 0.749 for bge-small. IDF-weighted overlap scored 0.782, against 0.759 for stemmed BM25. Changing the fusion constant made no difference, and adding a cross-encoder reranker or pseudo-relevance feedback gave no gain. These scores use fixed labels, so the judge's pass-to-pass spread does not apply; we report no intervals for them. The selected setting averages 0.957 MAP over three judge passes, with precision at one of 0.925, 0.925 and 0.975. Testing transfer requires queries that were not used in the sweep.
+
+\begin{table}[t]
+\caption{Proced-Mem MAP, one value per judge pass. The last row is transcribed from the first Memorable white paper, which used a different lexical retriever. \tun{} Chosen on labels from the same 40 queries it is scored on.}
+\label{tab:procedmem}
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Retriever & Pass 1 & Pass 2 & Pass 3 \\
+\midrule
+MiniLM baseline & \multicolumn{3}{c}{0.796} \\
+BM25 + bge-small & 0.900 & 0.895 & 0.821 \\
+BM25 + bge-m3 & 0.932 & 0.908 & -- \\
+bge-m3 + IDF overlap\tun{} & 0.954 & 0.949 & 0.968 \\
+First white paper\pub{} & \multicolumn{3}{c}{0.959 (two passes)} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Pending}
+\label{sec:pending}
+
+The model budget ran out before the runs below started, so their registered predictions stand on record without numbers, nothing in this paper is estimated from them, and the addendum numbers refer to entries in the protocol file. The two registered quantities that could be measured without a model, all-gold recall at 150 and at 40 turns on the test split, are reported in Section~\ref{sec:search}, where the first held and the second landed 0.3 above its range.
+
+\begin{itemize}
+\setlength{\itemsep}{1pt}
+\item LoCoMo, GPT-5 reader and judge, 40 turns, the 933 test questions left (Addendum 32b). Prediction: test accuracy between 88 and 90.5 against Mem0's 91.1 on the same conversations.
+\item LoCoMo, token-matched: the search of Section~\ref{sec:search}, 150 turns, one date line per run of same-session turns, 6,522 tokens against Mem0's 6,956 (Addendum 36). Predictions: test accuracy between 90.0 and 92.5 against Mem0's 91.1; multi-hop between 85 and 91.
+\item LoCoMo, Mem0's 1,540 published answers re-judged with the 2025 judge that scored our Sonnet rows 95.7 (Addendum 35). Prediction: 93.5 to 96.0.
+\item \lmes{}, the 81 test questions left at 100 turns (Addendum 33c; prediction 93 to 95 on 400), and the user-turn rule with the local reranker at 60 turns on development then test (Addendum 36b). Predictions: development between 92 and 95 against the 100-turn run's 93.0; test between 93 and 95.5 against Mem0's 93.4, at about 7,030 tokens.
+\item BEAM 1M, the 48 questions left, then both systems' answers judged by BEAM's judge and by Mem0's judge (Addendum 36). Predictions: Mem0's answers pass between 62 and 72 under BEAM's judge; ours between 66 and 76 under Mem0's; the ordering holds under both. After the budget returned, both systems' answers were judged by one other model instead, Claude Sonnet 5.5 under BEAM's rubric (Section~\ref{sec:beam}, Appendix~\ref{app:predictions}).
+\item LoCoMo and \lmes{} with Claude Sonnet 5.5 as reader under Mem0's prompts and GPT-5 as judge (Addendum 35). Prediction: the 150-turn LoCoMo arm between 92 and 94.5 on test.
+\end{itemize}

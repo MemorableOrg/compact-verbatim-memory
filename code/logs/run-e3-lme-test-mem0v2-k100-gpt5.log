@@ -1,0 +1,41 @@
+running 400 of 400 (0 resumed)
+W1029 18:28:54.060000 29968 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 28352.41it/s]
+embedded 0 new sessions in 0s
+judge fallback to gpt-4o: Error code: 429 - You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.
+Traceback (most recent call last):
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/lme_run.py", line 165, in <module>
+    for rec in ex.map(run, list(zip(sel, qvecs))):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "~/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/lme_run.py", line 150, in run
+    jr = chat(judge_model[0], [{"role": "user", "content": jp}], n=1, temperature=0, max_tokens=10)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/lme_run.py", line 86, in chat
+    return client.chat.completions.create(model=model, messages=msgs, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/_utils/_utils.py", line 298, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1611, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1474, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1248, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.

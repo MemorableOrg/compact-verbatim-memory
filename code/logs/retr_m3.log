@@ -1,0 +1,47 @@
+W1029 00:09:25.499000 79114 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/391 [00:00<?, ?it/s]Loading weights: 100%|██████████| 391/391 [00:00<00:00, 55507.63it/s]
+conv-26 419 166s
+conv-30 369 174s
+conv-41 663 188s
+conv-42 629 200s
+conv-43 680 214s
+conv-44 675 228s
+conv-47 689 243s
+conv-48 681 256s
+conv-49 509 266s
+conv-50 568 280s
+embedding all turns: 280s with BAAI/bge-m3
+questions with evidence: 1536
+baseline BM25 | 0.597 0.653 | 0.648 0.705 | turns 20.0 / 40.0
+1a neighbors +-1 on k hits (more turns) | 0.712 0.773 | 0.767 0.827 | turns 49.5 / 95.8
+1b neighbors +-1, capped at k turns | 0.648 0.701 | 0.697 0.758 | turns 20.0 / 40.0
+2 session-first (2 sessions) | 0.583 0.632 | 0.661 0.711 | turns 20.0 / 40.0
+3 query cleaning + stemming | 0.643 0.704 | 0.704 0.765 | turns 20.0 / 40.0
+4a dense only | 0.603 0.663 | 0.694 0.762 | turns 20.0 / 40.0
+4b hybrid BM25+dense RRF | 0.635 0.698 | 0.695 0.761 | turns 20.0 / 40.0
+5a hybrid with cleaned BM25 | 0.673 0.735 | 0.733 0.797 | turns 20.0 / 40.0
+5b hybrid cleaned + neighbors capped at k | 0.686 0.748 | 0.749 0.813 | turns 20.0 / 40.0
+5c hybrid cleaned + neighbors on k hits | 0.777 0.840 | 0.827 0.888 | turns 50.4 / 97.7
+5d hybrid cleaned + session-first | 0.597 0.657 | 0.616 0.677 | turns 20.0 / 40.0
+5e cleaned BM25 + neighbors capped at k | 0.684 0.748 | 0.742 0.805 | turns 20.0 / 40.0
+
+| variant | recall@20 all | frac@20 | recall@40 all | frac@40 | turns@20 | turns@40 |
+|---|---|---|---|---|---|---|
+| baseline BM25 | 0.597 | 0.653 | 0.648 | 0.705 | 20.0 | 40.0 |
+| 1a neighbors +-1 on k hits (more turns) | 0.712 | 0.773 | 0.767 | 0.827 | 49.5 | 95.8 |
+| 1b neighbors +-1, capped at k turns | 0.648 | 0.701 | 0.697 | 0.758 | 20.0 | 40.0 |
+| 2 session-first (2 sessions) | 0.583 | 0.632 | 0.661 | 0.711 | 20.0 | 40.0 |
+| 3 query cleaning + stemming | 0.643 | 0.704 | 0.704 | 0.765 | 20.0 | 40.0 |
+| 4a dense only | 0.603 | 0.663 | 0.694 | 0.762 | 20.0 | 40.0 |
+| 4b hybrid BM25+dense RRF | 0.635 | 0.698 | 0.695 | 0.761 | 20.0 | 40.0 |
+| 5a hybrid with cleaned BM25 | 0.673 | 0.735 | 0.733 | 0.797 | 20.0 | 40.0 |
+| 5b hybrid cleaned + neighbors capped at k | 0.686 | 0.748 | 0.749 | 0.813 | 20.0 | 40.0 |
+| 5c hybrid cleaned + neighbors on k hits | 0.777 | 0.840 | 0.827 | 0.888 | 50.4 | 97.7 |
+| 5d hybrid cleaned + session-first | 0.597 | 0.657 | 0.616 | 0.677 | 20.0 | 40.0 |
+| 5e cleaned BM25 + neighbors capped at k | 0.684 | 0.748 | 0.742 | 0.805 | 20.0 | 40.0 |
+
+matched-budget control
+baseline BM25 k=50 | 0.661 0.723 | turns 50.0
+baseline BM25 k=96 | 0.702 0.769 | turns 96.0
+5a hybrid cleaned k=50 | 0.753 0.816 | turns 50.0
+5a hybrid cleaned k=96 | 0.814 0.878 | turns 96.0
