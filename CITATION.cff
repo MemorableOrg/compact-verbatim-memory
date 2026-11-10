@@ -10,7 +10,7 @@ authors:
     affiliation: "Carnegie Mellon University; Memorable"
 date-released: 2026-11-09
 version: "2026-11-09"
-repository-code: "https://github.com/MemorableOrg/memory-without-a-writer"
+repository-code: "https://github.com/MemorableOrg/compact-verbatim-memory"
 license: MIT
 preferred-citation:
   type: article

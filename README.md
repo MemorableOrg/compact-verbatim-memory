@@ -42,8 +42,8 @@ Building the memory of one 1M-token conversation with Mem0's open-source release
 Python 3.12. The exact package versions of the run environment are in `requirements.txt`.
 
 ```bash
-git clone https://github.com/MemorableOrg/memory-without-a-writer.git
-cd memory-without-a-writer
+git clone https://github.com/MemorableOrg/compact-verbatim-memory.git
+cd compact-verbatim-memory
 python3.12 -m venv .venv && .venv/bin/pip install -r requirements.txt
 ```
 
