@@ -1,16 +1,0 @@
-Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 49647.07it/s]
-Loading weights:   0%|          | 0/105 [00:00<?, ?it/s]Loading weights: 100%|██████████| 105/105 [00:00<00:00, 15085.87it/s]
-Loading weights:   0%|          | 0/393 [00:00<?, ?it/s]Loading weights: 100%|██████████| 393/393 [00:00<00:00, 23905.23it/s]
-test conv-42: 199 questions, 72s
-test conv-43: 178 questions, 54s
-test conv-44: 123 questions, 50s
-test conv-47: 150 questions, 45s
-test conv-48: 191 questions, 76s
-test conv-49: 156 questions, 53s
-test conv-50: 158 questions, 56s
-test n=1152 all@10 76.0 all@20 81.3 all@40 86.1 all@60 88.6 all@100 91.3 all@150 93.8 all@200 95.1 all@300 97.2
-  cat1 n=208 @10 35.6 @20 46.6 @40 61.1 @60 68.8 @100 77.4 @150 85.1 @200 87.5 @300 93.8
-  cat2 n=230 @10 78.3 @20 82.6 @40 87.8 @60 90.0 @100 92.6 @150 93.9 @200 96.1 @300 97.4
-  cat3 n=73 @10 45.2 @20 56.2 @40 60.3 @60 65.8 @100 68.5 @150 76.7 @200 79.5 @300 86.3
-  cat4 n=641 @10 91.7 @20 95.0 @40 96.6 @60 97.2 @100 98.0 @150 98.6 @200 99.1 @300 99.5
-CASCADE_TEST_DONE

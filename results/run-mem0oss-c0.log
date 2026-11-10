@@ -1,0 +1,41 @@
+conversations [0]; questions 20; ingestion chunks (= extraction LLM calls) 855: 0:855
+rough estimate (not measured): ingestion $3.61 (855 calls x 10500 in / 800 out), answers $0.08 (20 x 12000 in / 600 out), cap $6.0
+W1108 17:34:04.006000 62606 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 23317.96it/s]
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 19959.98it/s]
+/Users/nikhilkrishnaswamy/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/mem0/vector_stores/qdrant.py:169: UserWarning: Payload indexes have no effect in the local Qdrant, except text indexes with `scoring`, which enable text queries. Please use server Qdrant if you need payload indexes.
+  self.client.create_payload_index(
+[0] 25/855 chunks, 200 memories, 251,381/86,370 tokens, conv $0.236, total $0.24
+[0] 50/855 chunks, 350 memories, 500,005/167,891 tokens, conv $0.461, total $0.46
+[0] 75/855 chunks, 480 memories, 747,963/239,768 tokens, conv $0.667, total $0.67
+[0] 100/855 chunks, 599 memories, 995,715/313,506 tokens, conv $0.876, total $0.88
+[0] 125/855 chunks, 714 memories, 1,244,466/391,359 tokens, conv $1.094, total $1.09
+[0] 150/855 chunks, 851 memories, 1,492,204/466,376 tokens, conv $1.306, total $1.31
+[0] 175/855 chunks, 977 memories, 1,740,471/540,970 tokens, conv $1.517, total $1.52
+[0] 200/855 chunks, 1108 memories, 1,990,224/619,665 tokens, conv $1.737, total $1.74
+[0] 225/855 chunks, 1260 memories, 2,245,066/700,235 tokens, conv $1.962, total $1.96
+[0] 250/855 chunks, 1399 memories, 2,492,874/777,198 tokens, conv $2.178, total $2.18
+[0] 275/855 chunks, 1518 memories, 2,740,158/851,091 tokens, conv $2.387, total $2.39
+[0] 300/855 chunks, 1704 memories, 2,995,909/945,804 tokens, conv $2.641, total $2.64
+[0] 325/855 chunks, 1868 memories, 3,243,881/1,026,774 tokens, conv $2.865, total $2.86
+[0] 350/855 chunks, 1970 memories, 3,494,256/1,103,903 tokens, conv $3.081, total $3.08
+[0] 375/855 chunks, 2092 memories, 3,753,710/1,178,490 tokens, conv $3.295, total $3.30
+[0] 400/855 chunks, 2202 memories, 4,002,117/1,246,444 tokens, conv $3.493, total $3.49
+[0] 425/855 chunks, 2344 memories, 4,270,962/1,328,647 tokens, conv $3.725, total $3.73
+[0] 450/855 chunks, 2488 memories, 4,522,794/1,415,652 tokens, conv $3.962, total $3.96
+[0] 475/855 chunks, 2652 memories, 4,777,676/1,501,312 tokens, conv $4.197, total $4.20
+[0] 500/855 chunks, 2779 memories, 5,024,542/1,575,412 tokens, conv $4.407, total $4.41
+[0] 525/855 chunks, 2932 memories, 5,273,854/1,656,967 tokens, conv $4.632, total $4.63
+[0] 550/855 chunks, 3069 memories, 5,524,568/1,735,920 tokens, conv $4.853, total $4.85
+[0] 575/855 chunks, 3222 memories, 5,778,293/1,816,710 tokens, conv $5.078, total $5.08
+[0] 600/855 chunks, 3361 memories, 6,027,017/1,897,760 tokens, conv $5.302, total $5.30
+[0] 625/855 chunks, 3499 memories, 6,277,051/1,965,596 tokens, conv $5.500, total $5.50
+[0] 650/855 chunks, 3634 memories, 6,523,516/2,039,596 tokens, conv $5.710, total $5.71
+[0] 675/855 chunks, 3752 memories, 6,776,533/2,119,631 tokens, conv $5.933, total $5.93
+[0] cost cap $6.0 reached, stopping
+
+wrote /Users/nikhilkrishnaswamy/Documents/memorable-paper-kickoff/proposal-v2/conv/results/beam-mem0oss-c0.json: 0 of 20 answers  (STOPPED ON COST CAP)
+ingestion: 683 LLM calls (0 failed), 6,854,553 in / 2,143,893 out tokens, 3788 memories, $6.001, call wall 15575s
+answers:   0 LLM calls, 0 in / 0 out tokens, $0.000
+total $6.001; cost sidecar /Users/nikhilkrishnaswamy/Documents/memorable-paper-kickoff/proposal-v2/conv/results/beam-mem0oss-c0.cost.json
+MEM0_OSS_BEAM_DONE

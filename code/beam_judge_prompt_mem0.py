@@ -1,5 +1,5 @@
 """Mem0's BEAM nugget judge prompt, copied verbatim from github.com/mem0ai/memory-benchmarks benchmarks/beam/prompts.py (local clone
-~/memory-benchmarks). Used only to judge our BEAM answers the way Mem0 judged its own (gpt-5, 0/0.5/1 per nugget)."""
+~/Documents/fm-data/beam-repos/mem0mb). Used only to judge our BEAM answers the way Mem0 judged its own (gpt-5, 0/0.5/1 per nugget)."""
 
 BEAM_JUDGE_SYSTEM_PROMPT = (
     "You are an expert evaluator assessing whether an AI assistant's response satisfies "

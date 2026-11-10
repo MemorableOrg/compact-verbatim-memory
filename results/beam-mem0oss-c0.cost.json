@@ -1,0 +1,56 @@
+{
+ "system": "mem0-oss 2.0.0",
+ "llm_model": "gpt-5-mini",
+ "answer_model": "gpt-5-mini",
+ "fake_llm": false,
+ "prices_usd_per_m_tokens": {
+  "gpt-5-mini": [
+   0.25,
+   2.0
+  ]
+ },
+ "total": {
+  "ingest": {
+   "calls": 683,
+   "failed_calls": 0,
+   "prompt_tokens": 6854553,
+   "completion_tokens": 2143893,
+   "wall_s": 15575.395514965057,
+   "usd": 6.001424249999997,
+   "chunks_done": 683,
+   "memories_added": 3788
+  },
+  "answer": {
+   "calls": 0,
+   "failed_calls": 0,
+   "prompt_tokens": 0,
+   "completion_tokens": 0,
+   "wall_s": 0.0,
+   "usd": 0.0
+  }
+ },
+ "total_usd": 6.001424249999997,
+ "per_conversation": {
+  "0": {
+   "ingest": {
+    "calls": 683,
+    "failed_calls": 0,
+    "prompt_tokens": 6854553,
+    "completion_tokens": 2143893,
+    "wall_s": 15575.395514965057,
+    "usd": 6.001424249999997,
+    "chunks_done": 683,
+    "memories_added": 3788
+   },
+   "answer": {
+    "calls": 0,
+    "failed_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "wall_s": 0.0,
+    "usd": 0.0
+   },
+   "wall_s_total": 0.0
+  }
+ }
+}

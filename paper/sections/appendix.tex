@@ -1,11 +1,11 @@
-\section{Predictions}
+\section{Registered predictions}
 \label{app:predictions}
 
-Every run was registered before it started, with numbered predictions, and Table~\ref{tab:predictions} lists each one and whether it held. Ten missed: three scores landed above the registered range, five below it, one answer-model cost ran over its cap and one judge spread exceeded its bound. Eight registered on 2026-10-30 were never run, because the model budget ran out first; the one-judge re-scoring registered that evening ran once Anthropic credits arrived.
+We registered a numbered prediction before every run except the first 1M run of base retrieval, whose score set the stopping rule for the full run; the predictions sit in a dated ledger file that we release with the code. Development runs use a gpt-5-mini reader and BEAM's judge (gpt-4.1-mini); n is 200 questions per tier unless stated.
 
 {\small
-\begin{longtable}{@{}L{42mm}L{54mm}L{30mm}L{24mm}@{}}
-\caption{Registered predictions. Held means the measured value fell inside the registered range or met the registered comparison.}\label{tab:predictions}\\
+\begin{longtable}{@{}L{40mm}L{56mm}L{30mm}L{24mm}@{}}
+\caption{Registered predictions and outcomes.}\label{tab:predictions}\\
 \toprule
 Run & Prediction & Measured & Outcome \\
 \midrule
@@ -16,224 +16,153 @@ Run & Prediction & Measured & Outcome \\
 \endhead
 \bottomrule
 \endfoot
-LoCoMo, BM25, 20 turns & 70 to 82 & 82.3 & missed by 0.3, high \\
-BM25, 40 turns & at least 2 points over 20 turns & +3.5 & held \\
-tuned retriever recall & all-gold recall at 20 turns at least 0.70 & 0.685 & missed \\
-tuned retriever accuracy & at least 87 & 91.1 & held \\
-full context & at least any retrieval pass; at least 10 times the cost & 95.7; 14 times & held \\
-5r against 5a, Sonnet & at least 1.5 points & +1.8 & held \\
-\midrule
-adaptive cut, ranker with graph & test accuracy within 1.0 of 5r (94.9) & 94.8 & held \\
-& mean turns read at most 16 & 12.9 & held \\
-& second pass for at most 25 of 100 questions & 9.7 of 100 & held \\
-& cost at or below 5r (\$10.80) & \$4.93 & held \\
-adaptive cut, graph-free ranker & test accuracy within 1.0 of 94.8 & 94.5 & held \\
-& mean turns within 1.0 of 12.9 & 13.2 & held \\
-& all-gold recall at 10 on test within 1.5 of 74.7 & 72.7 & missed by 0.5 \\
-\midrule
-\lmes{}, 5a (registered for GPT-6 Sol, run with Sonnet) & 76 to 88 & 90.0 & missed, high \\
-& above full context gpt-4o and Zep & 90.0 against 60.6 and 71.2 & held \\
-& answer model under \$10 & \$13.23 & missed \\
-\midrule
-Proced-Mem, bge-m3 & 0.92 to 0.97 & 0.920 & held, at floor \\
-& judge passes differ by under 0.02 & 0.024 & missed \\
-\midrule
-\multicolumn{4}{l}{\emph{Registered 2026-10-30 (Addenda 35, 36 and 39)}} \\
-LoCoMo, v2 search, 150 turns, grouped dates, test & recall at 150 between 92 and 94.5, multi-hop 83 to 89 & 94.4; 86.1 & held \\
-LoCoMo, v2 search, 40 turns, test & recall at 40 between 83 and 86 & 86.3 & missed by 0.3, high \\
-LoCoMo, cascade rerank, test & recall at 40 within 0.5 of 86.3; at 150 within 0.5 of 94.4 & 86.1; 93.8 & held; missed by 0.1, low \\
-LoCoMo, GPT-5, 40 turns, 933 test questions left & test accuracy 88 to 90.5 & -- & not run \\
-LoCoMo, v2 search, 150 turns, grouped dates, GPT-5 reader & accuracy 90.0 to 92.5; multi-hop 85 to 91 & -- & not run \\
-LoCoMo, Mem0's answers under the 2025 judge & 93.5 to 96.0 & -- & not run \\
-\lmes{}, GPT-5, 100 turns, 81 test questions left & test 93 to 95 on 400 & -- & not run \\
-\lmes{}, local reranker and user-turn rule, 60 turns & dev 92 to 95; test 93 to 95.5 & -- & not run \\
-BEAM 1M, Mem0's answers under BEAM's judge & pass rate 62 to 72 & -- & not run \\
-BEAM 1M, our answers under Mem0's judge & pass rate 66 to 76; ordering holds under both judges & -- & not run \\
-LoCoMo and \lmes{}, Sonnet 5.5 reader, Mem0's prompts, GPT-5 judge & 150-turn LoCoMo arm 92 to 94.5 on test & -- & not run \\
-\midrule
-\multicolumn{4}{l}{\emph{Registered 2026-10-30, one judge for both systems (Addendum 41): Claude Sonnet 5.5 re-scores existing answers}} \\
-LoCoMo, our 607 answers & 88 to 93; Mem0 within 2.0 on the same questions & 90.1; Mem0 90.0 & held \\
-LoCoMo, Mem0's 1,540 answers & 89 to 93 & 91.3 & held \\
-\lmes{}, both systems & ours 91 to 95; Mem0 91 to 95; gap under 2.5 & -- & not run: Mem0's file holds verdicts, not answers \\
-BEAM 1M, both systems & ours 66 to 76; Mem0 64 to 74; gap under 4 & 61.3; 63.9; gap 2.6 & missed, low; missed, low; gap held \\
-agreement of the one judge with the original judge on our answers & at least 90 percent on LoCoMo and \lmes{} & LoCoMo 99.0 and 98.6; \lmes{} 90.0 and 93.1 & held \\
+500K dev, base retrieval & pass 65 to 70 & 71.5 & missed by 1.5, high \\
+500K dev, + planner & +3 to +6 overall; multi-session +10 or more; abstention down by at most 5 & +7.7 on the 168 questions both runs answered; multi-session 58.8 to 82.4; abstention 64.7 to 82.4 & missed by 1.7, high; held; held \\
+500K dev, + compaction & within 2 of planner alone & $-$1.8 on the 168 shared questions; abstention 82.4 to 70.6 (two questions); reader tokens 23.7K to 19.2K & held \\
+500K dev, 8-bit vectors, retrieval only & all-gold recall within 2 points of float32 & 46.1 to 45.7 at 20 turns, 56.1 to 55.8 at 60 & held \\
+500K dev, + reader rules, then + session cap & rules +1 to +3 over planner and compaction, abstention down by at most 5; session cap another 0 to +2, multi-session up & on the 168 shared questions: rules +1.2 (76.8 to 78.0), abstention 70.6 to 70.6; cap +1.8 (78.0 to 79.8), multi-session 82.4 to 100.0 & held; held; held; held \\
+100K replication, base retrieval and full & base retrieval 72 to 78; full +4 to +8; multi-session +10 or more; abstention down by at most 5 & 77.0; +2.5; +10.0; $-$10.0 & held; missed, low; held; missed \\
+Both tiers, date rule (final version) & 100K temporal 65 or more; 100K overall 80 or more; 500K (200 questions) within 3 of 79.2; 500K temporal (200 questions) within 5 of 73; update and contradiction within 5 & 60.0; 80.5; 79.0; 65.0; pooled $-$5.0 and +2.5 & missed by one question; held; held; missed by 3.0; held \\
+1M (700 questions), base retrieval, GPT-5, one judge & score unpredicted; the result set the stopping rule for the full run: run it only if base plus half the development gain reached Mem0 + 4 (67.9) & 64.7, gap +0.9 [$-$3.0, +4.4]; forecast 69.3 with the 500K gain, 67.5 with the pooled gain after the temporal fix & rule passed, then 0.4 short after the fix; the full run went ahead \\
+1M (700 questions), full method, GPT-5 & one judge 68 or more; BEAM judge 78 or more; multi-session 65 or more; event ordering 45 or more; abstention within 5 of 57.1; cost under \$40; store under 1.5~MB per conversation & 67.3; 73.9; 70.0; 54.3; 60.0; \$34.82 metered plus about \$0.16 for 42 questions before a restart; 1.77~MB & missed, low; missed, low; held; held; held; held; missed, high \\
+10M, full method, GPT-5, one judge (n=200) & Mem0 40 to 50; Memorable 48 to 60; Memorable ahead by 5 or more; contradiction 40 or more against Mem0 under 20; multi-session within 10 of Mem0; run cost under \$20; judge cost under \$16 for both files; embedding under 90 minutes; store under 10~MB per conversation & 46.5; 56.0; +9.5; 60.0 against 10.0; 25.0 against 30.0; \$10.21; \$10.45; 35 minutes; 16.7~MB & held; held; held; held; held; held; held; held; missed \\
 \end{longtable}}
 
-\section{Retrieval}
-\label{app:retrieval}
-
-The tables below give every retrieval system we ran on the frozen splits, so that the rows in the body can be checked against the baselines they beat, and the labels ``z 0.4'' and ``RRF'' name the fusion rule, z-score fusion at BM25 weight 0.4 or reciprocal rank fusion.
+\section{Result tables}
+\label{app:tables}
 
 \begin{table}[H]
-\centering
+\caption{BEAM-1M pass rate by ability under one judge (Claude Sonnet 5.5, BEAM's rubric prompt), 70 questions per ability. Mem0 is its Platform v3 run with GPT-5; both of ours use GPT-5. Base retrieval is the search path before the planner, compaction and 8-bit vectors are added. Bold marks the best of the three.}
+\label{tab:beam}
 \small
-\setlength{\tabcolsep}{2.6pt}
-\begin{tabular}{lcccc}
-\toprule
-& A & \multicolumn{2}{c}{B} & \\
-\cmidrule(lr){2-2}\cmidrule(lr){3-4}
-System & @5 $\uparrow$ & @3 $\uparrow$ & @10 $\uparrow$ & Pooled $\uparrow$ \\
-\midrule
-BM25, official script & 75.5 & 69.8 & 84.0 & 76.4 \\
-BM25, stemmed & 88.1 & 78.9 & 92.1 & 86.4 \\
-MiniLM, max chunk & 86.4 & 76.1 & 94.6 & 85.7 \\
-bge-base, max chunk & 93.4 & 83.1 & \textbf{97.9} & 91.4 \\
-Contriever (re-impl.) & 92.1 & -- & -- & -- \\
-EdgeMem-style (re-impl.) & 85.1 & 81.0 & 91.8 & 86.0 \\
-Hybrid MiniLM, z 0.4 & 91.7 & 81.6 & 96.7 & 90.0 \\
-Hybrid bge, RRF & 93.0 & 81.9 & 96.1 & 90.3 \\
-Flat fusion (bge, z 0.4) & \underline{95.0} & \underline{84.3} & 96.7 & 92.0 \\
-\midrule
-Ours & \textbf{95.4} & \underline{84.3} & 97.3 & \underline{92.3} \\
-Ours + MiniLM rerank & \underline{95.0} & \textbf{87.3} & \underline{97.6} & \textbf{93.3} \\
-\bottomrule
-\end{tabular}
-\caption{All systems we ran on the \lmes{} test split, session level, \rall{k}. Track A has $n{=}302$ and scores user turns against the official gold labels. Track B has $n{=}331$. Pooled is the mean of the three columns. Here and in Table~\ref{tab:locomoret}, the best value in each column is bold and the second best underlined.}
-\label{tab:lmeall}
-\end{table}
-
-\begin{table}[H]
 \centering
-\small
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{lcccc}
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{@{}lrrr@{}}
 \toprule
-& \multicolumn{3}{c}{A} & B \\
-\cmidrule(lr){2-4}\cmidrule(lr){5-5}
-System & @5 $\uparrow$ & @10 $\uparrow$ & @50 $\uparrow$ & @10 $\uparrow$ \\
+Ability & Mem0 & Base retrieval & Memorable \\
 \midrule
-BM25, official script & 50.0 & 59.9 & 77.5 & 54.4 \\
-BM25, stemmed & 64.9 & 75.2 & 91.1 & 70.7 \\
-bge-base, max chunk & 71.9 & 83.8 & 97.7 & 74.0 \\
-Contriever (re-impl.) & 66.9 & 83.1 & 96.7 & -- \\
-EdgeMem-style (re-impl.) & 62.6 & 73.2 & 94.7 & 61.0 \\
-Flat fusion (bge, z 0.4) & \textbf{72.8} & \textbf{87.1} & \textbf{99.0} & \textbf{80.1} \\
+Abstention & 55.7 & 57.1 & \ours{60.0} \\
+Contradiction resolution & 7.1 & \ours{65.7} & 58.6 \\
+Event ordering & 51.4 & 34.3 & \ours{54.3} \\
+Information extraction & 74.3 & 78.6 & \ours{80.0} \\
+Instruction following & 85.7 & \ours{87.1} & 85.7 \\
+Knowledge update & \ours{65.7} & 62.9 & 52.9 \\
+Multi-session reasoning & \ours{75.7} & 55.7 & 70.0 \\
+Preference following & \ours{97.1} & 91.4 & 94.3 \\
+Summarization & \ours{57.1} & 50.0 & 54.3 \\
+Temporal reasoning & \ours{68.6} & 64.3 & 62.9 \\
+\midrule
+All 700 & 63.9 & 64.7 & 67.3 \\
 \bottomrule
 \end{tabular}
-\caption{\lmes{} turn-level \rall{k} on the test split, Track A $n{=}302$ and Track B $n{=}331$. No published row exists for turn level on S. The flat fusion is the frozen turn-level system; on development it scored 74.4, 83.8 and 97.4 on Track A, and no turn-level variant scored above it.}
-\label{tab:lmeturn}
 \end{table}
 
 \begin{table}[H]
-\caption{\lmes{} retrieval on the frozen split, test questions read once. The test split has 400 questions, and 375 are scored after dropping abstention questions. Session metrics are derived from the turn ranking. R$_{\mathrm{any}}$ counts a question when at least one gold item is in the top $k$; R$_{\mathrm{all}}$ when every gold item is. 5r was picked on the 95 scored development questions by turn-level R$_{\mathrm{all}}$@5.}
-\label{tab:lme-retrieval}
-\scriptsize
-\setlength{\tabcolsep}{2pt}
+\caption{Building and storing the memory of one BEAM-1M conversation (1,710 turns, 4.25M characters). Mem0 OSS 2.0.0 with gpt-5-mini as extractor, measured over 80\% of the conversation and scaled.}
+\label{tab:build}
+\small
 \centering
-{\begin{tabular}{@{}lccccc|ccccc@{}}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}lrrrrr@{}}
 \toprule
-& \multicolumn{5}{c|}{session level} & \multicolumn{5}{c}{turn level} \\
-Retriever & R$_{\mathrm{any}}$@5 & R$_{\mathrm{all}}$@5 & R$_{\mathrm{any}}$@10 & R$_{\mathrm{all}}$@10 & NDCG@10 & R$_{\mathrm{any}}$@5 & R$_{\mathrm{all}}$@5 & R$_{\mathrm{any}}$@10 & R$_{\mathrm{all}}$@10 & NDCG@10 \\
+ & Model calls & Tokens in / out & Cost & Time & Store \\
 \midrule
-BM25 (bm25s) & 84.0 & 68.3 & 90.4 & 76.5 & 65.6 & 78.4 & 55.2 & 85.6 & 68.8 & 64.1 \\
-bge-small, dense & 92.3 & 76.3 & 95.7 & 89.3 & 64.9 & 81.9 & 53.3 & 90.1 & 72.3 & 61.9 \\
-z-score fusion, 0.4 BM25 + 0.6 dense & 93.6 & 80.0 & 97.9 & 89.9 & 73.2 & 86.9 & 63.2 & 92.8 & 78.7 & 71.0 \\
-5a, RRF & 95.5 & 81.6 & 97.9 & 92.3 & 72.2 & 87.7 & 61.1 & 94.7 & 80.5 & 70.5 \\
-5r, 5a + reranker & \ours{97.6} & \ours{87.2} & \ours{99.2} & \ours{95.5} & \ours{80.9} & \ours{93.1} & \ours{73.6} & \ours{96.0} & \ours{85.1} & \ours{79.1} \\
-\bottomrule
-\end{tabular}}
-\end{table}
-
-\begin{table}[H]
-\caption{LoCoMo retrieval on the frozen split. Development: conversations 26, 30 and 41 (383 questions). Test: the other seven (1,153), read once. The pick rule, fixed first, was R$_{\mathrm{all}}$@5 on development, which 5r won.}
-\label{tab:locomo-retrieval}
-\small
-\begin{tabular}{@{}lcc|cccc@{}}
-\toprule
-& \multicolumn{2}{c|}{development} & \multicolumn{4}{c}{test} \\
-Retriever & Hit@1 & R$_{\mathrm{all}}$@5 & Hit@1 & R$_{\mathrm{all}}$@5 & R$_{\mathrm{all}}$@10 & R$_{\mathrm{all}}$@40 \\
-\midrule
-BM25 & 0.329 & 0.493 & 0.337 & 0.469 & 0.532 & 0.645 \\
-cleaned, stemmed BM25 & 0.397 & 0.517 & -- & -- & -- & -- \\
-bge-small, dense & 0.295 & 0.488 & -- & -- & -- & -- \\
-5a, RRF & 0.373 & 0.530 & -- & -- & -- & -- \\
-z-score fusion, best weight 0.4 & 0.420 & 0.574 & -- & -- & -- & -- \\
-5r, 5a + reranker & \ours{0.470} & \ours{0.616} & \ours{0.474} & \ours{0.595} & \ours{0.668} & \ours{0.781} \\
+Memorable & 0 & 0 / 0 & \$0 & about 30 s & 1.47~MB \\
+Mem0, measured 80\% & 683 & 6.85M / 2.14M & \$6.00 & 260 min & 64~MB \\
+Mem0, whole conversation & about 855 & 8.6M / 2.7M & about \$7.50 & about 5.4 h & about 80~MB \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[H]
+\caption{BEAM-10M pass rate by ability, 20 questions per ability over ten conversations. One judge: Claude Sonnet 5.5 on both systems. Own judges: Mem0's GPT-5 judge on its file; BEAM's judge (gpt-4.1-mini) in our run loop.}
+\label{tab:beam10m}
+\small
 \centering
-\small
-\begin{tabular}{lcccccccc}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}lrrrr@{}}
 \toprule
-& \multicolumn{4}{c}{Text only} & \multicolumn{4}{c}{Text plus image caption} \\
-\cmidrule(lr){2-5}\cmidrule(lr){6-9}
-System & @5 $\uparrow$ & @10 $\uparrow$ & @25 $\uparrow$ & @50 $\uparrow$ & @5 $\uparrow$ & @10 $\uparrow$ & @25 $\uparrow$ & @50 $\uparrow$ \\
+ & \multicolumn{2}{c}{One judge} & \multicolumn{2}{c}{Own judges} \\
+Ability & Mem0 & Memorable & Mem0 & Memorable \\
 \midrule
-BM25, official script & 29.7 & 36.6 & 46.9 & 53.6 & 28.9 & 37.0 & 47.3 & 55.2 \\
-BM25, stemmed & 45.9 & 54.8 & 63.9 & 70.7 & 45.6 & 54.2 & 64.8 & 71.3 \\
-bge-base, max chunk & 46.7 & 55.8 & 69.4 & 79.8 & 44.3 & 53.1 & 67.5 & 77.9 \\
-EdgeMem-style (re-impl.) & 50.2 & 62.9 & 74.5 & 79.2 & 49.3 & 62.4 & 74.7 & 79.7 \\
-Flat fusion (bge, z 0.4) & 55.0 & 64.0 & 73.9 & 80.9 & 53.9 & 63.5 & 74.2 & 81.4 \\
-\quad + forward contiguity & 59.4 & 68.5 & 77.6 & 83.5 & 58.1 & 67.7 & 77.4 & 84.0 \\
-Ranker with graph, no cross-encoders & 67.5 & 75.4 & 84.1 & \underline{88.9} & 66.6 & 74.8 & 84.4 & \underline{89.2} \\
-First-round chain & 70.9 & 77.6 & \underline{85.0} & \underline{88.9} & 70.7 & 77.4 & 85.3 & \underline{89.2} \\
-Graph-free ranker & \underline{74.0} & \underline{80.3} & \underline{85.0} & 88.5 & \underline{74.9} & \underline{79.7} & \underline{85.6} & 88.7 \\
+Abstention & 40.0 & 50.0 & 40.0 & 85.0 \\
+Contradiction resolution & 10.0 & 60.0 & 25.0 & 55.0 \\
+Event ordering & 15.0 & 20.0 & 15.0 & 35.0 \\
+Information extraction & 55.0 & 60.0 & 55.0 & 60.0 \\
+Instruction following & 90.0 & 90.0 & 90.0 & 95.0 \\
+Knowledge update & 80.0 & 80.0 & 80.0 & 80.0 \\
+Multi-session reasoning & 30.0 & 25.0 & 30.0 & 40.0 \\
+Preference following & 90.0 & 75.0 & 95.0 & 85.0 \\
+Summarization & 35.0 & 50.0 & 55.0 & 85.0 \\
+Temporal reasoning & 20.0 & 50.0 & 20.0 & 45.0 \\
 \midrule
-Ranker with graph & \textbf{75.9} & \textbf{81.5} & \textbf{86.8} & \textbf{90.1} & \textbf{75.8} & \textbf{81.4} & \textbf{87.0} & \textbf{90.3} \\
+All 200 & 46.5 & 56.0 & 50.5 & 66.5 \\
 \bottomrule
 \end{tabular}
-\caption{Turn retrieval on LoCoMo test conversations 3 to 9 (1,152 questions): mean share of gold turns in the first $k$. The ranker with graph is the frozen configuration with the entity graph, the entity field and backward contiguity. The graph-free ranker is the store of Section~\ref{sec:turns}. The first-round chain reranks the top 50 turns with MiniLM alone. The other two rerank the top 100 with both cross-encoders. All rows are our own runs through one scorer. No published row is measured the same way.}
-\label{tab:locomoret}
 \end{table}
 
+\section{BEAM under each system's own judge}
+\label{app:ownjudge}
+
+Table~\ref{tab:ownjudge} gives the pass rates from each system's own judge: BEAM's judge (gpt-4.1-mini under BEAM's rubric prompt) for our runs, and Mem0's own judge (GPT-5) for its published file. Mem0's answers score 70.1 under that judge and 63.9 under ours, which is why the body of the paper uses one judge. We also ran Mem0's published answers through BEAM's judge, which scores them 72.9; under that judge Mem0, base retrieval and Memorable sit at 72.9, 72.1 and 73.9. On contradiction resolution Mem0's answers score 48.6 under its own judge, 15.7 under BEAM's judge and 7.1 under ours. The gap to our 58.6 under the one judge and 42.9 under BEAM's judge holds under both judges that scored both systems, and its size varies with the judge.
+
 \begin{table}[H]
+\caption{BEAM-1M pass rate by ability under each system's own judge, with Mem0's answers also scored by BEAM's judge.}
+\label{tab:ownjudge}
+\small
 \centering
-\small
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{llr}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}lrrrr@{}}
 \toprule
-Change & Metric & $\Delta$ \\
+ & Mem0 & Mem0 & Base retrieval & Memorable \\
+Ability & own judge & BEAM judge & BEAM judge & BEAM judge \\
 \midrule
-\multicolumn{3}{l}{\emph{\lmes{} development}} \\
-Contiguity, turn level & A turn@5 & $-$16.2 [$-$23.9, $-$9.4] \\
-PPR at weight 0.1 & pooled & $-$0.05 [$-$1.06, +0.96] \\
-Entity, fact, date terms & pooled & 0 to $-$0.81 \\
+Abstention & 55.7 & 80.0 & 84.3 & 88.6 \\
+Contradiction resolution & 48.6 & 15.7 & 64.3 & 42.9 \\
+Event ordering & 60.0 & 74.3 & 62.9 & 65.7 \\
+Information extraction & 75.7 & 72.9 & 75.7 & 74.3 \\
+Instruction following & 88.6 & 90.0 & 88.6 & 84.3 \\
+Knowledge update & 65.7 & 64.3 & 62.9 & 60.0 \\
+Multi-session reasoning & 74.3 & 80.0 & 52.9 & 80.0 \\
+Preference following & 97.1 & 98.6 & 95.7 & 97.1 \\
+Summarization & 68.6 & 91.4 & 72.9 & 88.6 \\
+Temporal reasoning & 67.1 & 61.4 & 61.4 & 57.1 \\
 \midrule
-\multicolumn{3}{l}{\emph{LoCoMo development, flat fusion}} \\
-BM25 weight 0.4 to 0.25 & recall@10 & +2.1 [$-$0.3, +4.4] \\
-\midrule
-\multicolumn{3}{l}{\emph{LoCoMo development, removed from the ranker with graph}} \\
-Both cross-encoders & recall@10 & $-$6.8 \\
-Contiguity (fwd., bwd.) & recall@10 & $-$1.9 \\
-Speaker prior & recall@10 & $-$0.9 \\
-PPR, entity field, bwd. & recall@10 & $-$0.7 \\
-MiniLM cross-encoder & recall@10 & $-$0.4 \\
-PPR alone & recall@10 & +0.1 \\
-\bottomrule
-\end{tabular}
-\caption{Experiments run on development only. \lmes{} rows change the system named in each row; pooled is the development objective, the mean of Track A \rall{5} and Track B \rall{3} and \rall{10}. The last block removes components from the frozen LoCoMo system on the three development conversations; with three clusters we give no intervals. PPR is personalized PageRank.}
-\label{tab:dev}
-\end{table}
-
-On the LoCoMo test conversations, recall of every gold turn at 5 by category moves from 0.038 to 0.135 on multi-hop, 0.528 to 0.654 on temporal, 0.164 to 0.274 on open-domain and 0.622 to 0.760 on single-hop, between BM25 and the ranker with the two cross-encoders, and multi-hop is the lowest category.
-
-\section{Costs}
-\label{app:costs}
-
-Every dollar spent in this paper went to a reader or a judge, since building the store makes no generative write call, and Table~\ref{tab:costs} gives each answer run's cost at list prices.
-
-\begin{table}[H]
-\caption{Token-priced cost of each answer run, at list prices. Judge tokens are not included, except in the last row, which is a judge-only run.}
-\label{tab:costs}
-\footnotesize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}L{40mm}lr@{}}
-\toprule
-Run & Model & Cost \\
-\midrule
-LoCoMo, BM25 20 turns, 1,540 questions & GPT-6 Sol & \$4.16 \\
-LoCoMo, BM25 40 turns & GPT-6 Sol & \$7.63 \\
-LoCoMo, 5a & GPT-6 Sol & \$7.42 \\
-LoCoMo, whole conversation in the prompt & GPT-6 Sol & \$105.81 \\
-LoCoMo, 5a & Sonnet 5.5 & \$10.51 \\
-LoCoMo, 5r & Sonnet 5.5 & \$10.80 \\
-\lmes{}, 5a, 500 questions & Sonnet 5.5 & \$13.23 \\
-Proced-Mem, three judge passes & gpt-5 judge & about \$2 \\
-LoCoMo, BEAM and \lmes{} answers of both systems re-judged by one judge & Claude Sonnet 5.5 & about \$49, from token counts \\
+All 700 & 70.1 & 72.9 & 72.1 & 73.9 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
+The contradiction-resolution drop in the full method, 64.3 to 42.9 under BEAM's judge, we checked question by question: 18 questions base retrieval passed and the full method failed, 3 the other way. Nine of the 18 lost a gold turn from the read set; the other nine kept the gold turns and the reader wrote a dated timeline or resolved to the latest statement and left the conflict unnamed. Only two base-retrieval answers and one full-method answer used the word ``contradict'' or ``conflict'' at all. A judge output that lacks a score counts as 0. The judging of our 10M answers logged two such outputs among the 200 questions' rubric items, both on event-ordering questions that fail with or without them; Mem0's 10M file and the 1M files were judged before the script logged them.
+
+\section{Reader rules and planner prompt}
+\label{app:rules}
+
+The reader prompt lists the retrieved turns, each as one line with its date and speaker, then the question, then these rules, verbatim:
+
+\begin{quote}\small
+Rules: use only the excerpts. Combine and cross-reference every relevant excerpt. If excerpts contradict, prefer the most recent one and mention the change. Keep exact names, numbers and dates. Follow any standing instruction or preference the user gave in the excerpts. For ordering questions list the items in chronological order, one per line. For time questions use the dates shown. For counts, first list every instance with its date, then give the number. Resolve relative times (``two weeks later'', ``the day before'') against the dates shown and state the resulting date. If the user stated a rule or preference more than once, the latest statement wins; ignore rules the user later withdrew. When listing events, merge repeated mentions of the same event. For summaries, cover each phase of the topic in date order. Only when the question itself asks for the current, latest or present value, answer with the most recent value and mention the earlier value as history. For the time between two named events, use the dates given where those events are stated, show both dates and the arithmetic, and note any later change to a date in one short clause. If the excerpts mention the topic but not the specific detail asked for, say that the conversation does not include that detail; never fill in details that are not written in the excerpts.
+\end{quote}
+
+The planner prompt:
+
+\begin{quote}\small
+You plan searches over a long chat history between a user and an assistant. Given the user's question, reply with JSON only: \{``type'': one of ``lookup'' (one fact), ``aggregate'' (combine facts spread over many sessions, counts, lists, comparisons), ``order'' (sequence or timeline of events), ``summary'' (summarize a topic), ``queries'': 2 to 4 short search queries that together cover every part of the question, using the words the conversation would likely use\}.
+\end{quote}
+
+\section{Compaction rules}
+\label{app:compaction}
+
+Markdown removed: heading marks (\texttt{\#} at line start), emphasis stars and underscores, horizontal rules, table separator rows and code-fence lines; table pipes become a spaced bar. The filler rule applies to user and assistant turns; the repeat rule to assistant turns only. Filler sentences removed when the whole sentence matches: ``Great/Good/Excellent question/point/idea'', ``Sure/Absolutely/Of course/Certainly'', ``I hope this helps'', ``Feel free to ...'', ``Let me know if ...'', ``Happy to help'', ``Thanks for sharing/asking/the update'', ``Good luck'', ``Is there anything else ...'', ``Would you like me to ...?''. Repeated assistant sentences: an assistant sentence over 40 characters whose lower-cased, punctuation-stripped form has appeared earlier in the same conversation is dropped; the first occurrence is kept. On the first 1M conversation the most frequent removals, across the filler and repeat rules, were ``Certainly!'' (388 times) and ``If you have any further questions or need additional assistance, feel free to ask!'' (127 times).
+
+If the rules empty a turn, its first 200 original characters are kept. The rules have failure cases we know of: the emphasis rule removes every pair of stars, so an expression such as \texttt{x**2} loses its operator, and the filler rule matches by sentence shape, so ``Let me know if deployment fails at 17:00.'' is removed although it carries a time. On the first 1M conversation we inspected the removed sentences by frequency: the frequent ones are pleasantries and repeated closings, and we have not read every removed sentence.
+
+\section{8-bit vectors against float vectors}
+\label{app:int8}
+
+We ran the search of Section~\ref{sec:search} with the planner and the standing pool switched off, on the 269 development questions of the 500K tier that have gold turns, with compaction on, once with bge-small vectors stored as float32 and once as 8-bit integers (Equation~\ref{eq:quant}), and measured how often the gold turns reach the read set. With float32, every gold turn is in the top 20 for 46.1\% of questions and in the top 60 for 56.1\%, and the share of gold turns found is 56.2\% at 20 and 68.0\% at 60. With 8-bit vectors the four numbers are 45.7\%, 55.8\%, 55.8\% and 67.7\%. One ability moves, by one question each time: information extraction at top 20 falls from 66.7\% to 63.3\% and at top 60 from 83.3\% to 80.0\%; the other eight abilities are unchanged at both cutoffs. Reader input at 60 turns is 26,750 tokens with float32 and 26,769 with 8-bit vectors. An earlier sweep whose settings we did not record gave 48.3\% against 48.0\% at 20 and 59.1\% against 58.7\% at 60; we report the rerun, whose per-question rows we release.
+
+\section{Mem0 build measurement}
+\label{app:mem0build}
+
+We ran mem0ai 2.0.0 with its default extraction prompt, gpt-5-mini as the extraction model through an Azure OpenAI endpoint, a local Qdrant vector store and bge-small-en-v1.5 as the embedder. We fed it the first BEAM-1M conversation in Mem0's own batches of two turns and logged every model call. After 683 batches of 855 the metered cost reached \$6.00 and we stopped the run: 6,854,553 input and 2,143,893 output tokens, 3,788 memory entries of 242 characters on average (0.92~MB of text, 5.8~MB of float vectors), 64~MB on disk including Qdrant's index and the change-log database, 260 minutes of wall time at one worker. The figures in the body scale these by 855/683. Between 2.0.0 and the current 2.2.1 Mem0's extraction prompt is unchanged and its add path gains only warnings, input checks and one bug fix, so the measurement applies to the current release.

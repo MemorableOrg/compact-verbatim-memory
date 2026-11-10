@@ -11,12 +11,16 @@ from openai import OpenAI, AzureOpenAI
 
 _dep = dict(p.split("=", 1) for p in os.environ.get("AZURE_OPENAI_DEPLOYMENTS", "").split(",") if "=" in p)
 AZURE = bool(os.environ.get("AZURE_OPENAI_API_KEY"))
+ROUTER = os.environ.get("USE_OPENROUTER") == "1"
 
 def client():
     if AZURE:
         return AzureOpenAI(api_key=os.environ["AZURE_OPENAI_API_KEY"], azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
                            api_version=os.environ.get("AZURE_OPENAI_API_VERSION", "2024-12-01-preview"))
+    if ROUTER:
+        return OpenAI(api_key=os.environ["OPENROUTER_API_KEY"], base_url="https://openrouter.ai/api/v1")
     return OpenAI()
 
 def dep(model):
+    if ROUTER: return model if "/" in model else f"openai/{model}"
     return _dep.get(model, model)

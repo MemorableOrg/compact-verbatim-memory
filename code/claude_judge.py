@@ -3,7 +3,7 @@
 
     .venv/bin/python claude_judge.py locomo results/20261029-181313.jsonl results/20261029-183439.jsonl results/mem0-current-locomo-rows.jsonl
     .venv/bin/python claude_judge.py beam ours results/beam-20261029-171606-full-1M-gpt5.jsonl
-    .venv/bin/python claude_judge.py beam mem0 ~/memory-benchmarks/results/platform/beam_1m_results.json
+    .venv/bin/python claude_judge.py beam mem0 ~/Documents/fm-data/beam-repos/mem0mb/results/platform/beam_1m_results.json
     .venv/bin/python claude_judge.py lme results/lme-20261029-182856.jsonl results/lme-20261029-182208.jsonl
 
 No answer is generated; every call is a judge call (the installed SDK takes no temperature argument, so the model default applies). Output results/claude-judge-<bench>-<stem>.jsonl, resumable.
@@ -118,8 +118,11 @@ def beam(side, src):
             s = float(json.loads(t)["score"])
         except Exception:
             m = re.search(r'"score"\s*:\s*([0-9.]+)', t)
-            s = float(m.group(1)) if m else 0.0
-        return min((0.0, 0.5, 1.0), key=lambda v: abs(v - s))
+            if not m:
+                with lock: use["parse_fail"] = use.get("parse_fail", 0) + 1
+                return 0.0, True
+            s = float(m.group(1))
+        return min((0.0, 0.5, 1.0), key=lambda v: abs(v - s)), False
 
     if side == "ours":
         rows = [json.loads(l) for l in open(src) if l.strip()]
@@ -132,13 +135,14 @@ def beam(side, src):
                       orig_passed=None) for e in ev]
 
     def one(it):
-        scores = [parse(ask(JUDGE_PROMPT.replace("<rubric_item>", str(x)).replace("<llm_response>", it["answer"]), max_tokens=200)) for x in it["rubric"]]
+        parsed = [parse(ask(JUDGE_PROMPT.replace("<rubric_item>", str(x)).replace("<llm_response>", it["answer"]), max_tokens=200)) for x in it["rubric"]]
+        scores = [p[0] for p in parsed]; fails = sum(p[1] for p in parsed)
         score = float(np.mean(scores)) if scores else 0.0
-        return dict(qid=it["qid"], ability=it["ability"], item_scores=scores, score=score, passed=score >= 0.5,
+        return dict(qid=it["qid"], ability=it["ability"], item_scores=scores, score=score, passed=score >= 0.5, parse_fails=fails,
                     orig_score=it["orig_score"], orig_passed=it["orig_passed"], judge_model=MODEL)
 
     res = run(f"beam-{side}", src, items, one, lambda d: d["qid"])
-    print(f"BEAM {side}: n={len(res)} pass {100 * sum(r['passed'] for r in res) / len(res):.1f} mean {np.mean([r['score'] for r in res]):.3f}", flush=True)
+    print(f"BEAM {side}: n={len(res)} pass {100 * sum(r['passed'] for r in res) / len(res):.1f} mean {np.mean([r['score'] for r in res]):.3f}; judge outputs without a score: {use.get('parse_fail', 0)}", flush=True)
     for ab in sorted({r["ability"] for r in res}):
         rs = [r for r in res if r["ability"] == ab]
         print(f"  {ab:26s} {len(rs):3d} pass {100 * sum(r['passed'] for r in rs) / len(rs):5.1f} mean {np.mean([r['score'] for r in rs]):.3f}", flush=True)

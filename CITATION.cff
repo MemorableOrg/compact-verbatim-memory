@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this code or these results, please cite the paper."
+title: "Memorable: Compact Verbatim Memory for Long Conversations"
+authors:
+  - family-names: Krishnaswamy
+    given-names: Nikhil
+    affiliation: "Stanford University; Memorable"
+  - family-names: Sane
+    given-names: Advaiyt
+    affiliation: "Carnegie Mellon University; Memorable"
+date-released: 2026-11-09
+version: "2026-11-09"
+repository-code: "https://github.com/MemorableOrg/memory-without-a-writer"
+license: MIT
+preferred-citation:
+  type: article
+  title: "Memorable: Compact Verbatim Memory for Long Conversations"
+  authors:
+    - family-names: Krishnaswamy
+      given-names: Nikhil
+    - family-names: Sane
+      given-names: Advaiyt
+  year: 2026
+  journal: "arXiv preprint"

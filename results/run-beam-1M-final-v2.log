@@ -1,0 +1,66 @@
+conversations loaded 35, questions eligible 700, running 700 over 35 conversations
+cost estimate: reader ~20,645 in / 350 out tokens per question, judge ~3,240 in per question -> $0.0309/question, $21.66 for 700 questions (max $60.0)
+W1108 22:17:53.595000 364 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 20056.38it/s]
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 16273.94it/s]
+  store conv 0: text 4.24MB -> compact 3.66MB -> zlib 0.81MB; vectors 2.63MB -> 0.66MB; total 1.47MB
+  store conv 1: text 4.22MB -> compact 3.69MB -> zlib 0.88MB; vectors 2.73MB -> 0.68MB; total 1.56MB
+  store conv 2: text 3.61MB -> compact 3.14MB -> zlib 0.74MB; vectors 2.39MB -> 0.60MB; total 1.34MB
+  store conv 3: text 3.63MB -> compact 3.19MB -> zlib 0.77MB; vectors 2.46MB -> 0.61MB; total 1.38MB
+  store conv 4: text 4.12MB -> compact 3.59MB -> zlib 0.84MB; vectors 2.69MB -> 0.67MB; total 1.51MB
+  store conv 5: text 3.32MB -> compact 2.90MB -> zlib 0.53MB; vectors 2.72MB -> 0.68MB; total 1.21MB
+  store conv 6: text 2.91MB -> compact 2.59MB -> zlib 0.52MB; vectors 2.55MB -> 0.64MB; total 1.15MB
+  store conv 7: text 2.90MB -> compact 2.41MB -> zlib 0.52MB; vectors 2.71MB -> 0.68MB; total 1.20MB
+  store conv 8: text 2.84MB -> compact 2.40MB -> zlib 0.48MB; vectors 2.77MB -> 0.69MB; total 1.17MB
+  store conv 9: text 3.23MB -> compact 2.71MB -> zlib 0.58MB; vectors 2.73MB -> 0.68MB; total 1.26MB
+  store conv 10: text 5.09MB -> compact 4.30MB -> zlib 1.15MB; vectors 3.52MB -> 0.88MB; total 2.03MB
+  store conv 11: text 5.16MB -> compact 4.39MB -> zlib 1.15MB; vectors 3.40MB -> 0.85MB; total 2.00MB
+  embedded conv 12 (2988 turns) in 53s
+  store conv 12: text 6.73MB -> compact 5.62MB -> zlib 1.45MB; vectors 4.59MB -> 1.15MB; total 2.60MB
+  embedded conv 13 (2694 turns) in 47s
+  store conv 13: text 5.78MB -> compact 4.59MB -> zlib 1.19MB; vectors 4.14MB -> 1.03MB; total 2.23MB
+  embedded conv 14 (1936 turns) in 35s
+  store conv 14: text 4.03MB -> compact 3.57MB -> zlib 0.99MB; vectors 2.97MB -> 0.74MB; total 1.74MB
+  embedded conv 15 (2182 turns) in 38s
+  store conv 15: text 4.37MB -> compact 3.72MB -> zlib 1.02MB; vectors 3.35MB -> 0.84MB; total 1.86MB
+  embedded conv 16 (1966 turns) in 34s
+  store conv 16: text 4.10MB -> compact 3.36MB -> zlib 0.87MB; vectors 3.02MB -> 0.75MB; total 1.62MB
+  embedded conv 17 (2612 turns) in 47s
+  store conv 17: text 5.71MB -> compact 4.52MB -> zlib 1.12MB; vectors 4.01MB -> 1.00MB; total 2.13MB
+  embedded conv 18 (1970 turns) in 35s
+  store conv 18: text 4.53MB -> compact 3.86MB -> zlib 0.99MB; vectors 3.03MB -> 0.76MB; total 1.74MB
+  embedded conv 19 (2410 turns) in 43s
+  store conv 19: text 5.19MB -> compact 4.05MB -> zlib 1.06MB; vectors 3.70MB -> 0.93MB; total 1.98MB
+  embedded conv 20 (2334 turns) in 39s
+  store conv 20: text 5.04MB -> compact 4.20MB -> zlib 1.09MB; vectors 3.59MB -> 0.90MB; total 1.99MB
+  embedded conv 21 (2202 turns) in 39s
+  store conv 21: text 4.39MB -> compact 3.65MB -> zlib 0.99MB; vectors 3.38MB -> 0.85MB; total 1.84MB
+  embedded conv 22 (2016 turns) in 36s
+  store conv 22: text 4.19MB -> compact 3.58MB -> zlib 1.06MB; vectors 3.10MB -> 0.77MB; total 1.83MB
+  embedded conv 23 (1894 turns) in 34s
+  store conv 23: text 4.71MB -> compact 3.33MB -> zlib 0.82MB; vectors 2.91MB -> 0.73MB; total 1.55MB
+  embedded conv 24 (3008 turns) in 54s
+  store conv 24: text 7.37MB -> compact 5.91MB -> zlib 1.48MB; vectors 4.62MB -> 1.16MB; total 2.64MB
+  embedded conv 25 (2418 turns) in 44s
+  store conv 25: text 5.87MB -> compact 4.91MB -> zlib 1.29MB; vectors 3.71MB -> 0.93MB; total 2.22MB
+  embedded conv 26 (2210 turns) in 39s
+  store conv 26: text 4.34MB -> compact 3.67MB -> zlib 1.00MB; vectors 3.39MB -> 0.85MB; total 1.85MB
+  embedded conv 27 (2356 turns) in 43s
+  store conv 27: text 5.29MB -> compact 4.30MB -> zlib 1.14MB; vectors 3.62MB -> 0.90MB; total 2.04MB
+  embedded conv 28 (2026 turns) in 34s
+  store conv 28: text 4.24MB -> compact 3.52MB -> zlib 0.94MB; vectors 3.11MB -> 0.78MB; total 1.72MB
+  embedded conv 29 (2356 turns) in 42s
+  store conv 29: text 4.56MB -> compact 3.65MB -> zlib 0.99MB; vectors 3.62MB -> 0.90MB; total 1.90MB
+  embedded conv 30 (1982 turns) in 35s
+  store conv 30: text 3.59MB -> compact 3.14MB -> zlib 0.92MB; vectors 3.04MB -> 0.76MB; total 1.68MB
+  embedded conv 31 (2088 turns) in 37s
+  store conv 31: text 3.81MB -> compact 3.28MB -> zlib 0.95MB; vectors 3.21MB -> 0.80MB; total 1.75MB
+  embedded conv 32 (2312 turns) in 41s
+  store conv 32: text 5.10MB -> compact 3.94MB -> zlib 0.97MB; vectors 3.55MB -> 0.89MB; total 1.86MB
+  embedded conv 33 (2874 turns) in 50s
+  store conv 33: text 7.29MB -> compact 5.30MB -> zlib 1.25MB; vectors 4.41MB -> 1.10MB; total 2.36MB
+  embedded conv 34 (2116 turns) in 35s
+  store conv 34: text 4.31MB -> compact 3.42MB -> zlib 0.91MB; vectors 3.25MB -> 0.81MB; total 1.72MB
+index ready in 945s
+/Users/nikhilkrishnaswamy/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

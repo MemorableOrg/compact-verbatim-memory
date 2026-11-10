@@ -1,16 +1,0 @@
-W1029 02:23:25.805000 99721 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
-Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 26252.33it/s]
-Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 38190.49it/s]
-questions: 1540 eligible, running 1540
-results: results/20261029-022328.jsonl  n=1540
-accuracy overall: 0.960
-  cat1 multi-hop: 0.943 (n=282)
-  cat2 temporal: 0.960 (n=321)
-  cat3 open-domain: 0.906 (n=96)
-  cat4 single-hop: 0.971 (n=841)
-evidence recall@40 (all gold turns retrieved): 0.789 (n=1536)
-evidence recall@40 (fraction of gold turns): 0.852
-answer tokens in/out: 4913767/96919  judge tokens in/out: 1164787/63539  total: 6239012
-answer-model cost est: $10.797  per question: $0.00701  full 1540 est: $10.80
-full 1540 tokens est: answer in 4,913,767, out 96,919
-LOCOMO_5R_SONNET_DONE

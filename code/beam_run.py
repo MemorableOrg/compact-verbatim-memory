@@ -13,13 +13,15 @@ PRICES = {"claude-sonnet-5-5": (2.0, 10.0), "claude-sonnet-5": (2.0, 10.0), "cla
           "gpt-4.1-mini": (0.4, 1.6), "gpt-6-sol": (2.0, 10.0)}
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--data", default="(private data folder, not distributed)")
+ap.add_argument("--data", default="/Users/nikhilkrishnaswamy/Documents/fm-data/beam/beam_1M.jsonl")
 ap.add_argument("--n", type=int, default=700, help="questions to run (balanced over abilities); 700 = all of 1M")
 ap.add_argument("--convs", default="", help="conversation indices, e.g. 0-1,5 (default all)")
 ap.add_argument("--abilities", default="")
 ap.add_argument("--k", type=int, default=40)
 ap.add_argument("--adaptive", default="", help="K1,K2: reader may answer NOT FOUND at K1, then reads K2")
 ap.add_argument("--rerank", action="store_true", help="bge-reranker-base over the top 100 fused candidates")
+ap.add_argument("--pair", action="store_true", help="add 0.3 of each message's fused score to its user/assistant partner")
+ap.add_argument("--standing", type=int, default=0, help="always show the N user messages stating a standing instruction or preference closest to the question")
 ap.add_argument("--answer-provider", choices=["openai", "anthropic"], default="anthropic")
 ap.add_argument("--answer-model", default="claude-sonnet-5-5")
 ap.add_argument("--judge-model", default=JUDGE_MODEL)
@@ -37,6 +39,7 @@ a = ap.parse_args()
 
 CPT = 3.5  # chars per token, rough; calibrate from a run's usage
 MARK = re.compile(r"\s*->->\s*[\d,]+\s*$")
+STANDING = re.compile(r"^\s*(please\s+)?(always|never)\b|\bfrom now on\b|\bI (really )?prefer\b|\bmy preference\b", re.I)
 
 def parse_idx(s, n):
     if not s: return list(range(n))
@@ -138,6 +141,7 @@ def conv_index(ci):
         E = model.encode(docs, batch_size=32, normalize_embeddings=True)
         np.savez(path, E=E); print(f"  embedded conv {ci} ({len(docs)} turns) in {time.time()-t0:.0f}s", flush=True)
     c["E"] = E
+    c["pool"] = [i for i, t in enumerate(c["turns"]) if t["role"] == "user" and STANDING.search(t["text"][:400])]
     c["bm25s"] = BM25Okapi([[R.stem(w) for w in R.tok(d)] for d in c["full"]])
     return c
 
@@ -148,14 +152,25 @@ qv = dict(zip([q["qid"] for q in sel], model.encode([q["question"] for q in sel]
 
 def retrieve(q, k):
     c = convs[q["conv"]]; n = len(c["turns"])
-    sc = R.rrf([R.top(R.bm25_scores(c, q["question"], True), 200), R.top(c["E"] @ qv[q["qid"]], 200)], n)
+    dense = c["E"] @ qv[q["qid"]]
+    sc = R.rrf([R.top(R.bm25_scores(c, q["question"], True), 200), R.top(dense, 200)], n)
+    if a.pair:
+        sc2 = sc.copy()
+        for i in range(n):
+            j = i + 1 if c["turns"][i]["role"] == "user" else i - 1
+            if 0 <= j < n: sc2[j] += 0.3 * sc[i]
+        sc = sc2
     if ce is not None:
         cand = [int(i) for i in R.top(sc, 100)]
         pairs = [(q["question"], f"{c['turns'][j]['role']} ({c['turns'][j]['date']}): {c['turns'][j]['text'][:1500]}") for j in cand]
         with lock: s = ce.predict(pairs, batch_size=32, show_progress_bar=False)
         order = [cand[j] for j in np.argsort(-np.asarray(s), kind="stable")]
         sc = R.rrf([order, cand], n)
-    return sorted(int(i) for i in R.top(sc, k))
+    ranked = [int(i) for i in R.top(sc, n)]
+    if a.standing and c["pool"]:
+        keep = sorted(c["pool"], key=lambda i: -dense[i])[:a.standing]
+        ranked = keep + [i for i in ranked if i not in set(keep)]
+    return sorted(ranked[:k])
 
 use = {"ain": 0, "aout": 0, "jin": 0, "jout": 0}
 ulock = threading.Lock()

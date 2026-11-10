@@ -1,0 +1,131 @@
+conversations loaded 10, questions eligible 200, running 200 over 10 conversations
+cost estimate: reader ~20,701 in / 350 out tokens per question, judge ~3,240 in per question -> $0.0310/question, $6.20 for 200 questions (max $25.0)
+W1109 02:18:39.310000 9365 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 21787.17it/s]
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 24005.67it/s]
+  embedded conv 0 (19895 turns) in 417s
+  store conv 0: text 49.28MB -> compact 41.12MB -> zlib 9.11MB; vectors 30.56MB -> 7.64MB; total 16.75MB
+  embedded conv 1 (19057 turns) in 193s
+  store conv 1: text 46.78MB -> compact 38.73MB -> zlib 8.53MB; vectors 29.27MB -> 7.32MB; total 15.85MB
+  embedded conv 2 (20192 turns) in 200s
+  store conv 2: text 50.52MB -> compact 41.52MB -> zlib 9.05MB; vectors 31.01MB -> 7.75MB; total 16.81MB
+  embedded conv 3 (19202 turns) in 170s
+  store conv 3: text 39.50MB -> compact 31.25MB -> zlib 5.71MB; vectors 29.49MB -> 7.37MB; total 13.09MB
+  embedded conv 4 (18760 turns) in 169s
+  store conv 4: text 33.81MB -> compact 27.33MB -> zlib 5.48MB; vectors 28.82MB -> 7.20MB; total 12.68MB
+  embedded conv 5 (19958 turns) in 148s
+  store conv 5: text 44.94MB -> compact 33.93MB -> zlib 8.73MB; vectors 30.66MB -> 7.66MB; total 16.39MB
+  embedded conv 6 (22652 turns) in 171s
+  store conv 6: text 49.38MB -> compact 39.72MB -> zlib 10.52MB; vectors 34.79MB -> 8.70MB; total 19.21MB
+  embedded conv 7 (22560 turns) in 179s
+  store conv 7: text 46.35MB -> compact 36.90MB -> zlib 9.79MB; vectors 34.65MB -> 8.66MB; total 18.45MB
+  embedded conv 8 (22704 turns) in 224s
+  store conv 8: text 45.46MB -> compact 35.74MB -> zlib 9.27MB; vectors 34.87MB -> 8.72MB; total 17.98MB
+  embedded conv 9 (23716 turns) in 238s
+  store conv 9: text 56.71MB -> compact 43.07MB -> zlib 10.40MB; vectors 36.43MB -> 9.11MB; total 19.51MB
+index ready in 2128s
+Traceback (most recent call last):
+  File "/Users/nikhilkrishnaswamy/Documents/memorable-paper-kickoff/proposal-v2/conv/beam_run_v2.py", line 384, in <module>
+    for rec in ex.map(run, sel):
+               ^^^^^^^^^^^^^^^^
+  File "/Users/nikhilkrishnaswamy/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikhilkrishnaswamy/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikhilkrishnaswamy/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikhilkrishnaswamy/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/Users/nikhilkrishnaswamy/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nikhilkrishnaswamy/Documents/memorable-paper-kickoff/proposal-v2/conv/beam_run_v2.py", line 376, in run
+    pairs = {i // 2 for i in ids}; rec["gold_recall_pair"] = sum((x // 2) in pairs for x in g) / len(g)
+             ~~^^~~
+TypeError: unsupported operand type(s) for //: 'str' and 'int'
+conversations loaded 10, questions eligible 200, running 200 over 10 conversations
+cost estimate: reader ~20,701 in / 350 out tokens per question, judge ~3,240 in per question -> $0.0465/question, $9.31 for 200 questions (max $25.0)
+W1109 03:09:37.038000 12498 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 18246.87it/s]
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 10722.35it/s]
+  store conv 0: text 49.28MB -> compact 41.12MB -> zlib 9.11MB; vectors 30.56MB -> 7.64MB; total 16.75MB
+  store conv 1: text 46.78MB -> compact 38.73MB -> zlib 8.53MB; vectors 29.27MB -> 7.32MB; total 15.84MB
+  store conv 2: text 50.52MB -> compact 41.52MB -> zlib 9.05MB; vectors 31.01MB -> 7.75MB; total 16.81MB
+  store conv 3: text 39.50MB -> compact 31.25MB -> zlib 5.71MB; vectors 29.49MB -> 7.37MB; total 13.08MB
+  store conv 4: text 33.81MB -> compact 27.33MB -> zlib 5.48MB; vectors 28.82MB -> 7.20MB; total 12.68MB
+  store conv 5: text 44.94MB -> compact 33.93MB -> zlib 8.73MB; vectors 30.66MB -> 7.66MB; total 16.39MB
+  store conv 6: text 49.38MB -> compact 39.72MB -> zlib 10.51MB; vectors 34.79MB -> 8.70MB; total 19.21MB
+  store conv 7: text 46.35MB -> compact 36.90MB -> zlib 9.79MB; vectors 34.65MB -> 8.66MB; total 18.45MB
+  store conv 8: text 45.46MB -> compact 35.74MB -> zlib 9.26MB; vectors 34.87MB -> 8.72MB; total 17.98MB
+  store conv 9: text 56.71MB -> compact 43.07MB -> zlib 10.40MB; vectors 36.43MB -> 9.11MB; total 19.50MB
+index ready in 20s
+Traceback (most recent call last):
+  File "/Users/nikhilkrishnaswamy/Documents/memorable-paper-kickoff/proposal-v2/conv/beam_run_v2.py", line 239, in <module>
+    oc = oa.client()
+         ^^^^^^^^^^^
+  File "/Users/nikhilkrishnaswamy/Documents/memorable-paper-kickoff/proposal-v2/conv/oa.py", line 22, in client
+    return OpenAI()
+           ^^^^^^^^
+  File "/Users/nikhilkrishnaswamy/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/_client.py", line 323, in __init__
+    return sync__init__(
+           ^^^^^^^^^^^^^
+  File "/Users/nikhilkrishnaswamy/Documents/memorable-paper-kickoff/proposal-v2/conv/.venv/lib/python3.12/site-packages/openai/lib/_client_auth.py", line 159, in sync__init__
+    raise _sdk_client.OpenAIError(
+openai.OpenAIError: Missing credentials. Please pass an `api_key`, `workload_identity`, `admin_api_key`, or set the `OPENAI_API_KEY` or `OPENAI_ADMIN_KEY` environment variable.
+conversations loaded 10, questions eligible 200, running 200 over 10 conversations
+cost estimate: reader ~20,701 in / 350 out tokens per question, judge ~3,240 in per question -> $0.0465/question, $9.31 for 200 questions (max $25.0)
+W1109 03:14:07.925000 12881 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 25005.74it/s]
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 11713.82it/s]
+  store conv 0: text 49.28MB -> compact 41.12MB -> zlib 9.11MB; vectors 30.56MB -> 7.64MB; total 16.75MB
+  store conv 1: text 46.78MB -> compact 38.73MB -> zlib 8.53MB; vectors 29.27MB -> 7.32MB; total 15.84MB
+  store conv 2: text 50.52MB -> compact 41.52MB -> zlib 9.05MB; vectors 31.01MB -> 7.75MB; total 16.81MB
+  store conv 3: text 39.50MB -> compact 31.25MB -> zlib 5.71MB; vectors 29.49MB -> 7.37MB; total 13.08MB
+  store conv 4: text 33.81MB -> compact 27.33MB -> zlib 5.48MB; vectors 28.82MB -> 7.20MB; total 12.68MB
+  store conv 5: text 44.94MB -> compact 33.93MB -> zlib 8.73MB; vectors 30.66MB -> 7.66MB; total 16.39MB
+  store conv 6: text 49.38MB -> compact 39.72MB -> zlib 10.51MB; vectors 34.79MB -> 8.70MB; total 19.21MB
+  store conv 7: text 46.35MB -> compact 36.90MB -> zlib 9.79MB; vectors 34.65MB -> 8.66MB; total 18.45MB
+  store conv 8: text 45.46MB -> compact 35.74MB -> zlib 9.26MB; vectors 34.87MB -> 8.72MB; total 17.98MB
+  store conv 9: text 56.71MB -> compact 43.07MB -> zlib 10.40MB; vectors 36.43MB -> 9.11MB; total 19.50MB
+index ready in 20s
+/Users/nikhilkrishnaswamy/.local/share/uv/python/cpython-3.12.15-macos-aarch64-none/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+conversations loaded 10, questions eligible 200, running 200 over 10 conversations
+cost estimate: reader ~20,701 in / 350 out tokens per question, judge ~3,240 in per question -> $0.0310/question, $6.20 for 200 questions (max $25.0)
+W1109 03:24:06.422000 13984 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 13824.25it/s]
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 11371.43it/s]
+  store conv 0: text 49.28MB -> compact 41.12MB -> zlib 9.11MB; vectors 30.56MB -> 7.64MB; total 16.75MB
+  store conv 1: text 46.78MB -> compact 38.73MB -> zlib 8.53MB; vectors 29.27MB -> 7.32MB; total 15.85MB
+  store conv 2: text 50.52MB -> compact 41.52MB -> zlib 9.06MB; vectors 31.01MB -> 7.75MB; total 16.81MB
+  store conv 3: text 39.50MB -> compact 31.25MB -> zlib 5.71MB; vectors 29.49MB -> 7.37MB; total 13.09MB
+  store conv 4: text 33.81MB -> compact 27.33MB -> zlib 5.48MB; vectors 28.82MB -> 7.20MB; total 12.69MB
+  store conv 5: text 44.94MB -> compact 33.93MB -> zlib 8.73MB; vectors 30.66MB -> 7.66MB; total 16.40MB
+  store conv 6: text 49.38MB -> compact 39.72MB -> zlib 10.52MB; vectors 34.79MB -> 8.70MB; total 19.22MB
+  store conv 7: text 46.35MB -> compact 36.90MB -> zlib 9.79MB; vectors 34.65MB -> 8.66MB; total 18.45MB
+  store conv 8: text 45.46MB -> compact 35.74MB -> zlib 9.27MB; vectors 34.87MB -> 8.72MB; total 17.99MB
+  store conv 9: text 56.71MB -> compact 43.07MB -> zlib 10.40MB; vectors 36.43MB -> 9.11MB; total 19.51MB
+index ready in 25s
+results: results/beam-20261109-032435-final10M-d.jsonl  n=200
+ability                      n   pass    avg
+abstention                  20  0.850  0.850
+contradiction_resolution    20  0.550  0.525
+event_ordering              20  0.350  0.411
+information_extraction      20  0.600  0.575
+instruction_following       20  0.950  0.938
+knowledge_update            20  0.800  0.750
+multi_session_reasoning     20  0.400  0.340
+preference_following        20  0.850  0.787
+summarization               20  0.850  0.721
+temporal_reasoning          20  0.450  0.338
+OVERALL                    200  0.665  0.623   (pass = rubric mean >= 0.5, Mem0; avg = mean rubric score)
+event_ordering BEAM-paper metric tau_norm: 0.300 (n=20); overall avg with EO=tau_norm: 0.612
+gold-message recall: 0.468  pair-level (user/assistant partner counts): 0.512  (n=176)
+adaptive: 20 of 200 widened; mean turns read 41.0
+answer tokens in/out per question: 16,172/2,725  judge in/out per question: 4,807/316
+reader cost $9.492  judge cost $0.486  total $10.210  per question $0.0510
+store total over 10 convs: text 462.7MB -> compact 369.3MB -> zlib 86.6MB; vectors 320.6MB -> 80.1MB; stored 166.7MB of 783.3MB raw
+projection 700 q: $35.73   200 q: $10.21 (same K; 10M conversations have 10x more turns but K is fixed)

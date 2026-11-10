@@ -1,0 +1,15 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{lmodern}\usepackage[T1]{fontenc}
+\usetikzlibrary{positioning,arrows.meta,calc,fit,backgrounds,shapes.multipart}
+\definecolor{ink}{HTML}{222222}\definecolor{cb}{HTML}{0072B2}\definecolor{cs}{HTML}{56B4E9}\definecolor{co}{HTML}{E69F00}\definecolor{cv}{HTML}{D55E00}\definecolor{cg}{HTML}{999999}\definecolor{pale}{HTML}{EEF4F9}\definecolor{paleo}{HTML}{FBEFE3}
+\tikzset{
+  box/.style={draw=ink,line width=0.5pt,rounded corners=1.5pt,align=center,font=\footnotesize,inner sep=4pt,minimum height=7mm,fill=white},
+  store/.style={box,fill=pale,draw=cb,line width=0.7pt},
+  model/.style={box,fill=paleo,draw=cv,line width=0.7pt},
+  note/.style={font=\scriptsize,align=center,text=ink!70},
+  lab/.style={font=\scriptsize\bfseries,text=ink},
+  arr/.style={-{Stealth[length=2mm]},line width=0.6pt,draw=ink},
+  darr/.style={arr,dashed},
+  stage/.style={box,minimum width=23mm,minimum height=11mm},
+  dial/.style={stage,dashed,draw=cb},
+}

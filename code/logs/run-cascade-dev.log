@@ -1,13 +1,0 @@
-Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 17921.68it/s]
-Loading weights:   0%|          | 0/105 [00:00<?, ?it/s]Loading weights: 100%|██████████| 105/105 [00:00<00:00, 8563.13it/s]
-Loading weights:   0%|          | 0/393 [00:00<?, ?it/s]Loading weights: 100%|██████████| 393/393 [00:00<00:00, 12549.10it/s]
-conv done, n=150
-conv done, n=231
-conv done, n=383
-
-setting  n    all@40  all@150  multi@40  multi@150  median s  p95 s
-shipped   383    87.2     93.7      64.9       82.4      0.01   0.01
-v2        383    89.6     96.6      71.6       91.9      1.63   1.83
-cascade   383    89.6     96.3      73.0       91.9      0.00   0.00
-bge300    383    89.8     96.6      71.6       89.2      0.00   0.00
-CASCADE_DEV_DONE

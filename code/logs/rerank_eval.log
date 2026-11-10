@@ -1,17 +1,0 @@
-W1029 00:52:41.263000 83680 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
-Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 24245.24it/s]
-Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 37119.37it/s]
-0 2s
-200 312s
-400 549s
-600 753s
-800 966s
-1000 1162s
-1200 1347s
-1400 1546s
-reranked 1536 questions x 100 turns with BAAI/bge-reranker-base in 1779s
-| variant | all@20 | frac@20 | all@40 | frac@40 | all@60 | frac@60 |
-|---|---|---|---|---|---|---|
-| 5a | 0.685 | 0.749 | 0.753 | 0.817 | 0.794 | 0.857 |
-| rerank | 0.728 | 0.795 | 0.777 | 0.839 | 0.809 | 0.868 |
-| rerank+5a | 0.749 | 0.811 | 0.789 | 0.852 | 0.817 | 0.874 |

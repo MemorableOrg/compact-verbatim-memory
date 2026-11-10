@@ -1,25 +1,0 @@
-arm nograph_ens NONAME=1 RRN=300 splits both
-Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 28207.72it/s]
-Loading weights:   0%|          | 0/105 [00:00<?, ?it/s]Loading weights: 100%|██████████| 105/105 [00:00<00:00, 14540.96it/s]
-Loading weights:   0%|          | 0/393 [00:00<?, ?it/s]Loading weights: 100%|██████████| 393/393 [00:00<00:00, 11068.62it/s]
-dev conv-26: 152 questions, 419 turns, 752s
-dev conv-30: 81 questions, 369 turns, 322s
-dev conv-41: 152 questions, 663 turns, 678s
-test conv-42: 199 questions, 629 turns, 981s
-test conv-43: 178 questions, 680 turns, 876s
-test conv-44: 123 questions, 675 turns, 424s
-test conv-47: 150 questions, 689 turns, 484s
-test conv-48: 191 questions, 681 turns, 625s
-test conv-49: 156 questions, 509 turns, 416s
-test conv-50: 158 questions, 568 turns, 301s
-dev n=383 all@10 80.4 all@20 86.2 all@40 89.6 all@60 90.9 all@100 94.3 all@150 96.6 all@200 97.7 all@300 99.0
-  cat1 n=74 @10 44.6 @20 59.5 @40 71.6 @60 77.0 @100 85.1 @150 91.9 @200 93.2 @300 95.9
-  cat2 n=90 @10 96.7 @20 97.8 @40 98.9 @60 98.9 @100 98.9 @150 100.0 @200 100.0 @300 100.0
-  cat3 n=19 @10 42.1 @20 57.9 @40 63.2 @60 63.2 @100 73.7 @150 78.9 @200 89.5 @300 94.7
-  cat4 n=200 @10 90.0 @20 93.5 @40 94.5 @60 95.0 @100 97.5 @150 98.5 @200 99.0 @300 100.0
-test n=1152 all@10 76.2 all@20 81.9 all@40 86.3 all@60 89.0 all@100 92.3 all@150 94.4 all@200 95.7 all@300 97.2
-  cat1 n=208 @10 35.6 @20 48.1 @40 62.0 @60 69.2 @100 79.8 @150 86.1 @200 88.9 @300 93.8
-  cat2 n=230 @10 78.3 @20 83.5 @40 87.8 @60 90.9 @100 93.9 @150 94.3 @200 96.1 @300 97.4
-  cat3 n=73 @10 45.2 @20 54.8 @40 60.3 @60 65.8 @100 68.5 @150 76.7 @200 82.2 @300 86.3
-  cat4 n=641 @10 92.2 @20 95.3 @40 96.6 @60 97.3 @100 98.4 @150 99.1 @200 99.4 @300 99.5
-SNAP_RANK_V2_DONE

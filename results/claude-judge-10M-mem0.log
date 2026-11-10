@@ -1,0 +1,16 @@
+beam-mem0 beam_10m_results.json: 200 rows, 0 done, judging 200
+  100 done, 846,319/56,339 tokens, 3.38 dollars
+  200 done, 1,260,248/85,137 tokens, 5.06 dollars
+BEAM mem0: n=200 pass 46.5 mean 0.436
+  abstention                  20 pass  40.0 mean 0.400
+  contradiction_resolution    20 pass  10.0 mean 0.231
+  event_ordering              20 pass  15.0 mean 0.138
+  information_extraction      20 pass  55.0 mean 0.562
+  instruction_following       20 pass  90.0 mean 0.725
+  knowledge_update            20 pass  80.0 mean 0.750
+  multi_session_reasoning     20 pass  30.0 mean 0.251
+  preference_following        20 pass  90.0 mean 0.800
+  summarization               20 pass  35.0 mean 0.348
+  temporal_reasoning          20 pass  20.0 mean 0.150
+tokens in/out 1,260,248/85,137; estimated spend 5.06 dollars
+CLAUDE_JUDGE_DONE

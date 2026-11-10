@@ -1,0 +1,30 @@
+judging 700 Mem0 answers with gpt-4.1-mini; 0 resumed; output results/beam-mem0-rejudge-20261109-024653.jsonl
+50 done judge tokens 323,295/18,420
+100 done judge tokens 604,233/36,029
+150 done judge tokens 807,279/51,427
+200 done judge tokens 1,064,729/70,082
+250 done judge tokens 1,330,817/86,483
+300 done judge tokens 1,593,911/104,537
+350 done judge tokens 1,880,211/122,385
+400 done judge tokens 2,135,048/140,206
+450 done judge tokens 2,377,521/155,359
+500 done judge tokens 2,660,381/175,269
+550 done judge tokens 3,561,176/235,639
+600 done judge tokens 3,561,176/235,639
+650 done judge tokens 3,561,176/235,639
+700 done judge tokens 3,561,176/235,639
+
+Mem0 BEAM 1M answers under BEAM's judge (gpt-4.1-mini), n=700
+abstention                  70 pass  0.800 mean  0.786  (Mem0's own judge: mean  0.525)
+contradiction_resolution    70 pass  0.157 mean  0.264  (Mem0's own judge: mean  0.357)
+event_ordering              70 pass  0.743 mean  0.673  (Mem0's own judge: mean  0.536)
+information_extraction      70 pass  0.729 mean  0.676  (Mem0's own judge: mean  0.700)
+instruction_following       70 pass  0.900 mean  0.871  (Mem0's own judge: mean  0.852)
+knowledge_update            70 pass  0.643 mean  0.636  (Mem0's own judge: mean  0.650)
+multi_session_reasoning     70 pass  0.800 mean  0.702  (Mem0's own judge: mean  0.652)
+preference_following        70 pass  0.986 mean  0.919  (Mem0's own judge: mean  0.883)
+summarization               70 pass  0.914 mean  0.792  (Mem0's own judge: mean  0.635)
+temporal_reasoning          70 pass  0.614 mean  0.402  (Mem0's own judge: mean  0.618)
+OVERALL                    700 pass  0.729 mean  0.672
+judge tokens in/out 3,561,176/235,639; results: results/beam-mem0-rejudge-20261109-024653.jsonl
+BEAM_REJUDGE_MEM0_DONE

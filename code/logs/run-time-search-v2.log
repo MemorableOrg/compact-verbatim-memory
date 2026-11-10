@@ -1,7 +1,0 @@
-Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 19880.59it/s]
-40 dev questions over 3 conversations
-Loading weights:   0%|          | 0/105 [00:00<?, ?it/s]Loading weights: 100%|██████████| 105/105 [00:00<00:00, 9716.75it/s]
-Loading weights:   0%|          | 0/393 [00:00<?, ?it/s]Loading weights: 100%|██████████| 393/393 [00:00<00:00, 11679.32it/s]
-RRN=100: n=40 median 0.24s mean 0.25s p95 0.38s
-RRN=300: n=40 median 1.38s mean 1.38s p95 1.63s
-TIME_SEARCH_V2_DONE

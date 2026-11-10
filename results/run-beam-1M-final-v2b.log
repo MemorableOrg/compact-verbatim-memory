@@ -1,0 +1,62 @@
+resuming: 42 questions from results/beam-20261108-223344-final-v2.jsonl skipped, 658 left
+conversations loaded 35, questions eligible 700, running 658 over 35 conversations
+cost estimate: reader ~20,645 in / 350 out tokens per question, judge ~3,240 in per question -> $0.0309/question, $20.36 for 658 questions (max $60.0)
+W1108 22:45:40.684000 1248 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 42878.17it/s]
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 22602.62it/s]
+  store conv 0: text 4.24MB -> compact 3.66MB -> zlib 0.81MB; vectors 2.63MB -> 0.66MB; total 1.47MB
+  store conv 1: text 4.22MB -> compact 3.69MB -> zlib 0.88MB; vectors 2.73MB -> 0.68MB; total 1.56MB
+  store conv 2: text 3.61MB -> compact 3.14MB -> zlib 0.74MB; vectors 2.39MB -> 0.60MB; total 1.34MB
+  store conv 3: text 3.63MB -> compact 3.19MB -> zlib 0.77MB; vectors 2.46MB -> 0.61MB; total 1.38MB
+  store conv 4: text 4.12MB -> compact 3.59MB -> zlib 0.84MB; vectors 2.69MB -> 0.67MB; total 1.51MB
+  store conv 5: text 3.32MB -> compact 2.90MB -> zlib 0.53MB; vectors 2.72MB -> 0.68MB; total 1.21MB
+  store conv 6: text 2.91MB -> compact 2.59MB -> zlib 0.52MB; vectors 2.55MB -> 0.64MB; total 1.15MB
+  store conv 7: text 2.90MB -> compact 2.41MB -> zlib 0.52MB; vectors 2.71MB -> 0.68MB; total 1.20MB
+  store conv 8: text 2.84MB -> compact 2.40MB -> zlib 0.48MB; vectors 2.77MB -> 0.69MB; total 1.17MB
+  store conv 9: text 3.23MB -> compact 2.71MB -> zlib 0.58MB; vectors 2.73MB -> 0.68MB; total 1.26MB
+  store conv 10: text 5.09MB -> compact 4.30MB -> zlib 1.15MB; vectors 3.52MB -> 0.88MB; total 2.03MB
+  store conv 11: text 5.16MB -> compact 4.39MB -> zlib 1.15MB; vectors 3.40MB -> 0.85MB; total 2.00MB
+  store conv 12: text 6.73MB -> compact 5.62MB -> zlib 1.45MB; vectors 4.59MB -> 1.15MB; total 2.60MB
+  store conv 13: text 5.78MB -> compact 4.59MB -> zlib 1.19MB; vectors 4.14MB -> 1.03MB; total 2.23MB
+  store conv 14: text 4.03MB -> compact 3.57MB -> zlib 0.99MB; vectors 2.97MB -> 0.74MB; total 1.74MB
+  store conv 15: text 4.37MB -> compact 3.72MB -> zlib 1.02MB; vectors 3.35MB -> 0.84MB; total 1.86MB
+  store conv 16: text 4.10MB -> compact 3.36MB -> zlib 0.87MB; vectors 3.02MB -> 0.75MB; total 1.62MB
+  store conv 17: text 5.71MB -> compact 4.52MB -> zlib 1.12MB; vectors 4.01MB -> 1.00MB; total 2.13MB
+  store conv 18: text 4.53MB -> compact 3.86MB -> zlib 0.99MB; vectors 3.03MB -> 0.76MB; total 1.74MB
+  store conv 19: text 5.19MB -> compact 4.05MB -> zlib 1.06MB; vectors 3.70MB -> 0.93MB; total 1.98MB
+  store conv 20: text 5.04MB -> compact 4.20MB -> zlib 1.09MB; vectors 3.59MB -> 0.90MB; total 1.99MB
+  store conv 21: text 4.39MB -> compact 3.65MB -> zlib 0.99MB; vectors 3.38MB -> 0.85MB; total 1.84MB
+  store conv 22: text 4.19MB -> compact 3.58MB -> zlib 1.06MB; vectors 3.10MB -> 0.77MB; total 1.83MB
+  store conv 23: text 4.71MB -> compact 3.33MB -> zlib 0.82MB; vectors 2.91MB -> 0.73MB; total 1.55MB
+  store conv 24: text 7.37MB -> compact 5.91MB -> zlib 1.48MB; vectors 4.62MB -> 1.16MB; total 2.64MB
+  store conv 25: text 5.87MB -> compact 4.91MB -> zlib 1.29MB; vectors 3.71MB -> 0.93MB; total 2.22MB
+  store conv 26: text 4.34MB -> compact 3.67MB -> zlib 1.00MB; vectors 3.39MB -> 0.85MB; total 1.85MB
+  store conv 27: text 5.29MB -> compact 4.30MB -> zlib 1.14MB; vectors 3.62MB -> 0.90MB; total 2.04MB
+  store conv 28: text 4.24MB -> compact 3.52MB -> zlib 0.94MB; vectors 3.11MB -> 0.78MB; total 1.72MB
+  store conv 29: text 4.56MB -> compact 3.65MB -> zlib 0.99MB; vectors 3.62MB -> 0.90MB; total 1.90MB
+  store conv 30: text 3.59MB -> compact 3.14MB -> zlib 0.92MB; vectors 3.04MB -> 0.76MB; total 1.68MB
+  store conv 31: text 3.81MB -> compact 3.28MB -> zlib 0.95MB; vectors 3.21MB -> 0.80MB; total 1.75MB
+  store conv 32: text 5.10MB -> compact 3.94MB -> zlib 0.97MB; vectors 3.55MB -> 0.89MB; total 1.86MB
+  store conv 33: text 7.29MB -> compact 5.30MB -> zlib 1.25MB; vectors 4.41MB -> 1.10MB; total 2.36MB
+  store conv 34: text 4.31MB -> compact 3.42MB -> zlib 0.91MB; vectors 3.25MB -> 0.81MB; total 1.72MB
+index ready in 7s
+results: results/beam-20261108-224557-final-v2b.jsonl  n=700
+ability                      n   pass    avg
+abstention                  70  0.886  0.846
+contradiction_resolution    70  0.429  0.409
+event_ordering              70  0.657  0.632
+information_extraction      70  0.743  0.700
+instruction_following       70  0.843  0.813
+knowledge_update            70  0.600  0.568
+multi_session_reasoning     70  0.800  0.714
+preference_following        70  0.971  0.912
+summarization               70  0.886  0.756
+temporal_reasoning          70  0.571  0.383
+OVERALL                    700  0.739  0.674   (pass = rubric mean >= 0.5, Mem0; avg = mean rubric score)
+event_ordering BEAM-paper metric tau_norm: 0.329 (n=70); overall avg with EO=tau_norm: 0.643
+gold-message recall: 0.492  pair-level (user/assistant partner counts): 0.571  (n=625)
+adaptive: 59 of 700 widened; mean turns read 38.4
+answer tokens in/out per question: 17,203/2,449  judge in/out per question: 5,301/326
+reader cost $32.192  judge cost $1.849  total $34.821  per question $0.0497
+store total over 35 convs: text 159.8MB -> compact 132.1MB -> zlib 33.5MB; vectors 114.6MB -> 28.7MB; stored 62.1MB of 274.4MB raw
+projection 700 q: $34.82   200 q: $9.95 (same K; 10M conversations have 10x more turns but K is fixed)

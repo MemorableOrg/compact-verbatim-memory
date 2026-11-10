@@ -1,0 +1,16 @@
+beam-ours beam-20261109-032435-final10M-d.jsonl: 200 rows, 0 done, judging 200
+  100 done, 736,718/51,729 tokens, 2.99 dollars
+  200 done, 1,319,072/95,340 tokens, 5.39 dollars
+BEAM ours: n=200 pass 56.0 mean 0.514; judge outputs without a score: 2
+  abstention                  20 pass  50.0 mean 0.500
+  contradiction_resolution    20 pass  60.0 mean 0.525
+  event_ordering              20 pass  20.0 mean 0.233
+  information_extraction      20 pass  60.0 mean 0.588
+  instruction_following       20 pass  90.0 mean 0.812
+  knowledge_update            20 pass  80.0 mean 0.700
+  multi_session_reasoning     20 pass  25.0 mean 0.254
+  preference_following        20 pass  75.0 mean 0.667
+  summarization               20 pass  50.0 mean 0.414
+  temporal_reasoning          20 pass  50.0 mean 0.450
+tokens in/out 1,319,072/95,340; estimated spend 5.39 dollars
+CLAUDE_JUDGE_DONE

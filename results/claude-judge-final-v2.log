@@ -1,0 +1,21 @@
+beam-ours beam-20261108-final-v2-all.jsonl: 700 rows, 0 done, judging 700
+  100 done, 965,243/61,913 tokens, 3.82 dollars
+  200 done, 1,723,199/109,888 tokens, 6.82 dollars
+  300 done, 2,668,301/168,824 tokens, 10.54 dollars
+  400 done, 3,499,064/223,047 tokens, 13.84 dollars
+  500 done, 4,249,267/274,691 tokens, 16.87 dollars
+  600 done, 5,046,867/325,622 tokens, 20.02 dollars
+  700 done, 5,875,957/378,364 tokens, 23.30 dollars
+BEAM ours: n=700 pass 67.3 mean 0.613
+  abstention                  70 pass  60.0 mean 0.571
+  contradiction_resolution    70 pass  58.6 mean 0.530
+  event_ordering              70 pass  54.3 mean 0.490
+  information_extraction      70 pass  80.0 mean 0.732
+  instruction_following       70 pass  85.7 mean 0.780
+  knowledge_update            70 pass  52.9 mean 0.496
+  multi_session_reasoning     70 pass  70.0 mean 0.633
+  preference_following        70 pass  94.3 mean 0.817
+  summarization               70 pass  54.3 mean 0.492
+  temporal_reasoning          70 pass  62.9 mean 0.587
+tokens in/out 5,875,957/378,364; estimated spend 23.30 dollars
+CLAUDE_JUDGE_DONE

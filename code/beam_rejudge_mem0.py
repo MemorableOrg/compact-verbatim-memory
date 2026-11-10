@@ -19,7 +19,7 @@ ap.add_argument("--judge-model", default="gpt-4.1-mini")
 ap.add_argument("--n", type=int, default=700)
 ap.add_argument("--workers", type=int, default=6)
 ap.add_argument("--resume", default="")
-ap.add_argument("--src", default=os.path.expanduser("~/Documents/(private data folder, not distributed)/beam-repos/mem0mb/results/platform/beam_1m_results.json"))
+ap.add_argument("--src", default=os.path.expanduser("~/Documents/fm-data/beam-repos/mem0mb/results/platform/beam_1m_results.json"))
 a = ap.parse_args()
 
 client = oa.client()

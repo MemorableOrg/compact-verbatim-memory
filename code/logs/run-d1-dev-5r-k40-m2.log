@@ -1,15 +1,0 @@
-W1029 18:13:13.151000 26095 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
-Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 21462.79it/s]
-Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 10153.62it/s]
-questions: 385 eligible, running 385
-results: results/20261029-181315.jsonl  n=385
-accuracy overall: 0.935
-  cat1 multi-hop: 0.905 (n=74)
-  cat2 temporal: 0.989 (n=90)
-  cat3 open-domain: 0.810 (n=21)
-  cat4 single-hop: 0.935 (n=200)
-evidence recall@40 (all gold turns retrieved): 0.815 (n=383)
-evidence recall@40 (fraction of gold turns): 0.865
-answer tokens in/out: 1269250/486432  judge tokens in/out: 286115/74852  total: 2116649
-answer-model cost est: $6.451  per question: $0.01676  full 1540 est: $25.80
-full 1540 tokens est: answer in 5,077,000, out 1,945,728

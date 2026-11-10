@@ -1,0 +1,30 @@
+W1109 03:49:05.184000 16249 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 14592.58it/s]
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 11972.83it/s]
+  conv 0 500K-1: 796 msgs, 796 units, 17 q, 111s
+  conv 1 500K-2: 880 msgs, 880 units, 18 q, 225s
+  conv 2 500K-3: 772 msgs, 772 units, 18 q, 344s
+  conv 3 500K-4: 836 msgs, 836 units, 18 q, 463s
+  conv 4 500K-5: 884 msgs, 884 units, 18 q, 582s
+  conv 5 500K-6: 1024 msgs, 1024 units, 18 q, 682s
+  conv 6 500K-7: 1364 msgs, 1364 units, 18 q, 767s
+  conv 7 500K-8: 1246 msgs, 1246 units, 18 q, 858s
+  conv 8 500K-9: 1030 msgs, 1030 units, 18 q, 956s
+  conv 9 500K-10: 1248 msgs, 1248 units, 18 q, 1062s
+  conv 10 500K-11: 1090 msgs, 1090 units, 18 q, 1138s
+  conv 11 500K-12: 1120 msgs, 1120 units, 18 q, 1216s
+  conv 12 500K-13: 1234 msgs, 1234 units, 18 q, 1297s
+  conv 13 500K-14: 1274 msgs, 1274 units, 18 q, 1376s
+  conv 14 500K-15: 1122 msgs, 1122 units, 18 q, 1457s
+tier 500K dense bge-small/256 chunk 0 bm25 msg rerank bge-reranker-base pair True  n=269
+ability                       n  all@20 frac@20  all@60 frac@60  tok@60
+contradiction_resolution     30    80.0   87.2    86.7   92.2     24245
+event_ordering               30     0.0    7.5     0.0   18.5     26485
+information_extraction       30    63.3   66.7    80.0   83.3     24780
+instruction_following        30    26.7   37.8    43.3   55.0     26843
+knowledge_update             29    69.0   82.2    75.9   86.5     26960
+multi_session_reasoning      30    43.3   69.4    56.7   84.6     28196
+preference_following         30    50.0   54.2    66.7   74.2     28723
+summarization                30     0.0    9.7     3.3   22.5     28661
+temporal_reasoning           30    80.0   88.9    90.0   92.8     26037
+ALL                         269    45.7   55.8    55.8   67.7     26769

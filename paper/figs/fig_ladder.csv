@@ -1,0 +1,7 @@
+step,pass,reader_k_tokens
+Base retrieval,70.8,9.45
++ planner,78.6,23.74
++ compaction,76.8,19.21
++ reader rules,78.0,15.92
++ session cap,79.8,15.89
++ date rule (final),80.4,15.98
